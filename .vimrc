@@ -7,6 +7,7 @@ call vundle#begin()
 Plugin 'preservim/nerdtree'
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'dracula/vim',{'name':'dracula'}
+Plugin 'vim-airline/vim-airline'
 
 call vundle#end()
 filetype plugin indent on
