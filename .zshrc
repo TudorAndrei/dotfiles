@@ -99,6 +99,7 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
+alias notes="cd ~/notes"
 # export PATH="/home/tudor/anaconda3/bin:$PATH"  # commented out by conda initialize
 
 # >>> conda initialize >>>
