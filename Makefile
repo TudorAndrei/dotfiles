@@ -2,7 +2,7 @@ all:
 	cp ~/.zshrc .
 	cp ~/.vimrc .
 	cp ~/.config/i3/config .
-	rsync -aq ~/.config/i3blocks . --exclude '.git' --exclude '.gitignore'	
+	cp ~/.config/i3blocks/config ./i3blocks
 	git add .
 	git commit -m "updated dotfiles"
 	git push
