@@ -100,6 +100,10 @@ source $ZSH/oh-my-zsh.sh
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 alias notes="cd ~/notes"
+alias ca="conda activate"
+alias ccn="conda create --name"
+alias py="python"
+alias ci3="vim ~/.config/i3/config"
 # export PATH="/home/tudor/anaconda3/bin:$PATH"  # commented out by conda initialize
 
 # >>> conda initialize >>>
