@@ -104,7 +104,7 @@ alias ca="conda activate"
 alias ccn="conda create --name"
 alias py="python"
 alias ci3="vim ~/.config/i3/config"
-alias ci3b="vim ~/.config/i3blocks/config"
+alias ci3b="vim ~/.config/i3/i3blocks.conf"
 # export PATH="/home/tudor/anaconda3/bin:$PATH"  # commented out by conda initialize
 
 # >>> conda initialize >>>
