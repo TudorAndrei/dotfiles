@@ -6,3 +6,17 @@ all:
 	git add .
 	git commit -m "updated dotfiles"
 	git push
+
+zsh:
+	cp ~/.zshrc .
+
+vim:
+	cp ~/.vimrc .
+
+
+git: 
+	git add .
+	git commit -m "updated dotfiles"
+	git push
+
+base: zsh vim git

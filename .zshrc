@@ -68,7 +68,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git colored-man-pages colorize extract)
+plugins=(git colored-man-pages colorize extract zsh-syntax-highlighting)
 
 ZSH_COLORIZE_TOOL=pygmentize
 ZSH_COLORIZE_STYLE="colorful"
@@ -97,33 +97,40 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
+#
+# ZHS
 alias zshconfig="vim ~/.zshrc"
+alias rpdf="zathura"
+alias mpdf="pdflatex"
+alias vimvonfig="vim ~/.vimrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
-alias notes="cd ~/notes"
+alias szsh="source ~/.zshrc"
+# Shortcuts
+alias nvd="nvidia-smi --loop=2"
+alias notes="cd ~/Documents/notes"
+alias code="codium ."
+# Conda
 alias ca="conda activate"
+alias ci="conda install"
 alias ccn="conda create --name"
 alias py="python"
+# i3
 alias ci3="vim ~/.config/i3/config"
 alias ci3b="vim ~/.config/i3/i3blocks.conf"
 # export PATH="/home/tudor/anaconda3/bin:$PATH"  # commented out by conda initialize
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/tudor/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/tudor/.miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/tudor/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/tudor/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "/home/tudor/.miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/tudor/.miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/home/tudor/anaconda3/bin:$PATH"
+        export PATH="/home/tudor/.miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-export PATH=$PATH:/usr/local/cuda-10.1/bin
-export CUDADIR=/usr/local/cuda-10.1
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-10.1/lib64
-
-export LD_LIBRARY_PATH=/usr/local/cuda/extras/CUPTI/lib64::/usr/local/cuda-10.1/lib64’
