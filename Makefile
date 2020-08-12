@@ -1,8 +1,8 @@
 all:
 	cp ~/.zshrc .
 	cp ~/.vimrc .
-	cp ~/.config/i3/config .
-	cp ~/.config/i3/i3blocks.conf .
+	cp ~/.config/i3/config ./i3/.
+	cp ~/.config/i3blocks/i3blocks.conf ./i3/.
 	git add .
 	git commit -m "updated dotfiles"
 	git push
@@ -14,7 +14,7 @@ vim:
 	cp ~/.vimrc .
 
 
-git: 
+git:
 	git add .
 	git commit -m "updated dotfiles"
 	git push

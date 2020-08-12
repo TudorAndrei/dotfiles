@@ -8,7 +8,6 @@
 # i3 config file (v4)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
-
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -16,8 +15,7 @@ set $mod Mod4
 font pango:monospace 8
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
-#font pango:DejaVu Sans Mono 8
+# text rendering and scalability on retina/hidpi displays (thanks to pango).  font pango:DejaVu Sans Mono 8
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -31,12 +29,14 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
-
+# start nautilus
+bindsym $mod+n exec nautilus
+bindsym $mod+p exec pavucontrol
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec rofi -show run -lines 20 -eh 1.3 -opacity "85" -bw 0
+bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-10' -p 'dmenu%'"
 # Hide borders
 hide_edge_borders true
 # change focus
@@ -65,7 +65,6 @@ bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
 bindsym $mod+semicolon split h
-
 # split in vertical orientation
 bindsym $mod+v split v
 
@@ -91,16 +90,16 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1: Editor"
-set $ws2 "2: Firefox "
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9: "
-set $ws10 "10: "
+set $ws1 "1: www"
+set $ws2 "2: ---"
+set $ws3 "3: ---"
+set $ws4 "4: ---"
+set $ws5 "5: ---"
+set $ws6 "6: ---"
+set $ws7 "7: ---"
+set $ws8 "8: mail"
+set $ws9 "9: chat"
+set $ws10 "10: Spotify"
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -114,10 +113,17 @@ bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
 
+# move programs to workspaces
+assign [class="Firefox"]	$ws1
+assign [class="VSCodium"]	$ws2
+assign [class="Thunderbird"]	$ws8
+assign [class="Signal"]		$ws9
+assign [class="Slack"]		$ws9
+assign [class="zoom"]		$ws9
+assign [class="Skype"]		$ws9
+assign [class="Microsoft Teams - Preview"]		$ws9
+assign [class="discord"]		$ws9
 for_window [class="Spotify"] move to workspace $ws10
-assign [class="Firefox"] $ws2
-assign [class="Code"]	 $ws1
-assign [class="Slack"]	 $ws9
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
@@ -167,11 +173,41 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
+client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
+client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
+client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
+client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
+client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
+
+client.background       #F8F8F2
+
 bar {
-        status_command i3blocks -c ~/.config/i3/i3blocks.conf 
+	status_command i3blocks -c /home/tudor/.config/i3blocks/i3blocks.conf
 	position top
+  	colors {
+	   background #282A36
+	   statusline #F8F8F2
+	   separator  #44475A
+	   focused_workspace  #44475A #44475A #F8F8F2
+	   active_workspace   #282A36 #44475A #F8F8F2
+	   inactive_workspace #282A36 #282A36 #BFBFBF
+	   urgent_workspace   #FF5555 #FF5555 #F8F8F2
+	   binding_mode       #FF5555 #FF5555 #F8F8F2
+  }
 }
 
+
+set $keyboard_layout Keyboard Layout: (f) Canadian French, (e) US English
+mode "$keyboard_layout" {
+
+  bindsym f exec --no-startup-id setxkbmap ca -variant fr,mode "default"
+  bindsym e exec --no-startup-id setxkbmap us ,mode "default"
+
+# back to normal: Enter or Escape
+bindsym Return mode "default"
+bindsym Escape mode "default"
+}
+bindsym $mod+shift+Z mode "$keyboard_layout"
 bindsym $mod+shift+x exec i3lock
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
@@ -179,8 +215,8 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #d
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec brightness+ # increase screen brightness
+bindsym XF86MonBrightnessDown exec brightness- # decrease screen brightness
 
 # Touchpad controls
 bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
@@ -191,9 +227,17 @@ bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
+# Screenshot commands
+bindsym --release Ctrl+Print exec scrot -s -e 'mv $f /home/tudor/Pictures/screenshots/'
+# bindsym Ctrl+Print exec scrot -e 'mv $f /home/tudor/Pictures/screenshots/'
 
-exec_always feh --bg-scale /home/tudor/Pictures/Wallpaper.png
+
+exec_always feh --bg-scale --randomize /home/tudor/Pictures/walls/* &
 exec firefox
 exec --no-startup-id nm-applet
-exec compton
+exec --no-startup-id blueman-applet
+# exec compton
+
 exec --no-startup-id pulseaudio
+exec --no-startup-id xbindkeys
+exec --no-startup-id setxkbmap -option caps:swapescape
