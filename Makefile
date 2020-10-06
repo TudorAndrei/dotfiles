@@ -5,7 +5,6 @@ zsh:
 
 vim:
 	cp ~/.vimrc .
-	rm -rf nvim
 	cp -avr ~/.config/nvim .
 i3:
 	cp ~/.config/i3/config ./i3/.
