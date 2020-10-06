@@ -13,7 +13,7 @@ plugins=(git
        	extract
        	zsh-syntax-highlighting
       	pep8
-	      pylint)
+        pylint)
 
 
 ZSH_COLORIZE_TOOL=pygmentize
