@@ -85,6 +85,10 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+  exec startx
+fi
+
 export GEM_HOME="$HOME/.config/gems"
 export PATH="$HOME/.config/gems/bin:$PATH"
 export TERMINAL="/usr/bin/alacritty"
