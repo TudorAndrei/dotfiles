@@ -5,6 +5,8 @@ source $HOME/.config/nvim/general/settings.vim
 source $HOME/.config/nvim/plug-config/coc.vim
 source $HOME/.config/nvim/plug-config/rainbow.vim
 source $HOME/.config/nvim/plug-config/align.vim
+source $HOME/.config/nvim/plug-config/tex.vim
+source $HOME/.config/nvim/plug-config/closetag.vim
 source $HOME/.config/nvim/vim-plug/plugins.vim
 
 " Themes

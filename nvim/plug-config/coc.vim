@@ -6,6 +6,8 @@ set nobackup
 set nowritebackup
 
 " Give more space for displaying messages.
+
+
 set cmdheight=2
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
@@ -136,4 +138,4 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+" Use the current conda environment

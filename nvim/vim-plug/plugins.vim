@@ -24,4 +24,14 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'lervag/vimtex'
     Plug 'frazrepo/vim-rainbow'
     Plug 'junegunn/vim-easy-align'
+    Plug 'tweekmonster/django-plus.vim'
+    Plug 'alvan/vim-closetag'
 call plug#end()
+
+
+if $CONDA_PREFIX == ""
+  let s:current_python_path=$CONDA_PYTHON_EXE
+else
+  let s:current_python_path=$CONDA_PREFIX.'/bin/python'
+endif
+call coc#config('python', {'pythonPath': s:current_python_path})
