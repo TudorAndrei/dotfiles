@@ -20,7 +20,6 @@ ZSH_COLORIZE_TOOL=pygmentize
 ZSH_COLORIZE_STYLE="colorful"
 source $ZSH/oh-my-zsh.sh
 
-
 # Preferred editor for local and remote sessions
  if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='nvim'
@@ -48,7 +47,7 @@ alias alaconfig="nvim ~/.config/alacritty/alacritty.yml"
 alias rpdf="zathura"
 alias mpdf="pdflatex"
 alias nvsmi="nvidia-smi --loop=2"
-alias notes="cd ~/Documents/notes"
+alias gonotes="cd ~/Documents/notes"
 alias code="codium ."
 alias gh="firefox https://github.com/"
 alias si3="cp /usr/share/i3blocks"
@@ -69,6 +68,11 @@ alias py="python"
 # i3
 alias ci3="nvim ~/.config/i3/config"
 alias ci3b="nvim ~/.config/i3blocks/i3blocks.conf"
+# Django
+alias rs='python manage.py runserver'
+alias mig='python manage.py migrate'
+alias mkmig="python manage.py makemigrations"
+
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -85,10 +89,28 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-  exec startx
-fi
-
 export GEM_HOME="$HOME/.config/gems"
 export PATH="$HOME/.config/gems/bin:$PATH"
 export TERMINAL="/usr/bin/alacritty"
+
+lazynvm(){
+  unset -f nvm node npm
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+}
+
+nvm() {
+  lazynvm
+  nvm $@
+}
+
+node() {
+  lazynvm
+  node $@
+}
+
+npm() {
+  lazynvm
+  npm $@
+}

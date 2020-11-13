@@ -1,1 +1,0 @@
-cp -avr ~/.config/nvim/ .
