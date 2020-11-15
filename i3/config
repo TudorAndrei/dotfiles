@@ -14,8 +14,9 @@ font pango:monospace 8
 #             |_|
 # In order to use gaps you need to disable window titlebars.
 for_window [class="^.*"] border pixel 0
-gaps inner 20
-gaps outer 20
+gaps inner 10
+gaps outer 10
+
 #
 #  _  __            ____  _           _
 # | |/ /___ _   _  | __ )(_)_ __   __| |
@@ -39,8 +40,13 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-10' -p 'dmenu%'"
+
+# start nautilus
+bindsym $mod+n exec "nautilus"
+
 # Hide borders
 hide_edge_borders true
+
 # change focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down
@@ -72,12 +78,12 @@ bindsym $mod+h split h
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+t fullscreen toggle
+bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
-bindsym $mod+f layout toggle split
+bindsym $mod+t layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -105,7 +111,7 @@ mode "resize" {
         # Pressing down will grow the window’s height.
         bindsym j resize shrink width 10 px or 10 ppt
         bindsym k resize grow height 10 px or 10 ppt
-	bindsym l resize shrink height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
         bindsym semicolon resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
@@ -118,7 +124,7 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-
+# Chnge keyboard layout
 set $keyboard_layout Keyboard Layout: (c) Colemak, (r) Romanian, (e) US English, (g) German
 mode "$keyboard_layout" {
 
