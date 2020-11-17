@@ -130,10 +130,10 @@ map <leader>p :bp<cr>
 map <leader>d :bd<cr>
 
 "split navigations
+nnoremap <C-h> <C-W><C-H>
 nnoremap <C-j> <C-W><C-J>
 nnoremap <C-k> <C-W><C-K>
 nnoremap <C-l> <C-W><C-L>
-nnoremap <C-h> <C-W><C-H>
 
 " Remvove arrow keys
 nnoremap <Left>  :echoe "Use h"<CR>
