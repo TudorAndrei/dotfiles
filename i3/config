@@ -8,8 +8,7 @@ font pango:monospace 8
 
 #   ____
 #  / ___| __ _ _ __  ___
-# | |  _ / _` | '_ \/ __|
-# | |_| | (_| | |_) \__ \
+# | |  _ / _` | '_ \/ __| | |_| | (_| | |_) \__ \
 #  \____|\__,_| .__/|___/
 #             |_|
 # In order to use gaps you need to disable window titlebars.
@@ -291,3 +290,4 @@ exec setxkbmap -option caps:swapescape
 exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
 exec pulseaudio
+exec redshift
