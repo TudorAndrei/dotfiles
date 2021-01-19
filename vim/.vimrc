@@ -7,21 +7,24 @@ let mapleader = "<Space>"
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-Plugin 'presernvim/nerdtree'
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'dracula/vim',{'name':'dracula'}
-Plugin 'xuhdev/vim-latex-live-preview'
-Plugin 'vim-airline/vim-airline'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'tmhedberg/SimpylFold'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'nvie/vim-flake8'
-Plugin 'junegunn/goyo.vim'
-Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'vim-pandoc/vim-pandoc-syntax'
-Plugin 'vim-pandoc/vim-rmarkdown'
-Plugin 'lervag/vimtex'
+  Plugin 'presernvim/nerdtree'
+  Plugin 'VundleVim/Vundle.vim'
+  Plugin 'dracula/vim',{'name':'dracula'}
+  Plugin 'xuhdev/vim-latex-live-preview'
+  Plugin 'vim-airline/vim-airline'
+  Plugin 'Valloric/YouCompleteMe'
+  Plugin 'tmhedberg/SimpylFold'
+  Plugin 'vim-syntastic/syntastic'
+  Plugin 'nvie/vim-flake8'
+  Plugin 'junegunn/goyo.vim'
+  Plugin 'vim-pandoc/vim-pandoc'
+  Plugin 'vim-pandoc/vim-pandoc-syntax'
+  Plugin 'vim-pandoc/vim-rmarkdown'
+  Plugin 'lervag/vimtex'
 call vundle#end()
+
+colorscheme dracula
+
 filetype plugin indent on
 
 colorscheme dracula

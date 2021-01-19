@@ -34,6 +34,10 @@ alias vimconfig="nvim ~/.vimrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias sdown='sudo shutdown now'
 alias rr='sudo shutdown -r now'
+alias mst='cd ~/projects/mst'
+alias pml='cd ~/projects/mst/pml; ca pml'
+alias pp='cd ~/projects/mst/pp; ca pp'
+alias btkb="~/.dotfiles/swapcaps.sh"
 # nvim
 alias n="nvim"
 alias vimconfig="nvim ~/.vimrc"
@@ -65,6 +69,8 @@ alias ci="conda install"
 alias ccn="conda create --name"
 alias cel="conda env list"
 alias py="python"
+alias jn='jupyter notebook'
+alias jl='jupyter lab'
 # i3
 alias ci3="nvim ~/.config/i3/config"
 alias ci3b="nvim ~/.config/i3blocks/i3blocks.conf"
@@ -92,25 +98,23 @@ unset __conda_setup
 export GEM_HOME="$HOME/.config/gems"
 export PATH="$HOME/.config/gems/bin:$PATH"
 export TERMINAL="/usr/bin/alacritty"
-
-lazynvm(){
-  unset -f nvm node npm
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-}
-
 nvm() {
-  lazynvm
-  nvm $@
+    unset -f nvm
+    export NVM_DIR=~/.nvm
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+    nvm "$@"
 }
 
 node() {
-  lazynvm
-  node $@
+    unset -f node
+    export NVM_DIR=~/.nvm
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+    node "$@"
 }
 
 npm() {
-  lazynvm
-  npm $@
+    unset -f npm
+    export NVM_DIR=~/.nvm
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+    npm "$@"
 }

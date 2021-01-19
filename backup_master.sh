@@ -3,7 +3,7 @@
 
 cp ~/.zshrc ./zsh/
 cp ~/.vimrc ./vim/
-cp ~/.config/nvim ./nvim/init.vim
+cp ~/.config/nvim/init.vim ./nvim/init.vim
 
 rsync -ar ~/.config/alacritty .
 rsync -ar ~/.config/i3 .
