@@ -145,8 +145,10 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'tweekmonster/django-plus.vim'
     Plug 'alvan/vim-closetag'
     Plug 'ap/vim-css-color'
+    "
+    Plug 'ferrine/md-img-paste.vim'
 
-    Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+
 call plug#end()
 
 colorscheme dracula
@@ -222,7 +224,10 @@ au BufNewFile,BufRead *.py
 
 " Plugins
 "
-" JS beautyfy
+" Pandoc
+let g:pandoc#syntax#conceal#use = 0
+
+"JS beautyfy
 autocmd Filetype htmldjango nnoremap <silent> <leader>b :!js-beautify -f % -r --type html  -q <enter><CR>
 
 " Vim Commentary
@@ -402,10 +407,30 @@ let g:airline#extensions#tabline#right_sep = ''
 let g:airline#extensions#tabline#right_alt_sep = ''
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
-
 " Switch to your current theme
 let g:airline_theme = 'deus'
 
 " enable word count
-let g:airline#extensions#wordcount#filetypes = '\vasciidoc|help|mail|markdown|markdown.pandoc|org|rst|tex|text'
+let g:airline#extensions#wordcount#filetypes = '\vasciidoc|help|mail|markdown|markdown.pandoc|org|rst|tex|text|rmd'
+" Jupyter
+" Run current file
+nnoremap <buffer> <silent> <leader>R :JupyterRunFile<CR>
+nnoremap <buffer> <silent> <leader>I :PythonImportThisFile<CR>
 
+" Change to directory of current file
+nnoremap <buffer> <silent> <leader>cd :JupyterCd %:p:h<CR>
+
+" Send a selection of lines
+nnoremap <buffer> <silent> <leader>X :JupyterSendCell<CR>
+nmap     <buffer> <silent> <leader>re <Plug>JupyterRunTextObj
+vmap     <buffer> <silent> <leader>re <Plug>JupyterRunVisual
+
+nnoremap <buffer> <silent> <leader>U :JupyterUpdateShell<CR>
+
+" Debugging maps
+nnoremap <buffer> <silent> <leader>rb :PythonSetBreak<CR>
+
+autocmd FileType markdown,rmd nmap <buffer> <F7> :call mdip#MarkdownClipboardImage()<CR>
+" there are some defaults for image directory and image name, you can change them
+" let g:mdip_imgdir = 'img'
+" let g:mdip_imgname = 'image'

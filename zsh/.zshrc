@@ -28,7 +28,7 @@ source $ZSH/oh-my-zsh.sh
  fi
 
 # Shortcuts
-alias zshconfig="nvim ~/.zshrc"
+alias zc="nvim ~/.zshrc"
 alias szsh="source ~/.zshrc"
 alias vimconfig="nvim ~/.vimrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
@@ -37,13 +37,12 @@ alias rr='sudo shutdown -r now'
 alias mst='cd ~/projects/mst'
 alias pml='cd ~/projects/mst/pml; ca pml'
 alias pp='cd ~/projects/mst/pp; ca pp'
+alias krr='cd ~/projects/mst/krr; ca krr'
 alias btkb="~/.dotfiles/swapcaps.sh"
 # nvim
 alias n="nvim"
-alias vimconfig="nvim ~/.vimrc"
-alias nvimconfig="nvim ~/.config/nvim/init.vim"
-alias nvimplug="nvim ~/.config/nvim/vim-plug/plugins.vim"
-alias nvimsettings="nvim ~/.config/nvim/general/settings.vim"
+alias vc="nvim ~/.vimrc"
+alias nvc="nvim ~/.config/nvim/init.vim"
 # TERM
 alias urxvtconfig="nvim ~/.Xresources"
 alias alaconfig="nvim ~/.config/alacritty/alacritty.yml"
@@ -60,9 +59,12 @@ alias makebmr="cp ~/Documents/templates/beamer_template.rmd ."
 alias makermd="cp ~/Documents/templates/pdf_template.rmd"
 alias xd='xdg-open'
 alias docker="sudo docker"
+alias tmux="tmux -f /home/tudor/.config/tmux/.tmux.conf"
+
 # Blog
 alias newp="thor jekyll:new"
 alias opblog="firefox tudorandrei.github.io"
+
 # Conda
 alias ca="conda activate"
 alias ci="conda install"
@@ -71,15 +73,22 @@ alias cel="conda env list"
 alias py="python"
 alias jn='jupyter notebook'
 alias jl='jupyter lab'
+
 # i3
 alias ci3="nvim ~/.config/i3/config"
 alias ci3b="nvim ~/.config/i3blocks/i3blocks.conf"
+
 # Django
 alias rs='python manage.py runserver'
 alias mig='python manage.py migrate'
 alias mkmig="python manage.py makemigrations"
 
+# Docker
+alias dcu='sudo docker-compose up'
+alias dcud='sudo docker-compose up -d'
 
+# Server
+alias open_server='ssh tudor@109.99.95.137 -i ~/.ssh/cautorice_key -p 54322'
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/home/tudor/.miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"

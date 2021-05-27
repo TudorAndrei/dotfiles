@@ -14,8 +14,8 @@ font pango:monospace 8
 #             |_|
 # In order to use gaps you need to disable window titlebars.
 for_window [class="^.*"] border pixel 0
-gaps inner 10
-gaps outer 10
+gaps inner 2
+gaps outer 2
 
 #
 #  _  __            ____  _           _
@@ -37,7 +37,8 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+p exec pavucontrol
 # kill focused window
 bindsym $mod+Shift+q kill
-
+# Move workspace to another monitor
+bindsym $mod+o move workspace to output left
 # start dmenu (a program launcher)
 bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-10' -p 'dmenu%'"
 
@@ -128,10 +129,10 @@ bindsym $mod+r mode "resize"
 set $keyboard_layout Keyboard Layout: (c) Colemak, (r) Romanian, (e) US English, (g) German
 mode "$keyboard_layout" {
 
-  bindsym e exec --no-startup-id setxkbmap us ,mode "default"
-  bindsym c exec --no-startup-id setxkbmap us -variant colemak ,mode "default"
-  bindsym g exec --no-startup-id setxkbmap de ,mode "default"
-  bindsym r exec --no-startup-id setxkbmap ro ,mode "default"
+  bindsym e exec --no-startup-id setxkbmap us -option caps:swapescape ,mode "default"
+  bindsym c exec --no-startup-id setxkbmap us -variant colemak -option caps:swapescape ,mode "default"
+  bindsym g exec --no-startup-id setxkbmap de -option caps:swapescape ,mode "default"
+  bindsym r exec --no-startup-id setxkbmap ro -option caps:swapescape ,mode "default"
 
 
 # back to normal: Enter or Escape

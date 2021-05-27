@@ -53,7 +53,7 @@ close(NVS);
 $gpu_usage eq -1 and die 'Can\'t find GPU information';
 
 # Print full_text, short_text
-printf "%.0f%% %.0f%% %.0f%% %.0f%%\n", $gpu_usage, $gpu_mem, $gpu_video, $gpu_pcie;
+# printf "%.0f%% %.0f%% %.0f%% %.0f%%\n", $gpu_usage, $gpu_mem, $gpu_video, $gpu_pcie;
 printf "%.0f%%\n", $gpu_usage;
 
 # Print color, if needed
