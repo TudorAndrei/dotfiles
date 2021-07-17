@@ -2,23 +2,6 @@
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH="${PATH}:${HOME}/.local/bin/"
 # Path to your oh-my-zsh installation.
-export ZSH="/home/tudor/.oh-my-zsh"
-
-ZSH_THEME="dracula"
-
-
-plugins=(git
-      	colored-man-pages
-       	colorize
-       	extract
-       	zsh-syntax-highlighting
-      	pep8
-        pylint)
-
-
-ZSH_COLORIZE_TOOL=pygmentize
-ZSH_COLORIZE_STYLE="colorful"
-source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
  if [[ -n $SSH_CONNECTION ]]; then
@@ -28,6 +11,7 @@ source $ZSH/oh-my-zsh.sh
  fi
 
 # Shortcuts
+alias ..="cd .."
 alias zc="nvim ~/.zshrc"
 alias szsh="source ~/.zshrc"
 alias vimconfig="nvim ~/.vimrc"
@@ -46,6 +30,10 @@ alias nvc="nvim ~/.config/nvim/init.vim"
 # TERM
 alias urxvtconfig="nvim ~/.Xresources"
 alias alaconfig="nvim ~/.config/alacritty/alacritty.yml"
+# GPU
+alias gput="python -c 'import torch;print(torch.cuda.is_available())'"
+alias gputf="python -c 'import tensorflow as tf;tf.config.list_physical_devices('GPU')'"
+
 # Random
 alias rpdf="zathura"
 alias mpdf="pdflatex"
@@ -89,6 +77,9 @@ alias dcud='sudo docker-compose up -d'
 
 # Server
 alias open_server='ssh tudor@109.99.95.137 -i ~/.ssh/cautorice_key -p 54322'
+alias login6='ssh studdumitrascu@login6.informatik.uni-wuerzburg.de -i ~/.ssh/cluster_acces'
+alias vingilot='ssh studdumitrascu@vingilot.informatik.uni-wuerzburg.de -i ~/.ssh/cluster_acces'
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/home/tudor/.miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -127,3 +118,5 @@ npm() {
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
     npm "$@"
 }
+
+eval "$(starship init zsh)"

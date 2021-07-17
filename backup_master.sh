@@ -4,7 +4,8 @@
 cp ~/.zshrc ./zsh/
 cp ~/.vimrc ./vim/
 cp ~/.config/nvim/init.vim ./nvim/init.vim
-cp -ar ~/.config/compton/ .
+cp -ar ~/.config/redshift .
+cp ~/.config/starship.toml .
 
 rsync -ar ~/.config/alacritty .
 rsync -ar ~/.config/i3 .
