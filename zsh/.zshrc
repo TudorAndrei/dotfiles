@@ -32,13 +32,12 @@ alias urxvtconfig="nvim ~/.Xresources"
 alias alaconfig="nvim ~/.config/alacritty/alacritty.yml"
 # GPU
 alias gput="python -c 'import torch;print(torch.cuda.is_available())'"
-alias gputf="python -c 'import tensorflow as tf;tf.config.list_physical_devices('GPU')'"
+alias gputf="python -c 'import tensorflow as tf;tf.config.list_physical_devices()'"
 
 # Random
 alias rpdf="zathura"
 alias mpdf="pdflatex"
 alias nvsmi="nvidia-smi --loop=2"
-alias gonotes="cd ~/Documents/notes"
 alias code="codium ."
 alias gh="firefox https://github.com/"
 alias si3="cp /usr/share/i3blocks"
@@ -76,9 +75,11 @@ alias dcu='sudo docker-compose up'
 alias dcud='sudo docker-compose up -d'
 
 # Server
+alias stoptunnel='[[ -f /tmp/sshuttle.pid ]] && kill `cat /tmp/sshuttle.pid`'
 alias open_server='ssh tudor@109.99.95.137 -i ~/.ssh/cautorice_key -p 54322'
-alias login6='ssh studdumitrascu@login6.informatik.uni-wuerzburg.de -i ~/.ssh/cluster_acces'
-alias vingilot='ssh studdumitrascu@vingilot.informatik.uni-wuerzburg.de -i ~/.ssh/cluster_acces'
+alias login6='ssh studdumitrascu@login6.informatik.uni-wuerzburg.de -i ~/.ssh/vingilot'
+alias vingilot='ssh -t studdumitrascu@vingilot.informatik.uni-wuerzburg.de -i ~/.ssh/vingilot /bin/zsh'
+alias pods='ssh -t studdumitrascu@vingilot.informatik.uni-wuerzburg.de -i ~/.ssh/vingilot "/bin/zsh | gp"'
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -98,25 +99,33 @@ unset __conda_setup
 export GEM_HOME="$HOME/.config/gems"
 export PATH="$HOME/.config/gems/bin:$PATH"
 export TERMINAL="/usr/bin/alacritty"
+
+lazynvm() {
+  unset -f nvm node npm npx
+  export NVM_DIR=~/.nvm
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+  if [ -f "$NVM_DIR/bash_completion" ]; then
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+  fi
+}
+
 nvm() {
-    unset -f nvm
-    export NVM_DIR=~/.nvm
-    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-    nvm "$@"
+  lazynvm
+  nvm $@
 }
 
 node() {
-    unset -f node
-    export NVM_DIR=~/.nvm
-    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-    node "$@"
+  lazynvm
+  node $@
 }
 
 npm() {
-    unset -f npm
-    export NVM_DIR=~/.nvm
-    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-    npm "$@"
+  lazynvm
+  npm $@
 }
 
+npx() {
+  lazynvm
+  npx $@
+}
 eval "$(starship init zsh)"

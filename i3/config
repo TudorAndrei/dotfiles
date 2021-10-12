@@ -104,12 +104,6 @@ bindsym $mod+Shift+f exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
         bindsym j resize shrink width 10 px or 10 ppt
         bindsym k resize grow height 10 px or 10 ppt
         bindsym l resize shrink height 10 px or 10 ppt
@@ -134,13 +128,24 @@ mode "$keyboard_layout" {
   bindsym g exec --no-startup-id setxkbmap de -option caps:swapescape ,mode "default"
   bindsym r exec --no-startup-id setxkbmap ro -option caps:swapescape ,mode "default"
 
-
-# back to normal: Enter or Escape
 bindsym Return mode "default"
 bindsym Escape mode "default"
 }
 
+set $screen_layout Keyboard Layout: (1) laptop, (2) extra monitor
+mode "$screen_layout" {
+
+  bindsym 1 exec sh ~/.screenlayout/laptop.sh, mode "default"
+  bindsym 2 exec sh ~/.screenlayout/extra-monitor.sh, mode "default"
+
+bindsym Return mode "default"
+bindsym Escape mode "default"
+}
+
+
+
 bindsym $mod+shift+Z mode "$keyboard_layout"
+bindsym $mod+shift+s mode "$screen_layout"
 
 # Lock the system
 bindsym $mod+shift+x exec i3lock
