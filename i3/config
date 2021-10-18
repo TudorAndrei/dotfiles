@@ -124,7 +124,7 @@ set $keyboard_layout Keyboard Layout: (c) Colemak, (r) Romanian, (e) US English,
 mode "$keyboard_layout" {
 
   bindsym e exec --no-startup-id setxkbmap us -option caps:swapescape ,mode "default"
-  bindsym c exec --no-startup-id setxkbmap us -variant colemak -option caps:swapescape ,mode "default"
+  bindsym c exec --no-startup-id setxkbmap us -variant colemak -option caps:swapescape,mode "default"
   bindsym g exec --no-startup-id setxkbmap de -option caps:swapescape ,mode "default"
   bindsym r exec --no-startup-id setxkbmap ro -option caps:swapescape ,mode "default"
 
@@ -132,17 +132,18 @@ bindsym Return mode "default"
 bindsym Escape mode "default"
 }
 
-set $screen_layout Keyboard Layout: (1) laptop, (2) extra monitor
+set $screen_layout Keyboard Layout: (1) laptop, (2) extra monitor, (3) main monitor, (4) lowres
 mode "$screen_layout" {
 
   bindsym 1 exec sh ~/.screenlayout/laptop.sh, mode "default"
-  bindsym 2 exec sh ~/.screenlayout/extra-monitor.sh, mode "default"
+  bindsym 2 exec sh ~/.screenlayout/extra-monitor.sh,mode "default"
+  bindsym 3 exec sh ~/.screenlayout/main-monitor.sh,mode "default"
+  bindsym 4 exec sh ~/.screenlayout/main-monitor-lowres.sh,mode "default"
+
 
 bindsym Return mode "default"
 bindsym Escape mode "default"
 }
-
-
 
 bindsym $mod+shift+Z mode "$keyboard_layout"
 bindsym $mod+shift+s mode "$screen_layout"

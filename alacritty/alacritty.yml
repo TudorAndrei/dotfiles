@@ -1,5 +1,21 @@
 font:
   size: 17.0
+  normal:
+    family: Hack
+    style: Regular
+  bold:
+    family: Hack
+    style: Bold
+  italic:
+    family: Hack
+    style: Italic
+  bold_italic:
+    family: Hack
+    style: BoldItalic
+
+
+
+  # background_opacity: 0.1
 # Opacity
 # Colors (Dracula)
 colors:
