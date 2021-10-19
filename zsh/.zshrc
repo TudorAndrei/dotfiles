@@ -23,10 +23,11 @@ alias pml='cd ~/projects/mst/pml; ca pml'
 alias pp='cd ~/projects/mst/pp; ca pp'
 alias krr='cd ~/projects/mst/krr; ca krr'
 alias btkb="~/.dotfiles/swapcaps.sh"
+alias listfnt="fc-list -f '%{family}\n' | awk '!x[$0]++' "
 # nvim
 alias n="nvim"
 alias vc="nvim ~/.vimrc"
-alias nvc="nvim ~/.config/nvim/init.vim"
+alias nvc="cd ~/.config/nvim && nvim ~/.config/nvim/init.vim"
 # TERM
 alias urxvtconfig="nvim ~/.Xresources"
 alias alaconfig="nvim ~/.config/alacritty/alacritty.yml"

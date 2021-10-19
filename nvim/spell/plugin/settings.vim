@@ -14,11 +14,11 @@ set nowrap
 " Always show tabs
 set showtabline=2
 " Makes popup menu smaller
-set pumheight=30
+set pumheight=20
 " Show the cursor position all the time
 set ruler
 " More space for displaying messages
-set cmdheight=1
+set cmdheight=2
 " treat dash separated words as a word text object"
 set iskeyword+=-
 " Enable your mouse
@@ -40,7 +40,7 @@ set smartindent
 " Good auto indent
 set autoindent
 " Always display the status line
-set laststatus=2
+set laststatus=0
 " tell vim what the background color looks like
 set background=dark
 " We don't need to see things like -- INSERT -- anymore

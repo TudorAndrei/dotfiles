@@ -1,6 +1,6 @@
 " set leader key
 let g:mapleader = "\<Space>"
-" let g:polyglot_disabled = ['python']
+let g:polyglot_disabled = ['python']
 
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
@@ -10,7 +10,7 @@ endif
 call plug#begin('~/.config/nvim/autoload/plugged')
 
     " Better Syntax Support
-    " Plug 'sheerun/vim-polyglot'
+    Plug 'sheerun/vim-polyglot'
     Plug 'lukas-reineke/indent-blankline.nvim'
     " Python Syntax
     Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
@@ -56,9 +56,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'lewis6991/gitsigns.nvim'
 
     Plug 'hoob3rt/lualine.nvim'
-
-    Plug 'nvim-telescope/telescope.nvim'
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    " Plug 'famiu/feline.nvim'
 call plug#end()
 
 

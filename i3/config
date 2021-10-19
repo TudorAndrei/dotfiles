@@ -4,7 +4,7 @@
 # |_|____/   \___\___/|_| |_|_| |_|\__, |
 #                                  |___/
 #
-font pango:monospace 8
+font pango:Hack Nerd Font 8
 
 #   ____
 #  / ___| __ _ _ __  ___
@@ -138,7 +138,7 @@ mode "$screen_layout" {
   bindsym 1 exec sh ~/.screenlayout/laptop.sh, mode "default"
   bindsym 2 exec sh ~/.screenlayout/extra-monitor.sh,mode "default"
   bindsym 3 exec sh ~/.screenlayout/main-monitor.sh,mode "default"
-  bindsym 4 exec sh ~/.screenlayout/main-monitor-lowres.sh,mode "default"
+  bindsym 4 exec sh ~/.screenlayout/extra-monitor-lowres.sh,mode "default"
 
 
 bindsym Return mode "default"
@@ -259,6 +259,7 @@ client.background       #F8F8F2
 # |_|____/|_.__/ \__,_|_|
 
 bar {
+
   status_command i3blocks -c /home/tudor/.config/i3blocks/i3blocks.conf
   i3bar_command i3bar -t
   position top
