@@ -11,3 +11,7 @@ nnoremap <C-k> <C-W><C-K>
 nnoremap <C-l> <C-W><C-L>
 
 tnoremap <Esc> <C-\><C-n>
+
+
+
+

@@ -73,6 +73,3 @@ endif
 :lua require("nvimtree")
 :lua require("statusline")
 :lua require("indent")
-
-
-
