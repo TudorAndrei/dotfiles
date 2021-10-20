@@ -47,7 +47,7 @@ set background=dark
 set noshowmode
 
 " By default timeoutlen is 1000 ms
-set timeoutlen=100
+set timeoutlen=1000
 " Stop newline continution of comments
 set formatoptions-=cro
 " Copy paste between vim and everything else

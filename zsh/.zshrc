@@ -67,7 +67,7 @@ alias ci3="nvim ~/.config/i3/config"
 alias ci3b="nvim ~/.config/i3blocks/i3blocks.conf"
 
 # Flask
-alias fr="FLASK_APP=main.py flask run"
+alias fr="FLASK_APP=app.py flask run"
 
 # Django
 alias rs='python manage.py runserver'

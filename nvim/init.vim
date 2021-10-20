@@ -1,6 +1,5 @@
 " set leader key
 let g:mapleader = "\<Space>"
-" let g:polyglot_disabled = ['python']
 
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
@@ -32,8 +31,6 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'saadparwaiz1/cmp_luasnip'
     Plug 'L3MON4D3/LuaSnip'
 
-    " Plug 'vim-airline/vim-airline'
-    " Plug 'vim-airline/vim-airline-themes'
 
     Plug 'psf/black', { 'branch': 'stable' }
     " Pandoc, markdown and rmarkdown
@@ -41,15 +38,16 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'vim-pandoc/vim-pandoc-syntax'
     Plug 'vim-pandoc/vim-rmarkdown'
     Plug 'lervag/vimtex'
+
     " align tables
     Plug 'junegunn/vim-easy-align'
 
-    " Plug 'eetsukumaran/vim-pythonsense'
     Plug 'luochen1990/rainbow'
     Plug 'tweekmonster/django-plus.vim'
     Plug 'alvan/vim-closetag'
     Plug 'ap/vim-css-color'
     Plug 'ferrine/md-img-paste.vim'
+
     Plug 'kyazdani42/nvim-web-devicons' " for file icons
     Plug 'kyazdani42/nvim-tree.lua'
     Plug 'nvim-lua/plenary.nvim'
@@ -74,7 +72,7 @@ endif
 :lua require("lsp")
 :lua require("nvimtree")
 :lua require("statusline")
+:lua require("indent")
 
-" auto-install vim-plug
 
 
