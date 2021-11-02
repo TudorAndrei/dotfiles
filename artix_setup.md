@@ -35,6 +35,10 @@ sudo pacman -S artix-archlinux-support
 sudo pacman -Sy
 sudo pacman -S firefox
 ```
+
+Enable `toolkit.legacyUserProfileCustomizations.stylesheets` in `about:config`
+add userChrome.css
+
 # Zsh
 ```
 sudo pacman -S zsh
@@ -43,4 +47,8 @@ chsh -s $(which zsh)
 # Alacritty
 ```
 sudo yay -S alacritty
+```
+# Starship
+```
+sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 ```
