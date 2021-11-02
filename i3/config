@@ -40,7 +40,8 @@ bindsym $mod+Shift+q kill
 # Move workspace to another monitor
 bindsym $mod+o move workspace to output left
 # start dmenu (a program launcher)
-bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-10' -p 'dmenu%'"
+# bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-10' -p 'dmenu%'"
+bindsym $mod+d exec rofi -show run -theme dracula -font "hack 10"
 
 # start nautilus
 bindsym $mod+n exec "nautilus"

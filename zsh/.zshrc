@@ -24,6 +24,7 @@ alias pp='cd ~/projects/mst/pp; ca pp'
 alias krr='cd ~/projects/mst/krr; ca krr'
 alias btkb="~/.dotfiles/swapcaps.sh"
 alias listfnt="fc-list -f '%{family}\n' | awk '!x[$0]++' "
+alias bigfiles='du -hs * | sort -rh | head -5'
 # nvim
 alias n="nvim"
 alias vc="nvim ~/.vimrc"

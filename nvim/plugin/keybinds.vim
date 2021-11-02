@@ -15,3 +15,5 @@ tnoremap <Esc> <C-\><C-n>
 
 
 
+let g:doge_mapping='<Leader>t'
+let g:doge_doc_standard_python = 'google'

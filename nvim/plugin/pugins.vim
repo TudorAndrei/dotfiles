@@ -5,7 +5,7 @@ let g:pandoc#syntax#conceal#use = 0
 " autocmd Filetype htmldjango nnoremap <silent> <leader>b :!js-beautify -f % -r --type html  -q <enter><CR>
 
 " Black
-autocmd BufWrite *.py :Black
+autocmd BufReadPre *.py :Black
 let g:black_linelength = 79
 
 " Tex

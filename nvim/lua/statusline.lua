@@ -1,4 +1,5 @@
 local lualine = require 'lualine'
+local pypath = vim.g.current_python_path
 
 local config = {
     options = {
@@ -12,7 +13,7 @@ local config = {
         lualine_a = {'mode'},
         lualine_b = {'branch'},
         lualine_c = {'filename'},
-        lualine_x = {'encoding', 'fileformat', 'filetype'},
+        lualine_x = {'encoding', 'fileformat', 'filetype', 'TESTST'},
         lualine_y = {'progress'},
         lualine_z = {'location'}
     },
