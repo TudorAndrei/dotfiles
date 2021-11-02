@@ -1,4 +1,32 @@
+zstyle ':completion:*' completer _complete _ignored
+zstyle :compinstall filename '/home/tudor/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+unsetopt beep
+# End of lines configured by zsh-newuser-install
 # If you come from bash you might have to change your $PATH.
+# The following lines were added by compinstall
+
+zstyle ':completion:*' completer _complete _ignored
+zstyle :compinstall filename '/home/tudor/.zshrc'
+
+autoload -Uz compinit
+compinit
+
+# End of lines added by compinstall
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+unsetopt beep
+# End of lines configured by zsh-newuser-install
+
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH="${PATH}:${HOME}/.local/bin/"
 # Path to your oh-my-zsh installation.
@@ -85,21 +113,21 @@ alias login6='ssh studdumitrascu@login6.informatik.uni-wuerzburg.de -i ~/.ssh/vi
 alias vingilot='ssh -t studdumitrascu@vingilot.informatik.uni-wuerzburg.de -i ~/.ssh/vingilot /bin/zsh'
 alias pods='ssh -t studdumitrascu@vingilot.informatik.uni-wuerzburg.de -i ~/.ssh/vingilot "/bin/zsh | gp"'
 
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/tudor/.miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/tudor/.conda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/tudor/.miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/tudor/.miniconda3/etc/profile.d/conda.sh"
+    if [ -f "/home/tudor/.conda/etc/profile.d/conda.sh" ]; then
+        . "/home/tudor/.conda/etc/profile.d/conda.sh"
     else
-        export PATH="/home/tudor/.miniconda3/bin"
+        export PATH="/home/tudor/.conda/bin:$PATH"
     fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
 export GEM_HOME="$HOME/.config/gems"
 export PATH="$HOME/.config/gems/bin:$PATH"
 export TERMINAL="/usr/bin/alacritty"
