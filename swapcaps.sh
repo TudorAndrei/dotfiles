@@ -1,3 +1,2 @@
 #!/bin/sh
-
-sudo setxkbmap -option caps:swapescape
+setxkbmap -option caps:swapescape
