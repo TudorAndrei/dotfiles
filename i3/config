@@ -186,16 +186,16 @@ bindsym --release Ctrl+Shift+Print exec scrot -s -e 'xclip -selection c -t image
 #   \ V  V / (_) | |  |   <\__ \ |_) | (_| | (_|  __/
 #    \_/\_/ \___/|_|  |_|\_\___/ .__/ \__,_|\___\___|
 # workspace
-set $ws1 "1: www"
-set $ws2 "2: ---"
-set $ws3 "3: ---"
-set $ws4 "4: ---"
-set $ws5 "5: ---"
-set $ws6 "6: ---"
-set $ws7 "7: ---"
-set $ws8 "8: mail"
-set $ws9 "9: chat"
-set $ws10 "10: Spotify"
+set $ws1 "1  "
+set $ws2 "2  "
+set $ws3 "3 ---"
+set $ws4 "4 ---"
+set $ws5 "5 ---"
+set $ws6 "6 ---"
+set $ws7 "7 ---"
+set $ws8 "8  "
+set $ws9 "9  "
+set $ws10 "10:  "
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
