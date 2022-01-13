@@ -1,3 +1,4 @@
+
 [character]                            # The name of the module we are configuring is "character"
 success_symbol = "[➜](bold green)"     # The "success_symbol" segment is being set to "➜" with the color "bold green"
 error_symbol = "[✗](bold red)"
@@ -6,10 +7,15 @@ error_symbol = "[✗](bold red)"
 [package]
 disabled = true
 
+[directory]
+truncation_length = 5
+format = "[$path]($style)[$lock_symbol]($lock_style) "
+
 [git_branch]
-symbol = "🌱 "
+symbol = " "
 truncation_length = 10
 truncation_symbol = ""
+format = '\[[$symbol$branch]($style)\]'
 
 [git_commit]
 commit_hash_length = 4
@@ -20,7 +26,14 @@ tag_symbol = "🔖 "
 ahead = "⇡${count}"
 diverged = "⇕⇡${ahead_count}⇣${behind_count}"
 behind = "⇣${count}"
+format = '([\[$all_status$ahead_behind\]]($style))'
+
 
 [conda]
 symbol = "🐍"
-format = "[$symbol$environment](dimmed green) "
+format = '\[[$symbol$environment]($style)\]'
+
+[nodejs]
+format = '\[[$symbol($version)]($style)\]'
+
+

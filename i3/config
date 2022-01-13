@@ -14,8 +14,8 @@ font pango:Hack Nerd Font 8
 #             |_|
 # In order to use gaps you need to disable window titlebars.
 for_window [class="^.*"] border pixel 0
-gaps inner 2
-gaps outer 2
+gaps inner 4
+gaps outer 4
 
 #
 #  _  __            ____  _           _
@@ -50,10 +50,10 @@ bindsym $mod+n exec "nautilus"
 hide_edge_borders true
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -62,10 +62,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 
 # alternatively, you can use the cursor keys:
@@ -75,7 +75,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+# bindsym $mod+h split
 # split in vertical orientation
 bindsym $mod+v split v
 
@@ -105,10 +105,10 @@ bindsym $mod+Shift+f exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -133,13 +133,14 @@ bindsym Return mode "default"
 bindsym Escape mode "default"
 }
 
-set $screen_layout Keyboard Layout: (1) laptop, (2) extra monitor, (3) main monitor, (4) lowres
+set $screen_layout Keyboard Layout: (1) laptop, (2) big monitor, (3) big and small, (4) duplicate to tv, (5) office
 mode "$screen_layout" {
 
   bindsym 1 exec sh ~/.screenlayout/laptop.sh, mode "default"
-  bindsym 2 exec sh ~/.screenlayout/extra-monitor.sh,mode "default"
-  bindsym 3 exec sh ~/.screenlayout/main-monitor.sh,mode "default"
-  bindsym 4 exec sh ~/.screenlayout/extra-monitor-lowres.sh,mode "default"
+  bindsym 2 exec sh ~/.screenlayout/big-monitor.sh, mode "default"
+  bindsym 3 exec sh ~/.screenlayout/big-and-small.sh, mode "default"
+  bindsym 4 exec sh ~/.screenlayout/duplicate-to-tv.sh, mode "default"
+  bindsym 5 exec sh ~/.screenlayout/office.sh, mode "default"
 
 
 bindsym Return mode "default"
@@ -188,7 +189,7 @@ bindsym --release Ctrl+Shift+Print exec scrot -s -e 'xclip -selection c -t image
 # workspace
 set $ws1 "1  "
 set $ws2 "2  "
-set $ws3 "3 ---"
+set $ws3 "3  "
 set $ws4 "4 ---"
 set $ws5 "5 ---"
 set $ws6 "6 ---"
@@ -212,6 +213,7 @@ bindsym $mod+0 workspace $ws10
 # move programs to workspaces
 assign [class="Firefox"]	$ws1
 assign [class="VSCodium"]	$ws2
+assign [class="Zotero"]	$ws3
 assign [class="Thunderbird"]	$ws8
 assign [class="Signal"]		$ws9
 assign [class="Slack"]		$ws9
@@ -278,23 +280,9 @@ bar {
 
 
 
-#   _____                _       _                     _
-#  / ____|              | |     | |                   | |
-# | (___   ___ _ __ __ _| |_ ___| |__  _ __   __ _  __| |
-#  \___ \ / __| '__/ _` | __/ __| '_ \| '_ \ / _` |/ _` |
-#  ____) | (__| | | (_| | || (__| | | | |_) | (_| | (_| |
-# |_____/ \___|_|  \__,_|\__\___|_| |_| .__/ \__,_|\__,_|
-#                                     | |
-#                                     |_|
-
-for_window [instance="calculator" class="calculator"] move scratchpad
-bindsym $Mod1+c exec alacritty --class calculator
-bindsym $Mod1+s scratchpad show
-#bindsym $Mod1+c [class="calculator"] scratchpad show
 
 exec firefox
-exec compton --config ~/.config/compton/compton.conf
-exec feh --bg-scale --randomize /home/tudor/Pictures/walls/*
+exec_always  feh --bg-scale --randomize /home/tudor/Pictures/walls/*
 exec xbindkeys
 exec setxkbmap -option caps:swapescape
 exec --no-startup-id nm-applet

@@ -25,6 +25,11 @@ alias krr='cd ~/projects/mst/krr; ca krr'
 alias btkb="~/.dotfiles/swapcaps.sh"
 alias listfnt="fc-list -f '%{family}\n' | awk '!x[$0]++' "
 alias bigfiles='du -hs * | sort -rh | head -5'
+alias blog='cd ~/projects/blog/'
+# Tmux
+alias rtmux="tmux source-file ~/.tmux.conf"
+alias tconf="nvim ~/.tmux.conf"
+alias tsess='tmux new -s mysession'
 # nvim
 alias n="nvim"
 alias vc="nvim ~/.vimrc"
@@ -35,20 +40,17 @@ alias alaconfig="nvim ~/.config/alacritty/alacritty.yml"
 # GPU
 alias gput="python -c 'import torch;print(torch.cuda.is_available())'"
 alias gputf="python -c 'import tensorflow as tf;tf.config.list_physical_devices()'"
-
 # Random
 alias rpdf="zathura"
 alias mpdf="pdflatex"
-alias nvsmi="nvidia-smi --loop=2"
+alias nvd="watch -n 2 nvidia-smi"
 alias code="codium ."
-alias gh="firefox https://github.com/"
 alias si3="cp /usr/share/i3blocks"
 alias mergepdf="gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dAutoRotatePages=/None -sOutputFile=merged.pdf"
 alias makebmr="cp ~/Documents/templates/beamer_template.rmd ."
 alias makermd="cp ~/Documents/templates/pdf_template.rmd"
 alias xd='xdg-open'
 alias docker="sudo docker"
-alias tmux="tmux -f /home/tudor/.config/tmux/.tmux.conf"
 
 # Blog
 alias newp="thor jekyll:new"
@@ -59,6 +61,15 @@ alias ca="conda activate"
 alias ci="conda install"
 alias ccn="conda create --name"
 alias cel="conda env list"
+alias cex='conda env export | grep -v "^prefix: " > environment.yml'
+
+# Mamba
+alias ma="mamba activate"
+alias mi="mamba install"
+alias mcn="mamba create --file ~/.dotfiles/conda/spec-file.txt --name"
+alias mel="mamba env list"
+
+# python
 alias py="python"
 alias jn='jupyter notebook'
 alias jl='jupyter lab'
@@ -88,49 +99,29 @@ alias pods='ssh -t studdumitrascu@vingilot.informatik.uni-wuerzburg.de -i ~/.ssh
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/tudor/.miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/tudor/.mamba/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/tudor/.miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/tudor/.miniconda3/etc/profile.d/conda.sh"
+    if [ -f "/home/tudor/.mamba/etc/profile.d/conda.sh" ]; then
+        . "/home/tudor/.mamba/etc/profile.d/conda.sh"
     else
-        export PATH="/home/tudor/.miniconda3/bin"
+        export PATH="/home/tudor/.mamba/bin:$PATH"
     fi
 fi
 unset __conda_setup
+
+if [ -f "/home/tudor/.mamba/etc/profile.d/mamba.sh" ]; then
+    . "/home/tudor/.mamba/etc/profile.d/mamba.sh"
+fi
 # <<< conda initialize <<<
 
 export GEM_HOME="$HOME/.config/gems"
 export PATH="$HOME/.config/gems/bin:$PATH"
 export TERMINAL="/usr/bin/alacritty"
-
-lazynvm() {
-  unset -f nvm node npm npx
-  export NVM_DIR=~/.nvm
-  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
-  if [ -f "$NVM_DIR/bash_completion" ]; then
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-  fi
-}
-
-nvm() {
-  lazynvm
-  nvm $@
-}
-
-node() {
-  lazynvm
-  node $@
-}
-
-npm() {
-  lazynvm
-  npm $@
-}
-
-npx() {
-  lazynvm
-  npx $@
-}
+# fnm
+export PATH=/home/tudor/.fnm:$PATH
+eval "`fnm env`"
 eval "$(starship init zsh)"
+
+alias luamake=/home/tudor/projects/lua-language-server/3rd/luamake/luamake
