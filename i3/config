@@ -4,6 +4,7 @@
 # |_|____/   \___\___/|_| |_|_| |_|\__, |
 #                                  |___/
 #
+# Font for window titles. Will also be used by the bar unless a different font
 font pango:Hack Nerd Font 8
 
 #   ____
@@ -13,9 +14,9 @@ font pango:Hack Nerd Font 8
 #  \____|\__,_| .__/|___/
 #             |_|
 # In order to use gaps you need to disable window titlebars.
-for_window [class="^.*"] border pixel 0
-gaps inner 4
-gaps outer 4
+# for_window [class="^.*"] border pixel 0
+# gaps inner 4
+# gaps outer 4
 
 #
 #  _  __            ____  _           _
@@ -28,8 +29,8 @@ gaps outer 4
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 set $mod Mod4
 
-# Font for window titles. Will also be used by the bar unless a different font
 floating_modifier $mod
+for_window [floating] move position center
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
@@ -47,7 +48,7 @@ bindsym $mod+d exec rofi -show run -theme dracula -font "hack 10"
 bindsym $mod+n exec "nautilus"
 
 # Hide borders
-hide_edge_borders true
+# hide_edge_borders true
 
 # change focus
 bindsym $mod+h focus left
@@ -147,7 +148,7 @@ bindsym Return mode "default"
 bindsym Escape mode "default"
 }
 
-bindsym $mod+shift+Z mode "$keyboard_layout"
+bindsym $mod+shift+k mode "$keyboard_layout"
 bindsym $mod+shift+s mode "$screen_layout"
 
 # Lock the system

@@ -14,17 +14,13 @@ export PATH="${PATH}:${HOME}/.local/bin/"
 alias ..="cd .."
 alias zc="nvim ~/.zshrc"
 alias szsh="source ~/.zshrc"
-alias vimconfig="nvim ~/.vimrc"
-alias ohmyzsh="nvim ~/.oh-my-zsh"
+# alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias sdown='sudo shutdown now'
 alias rr='sudo shutdown -r now'
 alias mst='cd ~/projects/mst'
-alias pml='cd ~/projects/mst/pml; ca pml'
-alias pp='cd ~/projects/mst/pp; ca pp'
-alias krr='cd ~/projects/mst/krr; ca krr'
 alias btkb="~/.dotfiles/swapcaps.sh"
 alias listfnt="fc-list -f '%{family}\n' | awk '!x[$0]++' "
-alias bigfiles='du -hs * | sort -rh | head -5'
+alias bigfiles='du -hs $(ls -A) | sort -rh | head -5'
 alias blog='cd ~/projects/blog/'
 # Tmux
 alias rtmux="tmux source-file ~/.tmux.conf"
@@ -47,14 +43,18 @@ alias nvd="watch -n 2 nvidia-smi"
 alias code="codium ."
 alias si3="cp /usr/share/i3blocks"
 alias mergepdf="gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dAutoRotatePages=/None -sOutputFile=merged.pdf"
-alias makebmr="cp ~/Documents/templates/beamer_template.rmd ."
-alias makermd="cp ~/Documents/templates/pdf_template.rmd"
+pdfcompress ()
+{
+   gs -q -dNOPAUSE -dBATCH -dSAFER -sDEVICE=pdfwrite -dCompatibilityLevel=1.3 -dPDFSETTINGS=/screen -dEmbedAllFonts=true -dSubsetFonts=true -dColorImageDownsampleType=/Bicubic -dColorImageResolution=144 -dGrayImageDownsampleType=/Bicubic -dGrayImageResolution=144 -dMonoImageDownsampleType=/Bicubic -dMonoImageResolution=144 -sOutputFile=${1%.*}.compressed.pdf $1;
+}
+alias makebmr="cp ~/projects/littlebrain/templates/beamer_template.rmd ."
+alias makermd="cp ~/projects/littlebrain/templates/pdf_template.rmd ."
 alias xd='xdg-open'
-alias docker="sudo docker"
+# alias docker="sudo docker"
 
 # Blog
-alias newp="thor jekyll:new"
-alias opblog="firefox tudorandrei.github.io"
+# alias newp="thor jekyll:new"
+alias opblog="firefox blog.tudorandrei.xyz"
 
 # Conda
 alias ca="conda activate"
@@ -93,9 +93,7 @@ alias dcud='sudo docker-compose up -d'
 # Server
 alias stoptunnel='[[ -f /tmp/sshuttle.pid ]] && kill `cat /tmp/sshuttle.pid`'
 alias open_server='ssh tudor@109.99.95.137 -i ~/.ssh/cautorice_key -p 54322'
-alias login6='ssh studdumitrascu@login6.informatik.uni-wuerzburg.de -i ~/.ssh/vingilot'
-alias vingilot='ssh -t studdumitrascu@vingilot.informatik.uni-wuerzburg.de -i ~/.ssh/vingilot /bin/zsh'
-alias pods='ssh -t studdumitrascu@vingilot.informatik.uni-wuerzburg.de -i ~/.ssh/vingilot "/bin/zsh | gp"'
+alias pods='ssh vingilot  "/bin/zsh | gp"'
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
