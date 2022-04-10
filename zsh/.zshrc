@@ -1,6 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH="${PATH}:${HOME}/.local/bin/"
+export PATH="$HOME/projects/bits:$PATH"
 # Path to your oh-my-zsh installation.
 
 # Preferred editor for local and remote sessions
@@ -14,6 +15,8 @@ export PATH="${PATH}:${HOME}/.local/bin/"
 alias ..="cd .."
 alias zc="nvim ~/.zshrc"
 alias szsh="source ~/.zshrc"
+# Git
+alias gcm="git commit -a --allow-empty-message -m ''"
 # alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias sdown='sudo shutdown now'
 alias rr='sudo shutdown -r now'
