@@ -1,5 +1,4 @@
 #!/bin/sh
-
 ln -sf $(pwd)/zsh/.zshrc /home/tudor/.zshrc
 ln -sf $(pwd)/starship.toml /home/tudor/.config/starship.toml
 ln -sf $(pwd)/alacritty/alacritty.yml /home/tudor/.config/alacritty/alacritty.yml
