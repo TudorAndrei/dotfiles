@@ -111,14 +111,11 @@ unset key
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH="${PATH}:${HOME}/.local/bin/"
 export PATH="$HOME/cave/bits:$PATH"
-<<<<<<< HEAD
 export PATH="${PATH}:/usr/local/go/bin"
 export PATH="${PATH}:/home/tudor/flutter/bin"
 export PATH="${PATH}:/home/tudor/android-studio/bin/studio.sh"
 export PATH="${PATH}:/home/tudor/.surrealdb"
 export JAVA_HOME="/usr/bin/javac"
-=======
->>>>>>> ab1e8ee ()
 
 # Preferred editor for local and remote sessions
  if [[ -n $SSH_CONNECTION ]]; then
@@ -225,6 +222,7 @@ alias stoptunnel='[[ -f /tmp/sshuttle.pid ]] && kill `cat /tmp/sshuttle.pid`'
 alias open_server='ssh tudor@109.99.95.137 -i ~/.ssh/cautorice_key -p 54322'
 alias pods='ssh vingilot  "/bin/zsh | gp"'
 
+alias luamake=/home/tudor/cave/lua-language-server/3rd/luamake/luamake
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/home/tudor/.mambaf/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -248,7 +246,6 @@ export GEM_HOME="$HOME/.config/gems"
 export PATH="$HOME/.config/gems/bin:$PATH"
 export TERMINAL="/usr/bin/alacritty"
 
-alias luamake=/home/tudor/cave/lua-language-server/3rd/luamake/luamake
 # fnm
 export PATH=/home/tudor/.fnm:$PATH
 eval "`fnm env`"
@@ -258,46 +255,5 @@ PERL5LIB="/home/tudor/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB
 PERL_LOCAL_LIB_ROOT="/home/tudor/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/tudor/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/tudor/perl5"; export PERL_MM_OPT;
-
-
-# Generated for envman. Do not edit.
-[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
-
-# fnm
-export PATH=/home/tudor/.fnm:$PATH
-eval "`fnm env`"
-
-PATH="/home/tudor/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/tudor/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/tudor/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/tudor/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/tudor/perl5"; export PERL_MM_OPT;
-# Check if zplug is installed
-if [[ ! -d ~/.zplug ]]; then
-  git clone https://github.com/zplug/zplug ~/.zplug
-  source ~/.zplug/init.zsh && zplug update --self
-fi
-
-# Essential
-source ~/.zplug/init.zsh
-
-# Zplug plugins
-zplug "zplug/zplug"
-zplug "zsh-users/zsh-completions"
-zplug "zsh-users/zsh-syntax-highlighting"
-zplug "zsh-users/zsh-history-substring-search"
-zplug "rimraf/k"
-# Install packages that have not been installed yet
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    else
-        echo
-    fi
-fi
-
-zplug load
 
 eval "$(starship init zsh)"
->>>>>>> ab1e8ee ()
