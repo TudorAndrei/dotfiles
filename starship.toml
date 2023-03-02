@@ -1,0 +1,48 @@
+[character] # The name of the module we are configuring is "character"
+success_symbol = "[➜](bold green)" # The "success_symbol" segment is being set to "➜" with the color "bold green"
+error_symbol = "[✗](bold red)"
+
+# Disable the package module, hiding it from the prompt completely
+
+[directory]
+truncation_length = 5
+format = "[$path]($style)[$lock_symbol]($lock_style) "
+
+[git_branch]
+symbol = " "
+truncation_length = 10
+truncation_symbol = ""
+format = '\[[$symbol$branch]($style)\]'
+
+[git_commit]
+commit_hash_length = 4
+tag_symbol = "🔖 "
+
+
+[git_status]
+ahead = "⇡${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+behind = "⇣${count}"
+format = '([\[$all_status$ahead_behind\]]($style))'
+
+
+[conda]
+symbol = "🐍"
+format = '\[[$symbol $environment]($style)\]'
+
+[nodejs]
+format = '\[[$symbol($version)]($style)\]'
+
+[docker_context]
+format = 'via [🐳 $context](blue bold)'
+
+[custom.git_scope]
+command = '''
+printf "%s" \
+  "$(if [ -n "$GIT_AUTHOR_NAME" ]; then echo "$GIT_AUTHOR_NAME"; else git config user.name; fi)"
+'''
+description = 'The currently configured Git user.{email,name}'
+format = ' as [$output]($style) '
+shell = ["zsh"]
+style = 'blue bold'
+when = 'git rev-parse --is-inside-work-tree'
