@@ -8,6 +8,7 @@ Keep track of my dotfiles
 
 ### Terminal
 
+- [alacritty](https://github.com/alacritty/alacritty)
 - [Zsh](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH)
 
   - [zimfw](https://github.com/zimfw/zimfw)
@@ -41,3 +42,22 @@ Keep track of my dotfiles
 - arandr
 - i3
   - i3-blocks
+- blueman
+- nmapplet
+
+### Font
+
+- Nerd hack Font
+
+### Keyboard
+
+```
+echo "options hid_apple fnmode=0" | sudo tee -a /etc/modprobe.d/hid_apple.conf
+```
+
+# Firefox
+
+```
+Enable `toolkit.legacyUserProfileCustomizations.stylesheets` in `about:config`
+add userChrome.css
+```
