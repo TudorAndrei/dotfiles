@@ -152,7 +152,7 @@ alias tsess='tmux new -s mysession'
 # nvim
 alias n="nvim"
 alias vc="nvim ~/.vimrc"
-alias nvc="cd ~/.config/nvim && nvim ~/.config/nvim/init.vim"
+alias nvc="cd ~/.config/nvim && nvim ~/.config/nvim/init.lua"
 # TERM
 alias urxvtconfig="nvim ~/.Xresources"
 alias alaconfig="nvim ~/.config/alacritty/alacritty.yml"

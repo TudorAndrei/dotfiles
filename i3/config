@@ -296,7 +296,7 @@ bar {
 
 
 exec firefox
-# exec zsh ~/cave/bits/start_notes.sh
+exec start_notes.sh
 exec_always  feh --bg-scale --randomize /home/tudor/Pictures/walls/*
 exec xbindkeys
 exec setxkbmap -option caps:swapescape
@@ -307,4 +307,5 @@ exec redshift -c ~/.config/redshift/redshift.conf
 exec --no-startup-id xset -dpms
 exec --no-startup-id xset s off
 exec picom
+exec solaar
 # exec zotero

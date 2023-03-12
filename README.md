@@ -4,8 +4,6 @@ Keep track of my dotfiles
 
 ## Packages
 
-- [chezmoi](https://www.chezmoi.io/install/)
-
 ### Terminal
 
 - [alacritty](https://github.com/alacritty/alacritty)
@@ -25,12 +23,13 @@ Keep track of my dotfiles
     - zsh-user/zsh-history-substring-search
     - zsh-users/zsh-completions
 
-  - [startship](https://github.com/starship/starship)
+  - [starship](https://github.com/starship/starship)
 
 - [Bat](https://github.com/sharkdp/bat)
 - [fd](https://github.com/sharkdp/fd)
 - [fzf](https://github.com/junegunn/fzf)
 - [ripgrep](https://github.com/BurntSushi/ripgrep)
+- [fnm](https://github.com/Schniz/fnm#completions)
 
 - Conda
   - [Mamba](https://github.com/conda-forge/miniforge#mambaforge)
