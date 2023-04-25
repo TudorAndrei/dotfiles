@@ -256,4 +256,12 @@ PERL_LOCAL_LIB_ROOT="/home/tudor/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_R
 PERL_MB_OPT="--install_base \"/home/tudor/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/tudor/perl5"; export PERL_MM_OPT;
 
+
+# bun completions
+[ -s "/home/tudor/.bun/_bun" ] && source "/home/tudor/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
 eval "$(starship init zsh)"

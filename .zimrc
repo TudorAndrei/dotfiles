@@ -1,0 +1,29 @@
+# Modules
+
+# Sets sane Zsh built-in environment options.
+zmodule environment
+zmodule archive
+# Provides handy git aliases and functions.
+zmodule git
+# Utility aliases and functions. Adds colour to ls, grep and less.
+zmodule utility
+
+zmodule fzf
+#
+# Prompt
+zmodule duration-info
+
+#
+# Completion
+#
+zmodule zsh-users/zsh-completions --fpath src
+zmodule completion
+
+#
+# Modules that must be initialized last
+#
+zmodule zsh-users/zsh-syntax-highlighting
+zmodule zsh-users/zsh-history-substring-search
+zmodule rimraf/k
+zmodule agkozak/zsh-z
+zmodule dominik-schwabe/zsh-fnm

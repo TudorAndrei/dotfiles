@@ -138,14 +138,15 @@ bindsym Return mode "default"
 bindsym Escape mode "default"
 }
 
+set $ARANDR_DIR ~/dotfiles/arandr_setup/
 set $screen_layout Keyboard Layout: (1) laptop, (2) big monitor, (3) big and small, (4) duplicate to tv, (5) office, (6) high res
 mode "$screen_layout" {
 
-  bindsym 1 exec sh ~/.screenlayout/laptop.sh, mode "default"
-  bindsym 2 exec sh ~/.screenlayout/big-monitor.sh, mode "default"
-  bindsym 3 exec sh ~/.screenlayout/big-and-small.sh, mode "default"
-  bindsym 4 exec sh ~/.screenlayout/duplicate-to-tv.sh, mode "default"
-  bindsym 5 exec sh ~/.screenlayout/office.sh, mode "default"
+  bindsym 1 exec sh $ARANDR_DIR/laptop.sh, mode "default"
+  bindsym 2 exec sh $ARANDR_DIR/big-monitor.sh, mode "default"
+  bindsym 3 exec sh $ARANDR_DIR/big-and-small.sh, mode "default"
+  bindsym 4 exec sh $ARANDR_DIR/duplicate-to-tv.sh, mode "default"
+  bindsym 5 exec sh $ARANDR_DIR/office.sh, mode "default"
 
 
 bindsym Return mode "default"
@@ -159,9 +160,9 @@ bindsym $mod+shift+s mode "$screen_layout"
 bindsym $mod+shift+x exec i3lock
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
 
 # Sreen brightness controls
 bindsym $mod+F1 exec brightnessctl set +10% # increase screen brightness
