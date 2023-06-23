@@ -147,6 +147,7 @@ mode "$screen_layout" {
   bindsym 3 exec sh $ARANDR_DIR/big-and-small.sh, mode "default"
   bindsym 4 exec sh $ARANDR_DIR/duplicate-to-tv.sh, mode "default"
   bindsym 5 exec sh $ARANDR_DIR/office.sh, mode "default"
+  bindsym 6 exec sh $ARANDR_DIR/high-res.sh, mode "default"
 
 
 bindsym Return mode "default"

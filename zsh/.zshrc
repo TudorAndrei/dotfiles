@@ -116,7 +116,6 @@ export PATH="${PATH}:/home/tudor/flutter/bin"
 export PATH="${PATH}:/home/tudor/android-studio/bin/studio.sh"
 export PATH="${PATH}:/home/tudor/.surrealdb"
 export JAVA_HOME="/usr/bin/javac"
-
 # Preferred editor for local and remote sessions
  if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='nvim'
@@ -225,20 +224,20 @@ alias pods='ssh vingilot  "/bin/zsh | gp"'
 alias luamake=/home/tudor/cave/lua-language-server/3rd/luamake/luamake
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/tudor/.mambaf/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/tudor/.mamba/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/tudor/.mambaf/etc/profile.d/conda.sh" ]; then
-        . "/home/tudor/.mambaf/etc/profile.d/conda.sh"
+    if [ -f "/home/tudor/.mamba/etc/profile.d/conda.sh" ]; then
+        . "/home/tudor/.mamba/etc/profile.d/conda.sh"
     else
-        export PATH="/home/tudor/.mambaf/bin:$PATH"
+        export PATH="/home/tudor/.mamba/bin:$PATH"
     fi
 fi
 unset __conda_setup
 
-if [ -f "/home/tudor/.mambaf/etc/profile.d/mamba.sh" ]; then
-    . "/home/tudor/.mambaf/etc/profile.d/mamba.sh"
+if [ -f "/home/tudor/.mamba/etc/profile.d/mamba.sh" ]; then
+    . "/home/tudor/.mamba/etc/profile.d/mamba.sh"
 fi
 # <<< conda initialize <<<
 
@@ -264,4 +263,14 @@ PERL_MM_OPT="INSTALL_BASE=/home/tudor/perl5"; export PERL_MM_OPT;
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
+
+# pnpm
+export PNPM_HOME="/home/tudor/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+#
+source "$HOME/.rye/env"
 eval "$(starship init zsh)"
