@@ -274,3 +274,7 @@ esac
 #
 source "$HOME/.rye/env"
 eval "$(starship init zsh)"
+
+# fnm
+export PATH="/home/tudor/.local/share/fnm:$PATH"
+eval "`fnm env`"

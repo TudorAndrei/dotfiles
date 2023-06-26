@@ -107,6 +107,8 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+f exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 # generate rgb color and put it into clipboard
 bindsym $mod+Shift+g exec "pastel random -n 1 | pastel format | xclip -sel clip"
+# logout
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {

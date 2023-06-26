@@ -19,7 +19,6 @@ configuration {
     bordercolor: @active-background;
 }
 
-
 #window {
     background-color: @background-color;
     border:           3;
@@ -131,3 +130,4 @@ element-text, element-icon {
     background-color: inherit;
     text-color: inherit;
 }
+
