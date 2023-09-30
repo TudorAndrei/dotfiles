@@ -3,6 +3,8 @@ success_symbol = "[➜](bold green)" # The "success_symbol" segment is being set
 error_symbol = "[✗](bold red)"
 
 # Disable the package module, hiding it from the prompt completely
+[battery]
+disabled = true
 
 [directory]
 truncation_length = 5

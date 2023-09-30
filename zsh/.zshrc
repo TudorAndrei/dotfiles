@@ -1,5 +1,5 @@
-# export EDITOR='vim'
-# export VISUAL='vim'
+export EDITOR='nvim'
+export VISUAL='nvim'
 # Start configuration added by Zim install {{{
 # User configuration sourced by interactive shells
 # -----------------
@@ -30,7 +30,7 @@ WORDCHARS=${WORDCHARS//[\/]}
 # -----------------
 
 # Use degit instead of git as the default tool to install and update modules.
-#zstyle ':zim:zmodule' use 'degit'
+zstyle ':zim:zmodule' use 'degit'
 
 # --------------------
 # Module configuration
@@ -41,7 +41,7 @@ WORDCHARS=${WORDCHARS//[\/]}
 #
 
 # Set a custom prefix for the generated aliases. The default prefix is 'G'.
-#zstyle ':zim:git' aliases-prefix 'g'
+zstyle ':zim:git' aliases-prefix 'g'
 
 #
 # input
@@ -112,9 +112,8 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH="${PATH}:${HOME}/.local/bin/"
 export PATH="$HOME/cave/bits:$PATH"
 export PATH="${PATH}:/usr/local/go/bin"
-export PATH="${PATH}:/home/tudor/flutter/bin"
-export PATH="${PATH}:/home/tudor/android-studio/bin/studio.sh"
 export PATH="${PATH}:/home/tudor/.surrealdb"
+export PATH="$DENO_INSTALL/bin:$PATH"
 export JAVA_HOME="/usr/bin/javac"
 # Preferred editor for local and remote sessions
  if [[ -n $SSH_CONNECTION ]]; then
@@ -136,7 +135,7 @@ alias gcm="git commit -a --allow-empty-message -m ''"
 alias gdocs="git add docs/* mkdocs.yml && git commit -m 'Update Docs' && git push"
 alias gl="git log --pretty=oneline"
 alias glg="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
-# alias ohmyzsh="nvim ~/.oh-my-zsh"
+
 alias sdown='sudo shutdown now'
 alias rr='sudo shutdown -r now'
 alias mst='cd ~/cave/mst'
@@ -153,8 +152,9 @@ alias n="nvim"
 alias vc="nvim ~/.vimrc"
 alias nvc="cd ~/.config/nvim && nvim ~/.config/nvim/init.lua"
 # TERM
-alias urxvtconfig="nvim ~/.Xresources"
-alias alaconfig="nvim ~/.config/alacritty/alacritty.yml"
+alias uconfig="nvim ~/.Xresources"
+alias aconfig="nvim ~/.config/alacritty/alacritty.yml"
+alias kconf="nvim ~/.config/kitty//kitty.conf"
 # GPU
 alias gput="python -c 'import torch;print(torch.cuda.is_available())'"
 alias gputf="python -c 'import tensorflow as tf;tf.config.list_physical_devices()'"
@@ -163,7 +163,6 @@ alias rpdf="zathura"
 alias mpdf="pdflatex"
 alias nvd="watch -n 2 nvidia-smi"
 alias nvi="nvitop --monitor compact"
-alias si3="cp /usr/share/i3blocks"
 alias mergepdf="gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dAutoRotatePages=/None -sOutputFile=merged.pdf"
 
 
@@ -199,6 +198,8 @@ alias py="python"
 alias jn='jupyter notebook'
 alias jl='jupyter lab'
 alias svd="source .venv_dev/bin/activate"
+alias svp="source .venv_prod/bin/activate"
+alias sv="source .venv/bin/activate"
 
 # i3
 alias ci3="nvim ~/.config/i3/config"
@@ -243,7 +244,7 @@ fi
 
 export GEM_HOME="$HOME/.config/gems"
 export PATH="$HOME/.config/gems/bin:$PATH"
-export TERMINAL="/usr/bin/alacritty"
+export TERMINAL="/usr/bin/kitty"
 
 # fnm
 export PATH=/home/tudor/.fnm:$PATH
@@ -273,6 +274,8 @@ esac
 # pnpm end
 #
 source "$HOME/.rye/env"
+export MODULAR_HOME="/home/tudor/.modular"
+export PATH="/home/tudor/.modular/pkg/packages.modular.com_mojo/bin:$PATH"
 eval "$(starship init zsh)"
 
 # fnm

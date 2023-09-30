@@ -5,7 +5,7 @@
 #                                  |___/
 #
 # Font for window titles. Will also be used by the bar unless a different font
-font pango:Hack Nerd Font 8
+font pango:Hack Nerd Font 11
 
 #   ____
 #  / ___| __ _ _ __  ___
@@ -35,7 +35,7 @@ for_window [floating] move position center
 for_window [class="awakened-poe-trade"] floating
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec kitty
 # start nautilus
 bindsym $mod+p exec pavucontrol
 # kill focused window
@@ -44,7 +44,8 @@ bindsym $mod+Shift+q kill
 bindsym $mod+o move workspace to output left
 # start dmenu (a program launcher)
 # bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-10' -p 'dmenu%'"
-bindsym $mod+d exec rofi -show run -theme dracula -font "hack 10"
+bindsym $mod+d exec rofi -show drun -theme dracula -font "hack 10"
+bindsym --release $mod+Shift+d exec --no-startup-id rofi -lines 10 -padding 0 -show search -modi search:~/cave/bits/rofi-web-search.py -i -p "Search: " -theme dracula -font 'hack 10'
 
 # start nautilus
 bindsym $mod+n exec "nautilus"
@@ -104,7 +105,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+f exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+f exec "i3-nagbar -t warning -m 'Do you really want to exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"
 # generate rgb color and put it into clipboard
 bindsym $mod+Shift+g exec "pastel random -n 1 | pastel format | xclip -sel clip"
 # logout
@@ -190,12 +191,10 @@ bindsym --release Shift+Print exec scrot -s -e 'mv $f /home/tudor/Pictures/scree
 bindsym --release Ctrl+Shift+Print exec scrot -s -e 'xclip -selection c -t image/png < $f && mv $f /home/tudor/Pictures/screenshots/ && notify-send --icon=gtk-info Screnshot "Screnshot copied to clipboard"'
 
 
-# notes
-for_window [title="^notes$"] floating enable
-for_window [title="^notes$"] resize set 1800 1000
-for_window [title="^notes$"] move position center
-for_window [title="^notes$"] move to scratchpad
-bindsym $mod+m [title="^notes$"] scratchpad show; move position center
+# obisidian notes
+for_window [class="obsidian"] move window to position 300 100
+for_window [class="obsidian"] floating enable, move scratchpad, resize set 1800 800
+bindsym $mod+m [class="obsidian"] scratchpad show
 
 # __        __         _
 # \ \      / /__  _ __| | _____ _ __   __ _  ___ ___
@@ -228,8 +227,10 @@ bindsym $mod+0 workspace $ws10
 
 # move programs to workspaces
 assign [class="Firefox"]	$ws1
+assign [class="vivaldi-stable"]	$ws1
 assign [class="VSCodium"]	$ws2
 assign [class="Zotero"]	$ws3
+assign [class="calibre"]	$ws3
 assign [class="Thunderbird"]	$ws8
 assign [class="Signal"]		$ws9
 assign [class="Slack"]		$ws9
@@ -300,7 +301,6 @@ bar {
 
 
 exec firefox
-exec start_notes.sh
 exec_always  feh --bg-scale --randomize /home/tudor/Pictures/walls/*
 exec xbindkeys
 exec setxkbmap -option caps:swapescape
