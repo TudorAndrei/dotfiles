@@ -1,6 +1,14 @@
-[character] # The name of the module we are configuring is "character"
-success_symbol = "[➜](bold green)" # The "success_symbol" segment is being set to "➜" with the color "bold green"
-error_symbol = "[✗](bold red)"
+[character]
+error_symbol = "[λ](bold #ff5555)"
+success_symbol = "[λ](bold #50fa7b)"
+[hostname]
+style = "bold #bd93f9"
+[username]
+format = "[$user]($style) on "
+style_user = "bold #8be9fd"
+
+[cmd_duration]
+style = "bold #f1fa8c"
 
 # Disable the package module, hiding it from the prompt completely
 [battery]
@@ -8,12 +16,14 @@ disabled = true
 
 [directory]
 truncation_length = 5
+style = "bold #50fa7b"
 format = "[$path]($style)[$lock_symbol]($lock_style) "
 
 [git_branch]
 symbol = " "
 truncation_length = 10
 truncation_symbol = ""
+style = "bold #ff79c6"
 format = '\[[$symbol$branch]($style)\]'
 
 [git_commit]
@@ -26,6 +36,7 @@ ahead = "⇡${count}"
 diverged = "⇕⇡${ahead_count}⇣${behind_count}"
 behind = "⇣${count}"
 format = '([\[$all_status$ahead_behind\]]($style))'
+style = "bold #ff5555"
 
 
 [conda]

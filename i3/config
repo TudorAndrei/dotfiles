@@ -184,17 +184,19 @@ bindsym XF86AudioPrev exec playerctl previous
 # Screenshot commands
 
 # Take a screenshot of the whole screen
-bindsym --release Print exec scrot -e 'mv $f /home/tudor/Pictures/screenshots/ && notify-send --icon=gtk-info Screnshot "Screenshot Saved"'
-bindsym --release Ctrl+Print exec scrot -e 'xclip -selection c -t image/png < $f && mv $f /home/tudor/Pictures/screenshots/ && notify-send --icon=gtk-info Screnshot "Screnshot copied to clipboard"'
+bindsym --release Print exec scrot -e 'xclip -selection c -t image/png < $f && mv $f /home/tudor/Pictures/screenshots/ && notify-send --icon=gtk-info Screnshot "Screnshot copied to clipboard"'
 # Take a screenshot of an area
-bindsym --release Shift+Print exec scrot -s -e 'mv $f /home/tudor/Pictures/screenshots/ && notify-send --icon=gtk-info Screnshot "Screenshot Saved"'
-bindsym --release Ctrl+Shift+Print exec scrot -s -e 'xclip -selection c -t image/png < $f && mv $f /home/tudor/Pictures/screenshots/ && notify-send --icon=gtk-info Screnshot "Screnshot copied to clipboard"'
+bindsym --release Ctrl+Print exec scrot -s -e 'xclip -selection c -t image/png < $f && mv $f /home/tudor/Pictures/screenshots/ && notify-send --icon=gtk-info Screnshot "Screnshot copied to clipboard"'
 
 
 # obisidian notes
-for_window [class="obsidian"] move window to position 300 100
-for_window [class="obsidian"] floating enable, move scratchpad, resize set 1800 800
+for_window [class="obsidian"] exec center_window.sh
+for_window [class="obsidian"] move scratchpad
 bindsym $mod+m [class="obsidian"] scratchpad show
+
+for_window [class="FFPWA-01HCWKH3QF1NTWDC2A0XQ00P5T"] exec center_window.sh
+for_window [class="FFPWA-01HCWKH3QF1NTWDC2A0XQ00P5T"] move scratchpad
+bindsym $mod+i [class="FFPWA-01HCWKH3QF1NTWDC2A0XQ00P5T"] scratchpad show
 
 # __        __         _
 # \ \      / /__  _ __| | _____ _ __   __ _  ___ ___

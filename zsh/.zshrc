@@ -1,5 +1,6 @@
 export EDITOR='nvim'
 export VISUAL='nvim'
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
 # Start configuration added by Zim install {{{
 # User configuration sourced by interactive shells
 # -----------------
@@ -41,7 +42,7 @@ zstyle ':zim:zmodule' use 'degit'
 #
 
 # Set a custom prefix for the generated aliases. The default prefix is 'G'.
-zstyle ':zim:git' aliases-prefix 'g'
+zstyle ':zim:git' aliases-prefix 'G'
 
 #
 # input
@@ -281,3 +282,6 @@ eval "$(starship init zsh)"
 # fnm
 export PATH="/home/tudor/.local/share/fnm:$PATH"
 eval "`fnm env`"
+
+# bun completions
+[ -s "/home/tudor/.local/share/reflex/bun/_bun" ] && source "/home/tudor/.local/share/reflex/bun/_bun"
