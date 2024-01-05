@@ -1,6 +1,7 @@
 export EDITOR='nvim'
 export VISUAL='nvim'
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
 # Start configuration added by Zim install {{{
 # User configuration sourced by interactive shells
 # -----------------
@@ -109,7 +110,9 @@ unset key
 # }}} End configuration added by Zim install
 
 # If you come from bash you might have to change your $PATH.
+export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:/home/hyperion/.local/share/flatpak/exports/share:$XDG_DATA_DIRS"
 export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH="${PATH}:${HOME}/.local/share/bob/nvim-bin"
 export PATH="${PATH}:${HOME}/.local/bin/"
 export PATH="$HOME/cave/bits:$PATH"
 export PATH="${PATH}:/usr/local/go/bin"
@@ -131,6 +134,8 @@ alias sshc="nvim ~/.ssh/config"
 alias k="k -Aht"
 alias mk="minikube"
 alias ld="lazydocker"
+alias afz="alias | fzf"
+alias sshc="nvim ~/.ssh/config"
 # Git
 alias gcm="git commit -a --allow-empty-message -m ''"
 alias gdocs="git add docs/* mkdocs.yml && git commit -m 'Update Docs' && git push"
@@ -151,11 +156,11 @@ alias tsess='tmux new -s mysession'
 # nvim
 alias n="nvim"
 alias vc="nvim ~/.vimrc"
-alias nvc="cd ~/.config/nvim && nvim ~/.config/nvim/init.lua"
+alias nvc="cd ~/.config/nvim && nvim"
 # TERM
 alias uconfig="nvim ~/.Xresources"
-alias aconfig="nvim ~/.config/alacritty/alacritty.yml"
-alias kconf="nvim ~/.config/kitty//kitty.conf"
+alias aconfig="nvim ~/.config/alacritty/alacritty.toml"
+alias kconf="nvim ~/.config/kitty/kitty.conf"
 # GPU
 alias gput="python -c 'import torch;print(torch.cuda.is_available())'"
 alias gputf="python -c 'import tensorflow as tf;tf.config.list_physical_devices()'"
@@ -266,22 +271,20 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 
-# pnpm
-export PNPM_HOME="/home/tudor/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
+# # pnpm
+# export PNPM_HOME="/home/tudor/.local/share/pnpm"
+# case ":$PATH:" in
+#   *":$PNPM_HOME:"*) ;;
+#   *) export PATH="$PNPM_HOME:$PATH" ;;
+# esac
 # pnpm end
-#
-source "$HOME/.rye/env"
 export MODULAR_HOME="/home/tudor/.modular"
 export PATH="/home/tudor/.modular/pkg/packages.modular.com_mojo/bin:$PATH"
-eval "$(starship init zsh)"
 
 # fnm
 export PATH="/home/tudor/.local/share/fnm:$PATH"
 eval "`fnm env`"
 
-# bun completions
-[ -s "/home/tudor/.local/share/reflex/bun/_bun" ] && source "/home/tudor/.local/share/reflex/bun/_bun"
+source "$HOME/.rye/env"
+
+eval "$(starship init zsh)"

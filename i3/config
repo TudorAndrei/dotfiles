@@ -35,7 +35,7 @@ for_window [floating] move position center
 for_window [class="awakened-poe-trade"] floating
 
 # start a terminal
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec alacritty
 # start nautilus
 bindsym $mod+p exec pavucontrol
 # kill focused window
@@ -189,10 +189,12 @@ bindsym --release Print exec scrot -e 'xclip -selection c -t image/png < $f && m
 bindsym --release Ctrl+Print exec scrot -s -e 'xclip -selection c -t image/png < $f && mv $f /home/tudor/Pictures/screenshots/ && notify-send --icon=gtk-info Screnshot "Screnshot copied to clipboard"'
 
 
-# obisidian notes
-for_window [class="obsidian"] exec center_window.sh
-for_window [class="obsidian"] move scratchpad
-bindsym $mod+m [class="obsidian"] scratchpad show
+## notes
+for_window [title="^notes$"] floating enable
+for_window [title="^notes$"] resize set 1800 1000
+for_window [title="^notes$"] move position center
+for_window [title="^notes$"] move to scratchpad
+bindsym $mod+m [title="^notes$"] scratchpad show; move position center
 
 for_window [class="FFPWA-01HCWKH3QF1NTWDC2A0XQ00P5T"] exec center_window.sh
 for_window [class="FFPWA-01HCWKH3QF1NTWDC2A0XQ00P5T"] move scratchpad
@@ -229,6 +231,7 @@ bindsym $mod+0 workspace $ws10
 
 # move programs to workspaces
 assign [class="Firefox"]	$ws1
+assign [class="firefox"]	$ws1
 assign [class="vivaldi-stable"]	$ws1
 assign [class="VSCodium"]	$ws2
 assign [class="Zotero"]	$ws3
@@ -241,6 +244,7 @@ assign [class="Skype"]		$ws9
 assign [class="Microsoft Teams - Preview"]		$ws9
 assign [class="discord"]		$ws9
 assign [class="jetbrains-studio"]		$ws4
+assign [class="easyeffects"]		$ws10
 for_window [class="Spotify"] move to workspace $ws10
 
 
@@ -304,14 +308,13 @@ bar {
 
 exec firefox
 exec_always  feh --bg-scale --randomize /home/tudor/Pictures/walls/*
-exec xbindkeys
 exec setxkbmap -option caps:swapescape
 exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
-exec pulseaudio
-exec redshift -c ~/.config/redshift/redshift.conf
+# exec redshift -c ~/.config/redshift/redshift.conf
 exec --no-startup-id xset -dpms
 exec --no-startup-id xset s off
 exec picom
-exec solaar
+# exec solaar
+exec /home/tudor/cave/bits/start_notes.sh
 # exec zotero

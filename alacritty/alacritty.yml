@@ -1,7 +1,8 @@
 font:
-  size: 16.0
+  size: 15.0
   normal:
     family: "Hack Nerd Font Mono"
+    # family: "Commit Mono Nerd Font"
     style: Regular
   bold:
     family: "Hack Nerd Font Mono"
@@ -25,8 +26,8 @@ colors:
     # The dimmed foreground color is calculated automatically if it is not present.
     # If the bright foreground color is not set, or `draw_bold_text_with_bright_colors`
     # is `false`, the normal foreground color will be used.
-    #dim_foreground: '0x9a9a9a'
-    #bright_foreground: '0xffffff'
+    # dim_foreground: '0x9a9a9a'
+    # bright_foreground: '0xffffff'
   # Cursor colors
   #
   # Colors which should be used to draw the terminal cursor. If these are unset,
@@ -77,5 +78,5 @@ colors:
   #
   indexed_colors: []
 # ...
-key_bindings:
-  - {key: Return, mods: Control|Shift, action: SpawnNewInstance}
+# key_bindings:
+#   - {key: Return, mods: Control|Shift, action: SpawnNewInstance}
