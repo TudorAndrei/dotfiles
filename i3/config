@@ -5,7 +5,7 @@
 #                                  |___/
 #
 # Font for window titles. Will also be used by the bar unless a different font
-font pango:Hack Nerd Font 14
+font pango:Hack Nerd Font 11
 
 #   ____
 #  / ___| __ _ _ __  ___
