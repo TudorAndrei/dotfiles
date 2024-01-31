@@ -1,1 +1,90 @@
+@import '_variables.css';
+@import '_global.css';
+@import '_tab-bar.css';
+@import '_navigation-bar.css';
+@import '_bookmarks-bar.css';
+@import '_find-bar.css';
+@import '_side-bar.css';
+@import '_menu.css';
 #TabsToolbar { visibility: collapse !important; }
+
+@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
+/*
+https://github.com/Arty2/userstyles
+@version      0.2.6
+
+1. Find your profile folder `about:support > Profile Folder > Open Folder` or locate the exact profile in use by visiting `about:profiles`.
+2. Create a folder named `chrome` then create a file named userChrome.css inside it and paste the following code.
+3. If userChrome.css doesn’t seem to work, open `about:config` and set `toolkit.legacyUserProfileCustomizations.stylesheets=true`.
+4. Restart Firefox.
+
+Other references:
+Firefox Support forum - Tabs below the URL bar: https://support.mozilla.org/en-US/kb/forum-response-tabs-below-url-bar
+Custom CSS tweaks for Firefox Quantum: https://github.com/Aris-t2/CustomCSSforFx
+*/
+
+/*----------------------------------------------------------
+Tabs to Bottom
+source: https://github.com/Arty2/userstyles/blob/master/tabs_to_bottom.userchrome.css
+
+UI model:
+	#navigator-toolbox
+		#titlebar
+			#toolbar-menubar
+			#TabsToolbar
+		#nav-bar
+		#PersonalToolbar
+	#browser
+*/
+
+/* bring the browser window to the top */
+#browser {
+	-moz-box-ordinal-group: 0 !important;
+	order: 0 !important;
+}
+
+#navigator-toolbox, /* after version 119 */ 
+#navigator-toolbox-background { /* before version 119 */
+	-moz-box-ordinal-group: 1 !important;
+	order: 1 !important;
+}
+
+/* adjust paddings */
+*|*:root[sizemode="normal"] #browser {
+	padding-top: 0 !important;
+}
+
+/* hide tab toolbar when fullscreen */
+#nav-bar[inFullscreen],
+#TabsToolbar[inFullscreen] {
+	display: none;
+}
+
+/* restore top border */
+*|*:root[sizemode="normal"] #browser {
+	border-top: .5px solid AccentColor !important;
+}
+*|*:root[sizemode="normal"]:-moz-window-inactive #browser {
+	border-top-color: rgb(57,57,57) !important;
+}
+
+/* make toolbar border persist on fullscreen */
+*|*:root[sizemode="maximized"] #navigator-toolbox {
+  border-top: .5px solid AccentColor !important;
+  border-bottom: .5px solid AccentColor !important;
+}
+
+/* hide titlebar buttons */
+#TabsToolbar > .titlebar-buttonbox-container {
+	display: none !important;
+}
+
+/*fix pop-ups opening below window*/
+#urlbar[open]{
+  display: flex !important;
+  flex-direction: column-reverse; /* use 'column' if you want to type the URL in center*/
+  bottom: -2px !important;
+  top: auto !important;
+}
+/*.urlbarView-body-inner { border-top: none !important; }*/
+/*.urlbarView { display: none !important; }*/ /* uncomment this to hidden address bar suggestions */

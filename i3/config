@@ -45,6 +45,8 @@ bindsym $mod+o move workspace to output left
 # start dmenu (a program launcher)
 # bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-10' -p 'dmenu%'"
 bindsym $mod+d exec rofi -show drun -theme dracula -font "hack 10"
+# bindsym $mod+d exec rofi -combi-modi  run#drun -theme dracula -font "hack 10" -show combi
+
 bindsym --release $mod+Shift+d exec --no-startup-id rofi -lines 10 -padding 0 -show search -modi search:~/cave/bits/rofi-web-search.py -i -p "Search: " -theme dracula -font 'hack 10'
 
 # start nautilus
