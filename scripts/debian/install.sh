@@ -39,7 +39,9 @@ if [ -n "$ZSH_BIN" ] && [ "$SHELL" != "$ZSH_BIN" ]; then
     echo ""
     echo "==> Setting default shell to Zsh..."
     grep -qx "$ZSH_BIN" /etc/shells || echo "$ZSH_BIN" | $SUDO tee -a /etc/shells >/dev/null
-    chsh -s "$ZSH_BIN" 2>/dev/null || echo "  WARNING: chsh failed, set the login shell manually"
+    if ! $SUDO chsh -s "$ZSH_BIN" "$(id -un)"; then
+        echo "  WARNING: chsh failed; run 'chsh -s $ZSH_BIN' manually"
+    fi
 fi
 
 echo ""
