@@ -123,11 +123,14 @@ services:
 
 # Install herdr plugins listed in configs/herdr/plugins.txt
 herdr-plugins:
+    #!/usr/bin/env bash
+    export PATH="${XDG_DATA_HOME:-$HOME/.local/share}/mise/shims:$PATH"
     bash "{{dotfiles}}/configs/herdr/install-plugins.sh"
 
 # Install nvim plugins at the versions in lazy-lock.json
 nvim-plugins:
     #!/usr/bin/env bash
+    export PATH="${XDG_DATA_HOME:-$HOME/.local/share}/mise/shims:$PATH"
     NVIM="$(command -v nvim || "$HOME/.local/bin/mise" which nvim 2>/dev/null || true)"
     if [ -z "$NVIM" ]; then
       echo "  SKIP: nvim not installed"
