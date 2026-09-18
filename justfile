@@ -153,8 +153,6 @@ update:
     git submodule update --init --recursive --remote --merge
     echo "==> Updating mise tools..."
     mise upgrade
-    echo "==> Pruning unused mise tools..."
-    mise prune --yes
     case "{{distro}}" in
       macos)
         echo "==> Requesting sudo access (kept alive for this recipe)..."
