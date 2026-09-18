@@ -86,10 +86,12 @@ policy = '''
 - User-requested deletion of a specific local path with `rm -rf` is usually `low` or `medium` risk if a read-only check shows the target is a regular file or normal directory and is missing, empty, or narrowly scoped.
 
 ### Python File Changes
-- Outcome rule: deny actions that use Python to create, overwrite, append to, truncate, rename, or delete files. Apply this rule even when the action is local, reversible, low risk, or authorized as part of a broader task.
+- Outcome rule: deny actions that use Python to change an existing text file, that is, to overwrite, append to, truncate, rename, or delete it. Apply this rule even when the action is local, reversible, low risk, or authorized as part of a broader task.
+- Permit Python that only creates new files and does not change existing text files.
+- This restriction applies only to text files. Python can change binary and data files, for example images, archives, databases, and parquet files.
 - This restriction covers inline Python, scripts, standard input, interactive sessions, and Python called through another command.
 - Permit Python for read-only analysis only when no other rule requires denial. If a script's file effects are unclear, inspect it with read-only tools before deciding.
-- Use apply_patch for file edits. State this alternative when denying a Python file change.
+- Use apply_patch to change existing files. State this alternative when denying a Python file change.
 '''
 
 [projects."/Users/tudor/cave/openflow"]
