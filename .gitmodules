@@ -4,3 +4,6 @@
 [submodule "configs/tmux/amux"]
 	path = configs/tmux/amux
 	url = https://github.com/TudorAndrei/amux.git
+[submodule "pi"]
+	path = pi
+	url = https://github.com/TudorAndrei/pi-config.git

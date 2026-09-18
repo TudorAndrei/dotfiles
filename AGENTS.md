@@ -9,6 +9,7 @@ Configuration for programs defined in these dotfiles should only be edited here 
 This is a dotfiles repository containing configuration files for various tools:
 
 - **Neovim** (LazyVim-based) - `nvim/` directory
+- **Pi coding agent** - `pi/` directory (submodule; extensions and global settings)
 - **Zsh** - `configs/zsh/`
 - **Tmux** - `.tmux.conf` and `configs/tmux/`
 - **Herdr** - `configs/herdr/` (agent multiplexer, mirrors the tmux keymap)
@@ -74,6 +75,8 @@ bash -n scripts/bootstrap.sh
 | `configs/herdr/plugins/<id>.toml` | Per-plugin config, linked to `~/.config/herdr/plugins/config/<id>/config.toml` |
 | `configs/herdr/install-plugins.sh` | Installs everything in `plugins.txt` (`just herdr-plugins`) |
 | `configs/herdr/tmux-resurrect-import.py` | Converts a tmux-resurrect save into a herdr-resurrect snapshot |
+| `pi/extensions/` | Pi extensions, linked to `~/.pi/agent/extensions` |
+| `pi/settings.json` | Pi global settings, linked to `~/.pi/agent/settings.json` (sessions, auth and caches stay in `~/.pi/agent`) |
 | `mise.toml` | `[dotfiles]` symlinks, `[bootstrap.directories]`, `[bootstrap.packages]` |
 | `scripts/macos/Brewfile` | Third-party Homebrew taps only; everything else is in `mise.toml` |
 

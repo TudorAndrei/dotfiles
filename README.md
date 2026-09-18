@@ -93,6 +93,7 @@ After the first bootstrap:
 - [ripgrep](https://github.com/BurntSushi/ripgrep)
 - [fnm](https://github.com/Schniz/fnm#completions)
 - [Neovim](https://github.com/TudorAndrei/nvim)
+- [Pi config](https://github.com/TudorAndrei/pi-config)
 
 ### Window manager
 
