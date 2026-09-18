@@ -1,9 +1,6 @@
 [submodule "nvim"]
 	path = nvim
 	url = https://github.com/TudorAndrei/nvim.git
-[submodule "configs/tmux/amux"]
-	path = configs/tmux/amux
-	url = https://github.com/TudorAndrei/amux.git
 [submodule "pi"]
 	path = pi
 	url = git@github.com:TudorAndrei/pi-config.git

@@ -16,7 +16,7 @@ check-distro:
     @echo "OS:     {{os}}"
     @echo "Distro: {{distro}}"
 
-# Fetch git submodules (nvim config, amux, pi config)
+# Fetch git submodules (nvim config, pi config)
 submodules:
     #!/usr/bin/env bash
     set -e
