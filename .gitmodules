@@ -6,4 +6,4 @@
 	url = https://github.com/TudorAndrei/amux.git
 [submodule "pi"]
 	path = pi
-	url = https://github.com/TudorAndrei/pi-config.git
+	url = git@github.com:TudorAndrei/pi-config.git

@@ -144,9 +144,13 @@ nvim-plugins:
 # Run full bootstrap (submodules + symlink + install + defaults + services + plugins)
 bootstrap: submodules symlink install macos-defaults services nvim-plugins herdr-plugins
 
-# Update mise tools and system packages
+# Update submodules, mise tools and system packages
 update:
     #!/usr/bin/env bash
+    echo "==> Updating git submodules..."
+    cd "{{dotfiles}}"
+    git submodule sync --recursive
+    git submodule update --init --recursive --remote --merge
     echo "==> Updating mise tools..."
     mise upgrade
     echo "==> Pruning unused mise tools..."
@@ -195,6 +199,32 @@ update:
       bash "{{dotfiles}}/configs/herdr/install-plugins.sh" --update
     fi
 
-# Add, commit, and push all changes
+# Add, commit, and push all changes (nvim and pi submodules first)
 git msg="update":
-    git add . && git commit -m "{{msg}}" && git push
+    #!/usr/bin/env bash
+    set -e
+    cd "{{dotfiles}}"
+    for sub in nvim pi; do
+      [ -d "$sub/.git" ] || [ -f "$sub/.git" ] || continue
+      if [ -n "$(git -C "$sub" status --porcelain)" ]; then
+        echo "==> Committing $sub..."
+        git -C "$sub" add -A
+        git -C "$sub" commit -m "{{msg}}"
+      fi
+      branch="$(git -C "$sub" symbolic-ref -q --short HEAD || true)"
+      if [ -z "$branch" ]; then
+        echo "==> $sub is on a detached HEAD, not pushing"
+        continue
+      fi
+      if [ -n "$(git -C "$sub" log --oneline "origin/$branch..$branch" 2>/dev/null)" ]; then
+        echo "==> Pushing $sub..."
+        git -C "$sub" push origin "$branch"
+      fi
+    done
+    git add .
+    if git diff --cached --quiet; then
+      echo "==> Nothing to commit in dotfiles"
+    else
+      git commit -m "{{msg}}"
+    fi
+    git push
