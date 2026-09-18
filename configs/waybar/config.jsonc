@@ -1,0 +1,139 @@
+// -*- mode: jsonc -*-
+{
+  "layer": "top",
+  "spacing": 10,
+  "position": "top",
+  "exclusive": true,
+  "passthrough": false,
+  "gtk-layer-shell": true,
+  "height": 0,
+  "modules-left": [
+    "hyprland/workspaces"
+  ],
+  "modules-center": [
+    "clock#calendar",
+    "custom/separator",
+    "clock#time",
+    "custom/separator",
+    "custom/weather"
+  ],
+  "modules-right": [
+    "tray",
+    "custom/notification",
+    "memory",
+    "disk",
+    "cpu",
+    "temperature",
+    "pulseaudio",
+    "battery"
+  ],
+  "hyprland/workspaces": {
+    "all-outputs": true,
+    "sort-by-number": true,
+    "format": "{icon}",
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9: ",
+      "10": "0: ",
+      "urgent": "!",
+      "focused": "*",
+      "default": "",
+      "special": "",
+      "special:notes": ""
+    },
+    "show-special": true
+  },
+  "clock#time": {
+    "format": "{:%I:%M %p}"
+  },
+  "custom/separator": {
+    "format": " | ",
+    "tooltip": false
+  },
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "BAT {capacity}%",
+    "format-full": "BAT {capacity}%",
+    "format-charging": "BAT {capacity}%",
+    "format-plugged": "BAT {capacity}%",
+    "format-alt": "{time}"
+  },
+  "clock#calendar": {
+    "format": "{:%F}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+  },
+  "cpu": {
+    "interval": 10,
+    "format": "CPU {}%",
+    "max-length": 10
+  },
+  "disk": {
+    "interval": 30,
+    "format": "DISK {free}",
+    "path": "/"
+  },
+  "memory": {
+    "interval": 30,
+    "format": "MEM {percentage}%",
+    "max-length": 10
+  },
+  "temperature": {
+    "critical-threshold": 80,
+    "format": "TEMP {temperatureC}°C"
+  },
+  "pulseaudio": {
+    "format": "VOL {volume}%",
+    "format-bluetooth": "BT VOL {volume}%",
+    "tooltip": false,
+    "format-muted": "MUTED",
+    "on-click": "pavucontrol",
+    "on-scroll-up": "pamixer -i 5",
+    "on-scroll-down": "pamixer -d 5",
+    "scroll-step": 5,
+    "ignored-sinks": [
+      "Easy Effects Sink"
+    ]
+  },
+  "tray": {
+    "icon-size": 14,
+    "tooltip": false,
+    "spacing": 10
+  },
+  "custom/weather": {
+    "format": "{}°",
+    "tooltip": true,
+    "interval": 3600,
+    "exec": "wttrbar --location Bucharest",
+    "return-type": "json"
+  },
+  "custom/notification": {
+    "tooltip": false,
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "NOTIF<span foreground='red'><sup>!</sup></span>",
+      "none": "NOTIF",
+      "dnd-notification": "DND<span foreground='red'><sup>!</sup></span>",
+      "dnd-none": "DND",
+      "inhibited-notification": "NOTIF<span foreground='red'><sup>!</sup></span>",
+      "inhibited-none": "NOTIF",
+      "dnd-inhibited-notification": "DND<span foreground='red'><sup>!</sup></span>",
+      "dnd-inhibited-none": "DND"
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  }
+}

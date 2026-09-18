@@ -1,0 +1,7 @@
+paulbkim-dev/vim-herdr-navigation
+third774/herdr-last-workspace
+ntindle/herdr-resurrect
+qu8n/herdr-automatic-rename
+devashish2203/herdr-worktrunk
+hotchpotch/herdr-tiny-fingers
+thanhdat77/herdr-navigator

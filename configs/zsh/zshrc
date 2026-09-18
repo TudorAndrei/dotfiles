@@ -1,0 +1,202 @@
+
+if [[ "$ZSH_PROF" == "1" ]]; then
+  zmodload zsh/zprof
+fi
+
+# Basic options
+setopt autocd
+setopt histignorespace
+setopt sharehistory
+setopt histexpiredupsfirst
+setopt histignoredups
+
+# Vim mode
+bindkey -v
+export KEYTIMEOUT=1
+
+# zsh-defer: run non-prompt hooks after the first prompt paints (installed via `just install`).
+# Falls back to running immediately if the plugin isn't installed yet.
+_zsh_defer_plugin="${XDG_DATA_HOME:-$HOME/.local/share}/zsh-defer/zsh-defer.plugin.zsh"
+if [[ -r "$_zsh_defer_plugin" ]]; then
+    source "$_zsh_defer_plugin"
+else
+    zsh-defer() { "$@"; }
+fi
+
+export BUN_INSTALL="$HOME/.bun"
+
+# stop mediaanaylisisd
+killmedia() {
+  killall -STOP mediaanalysisd mediaanalysisd-access
+}
+# Android Studio
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export ANDROID_NDK=$HOME/Library/Android/sdk/ndk-bundle
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+# Completion - cache for 24 hours
+fpath=(${XDG_DATA_HOME:-$HOME/.local/share}/mise-completions/zsh $fpath)
+autoload -Uz compinit
+dump_file="${ZDOTDIR:-$HOME}/.zcompdump"
+# stat: -c %Y on GNU/Linux, -f %m on macOS/BSD
+dump_mtime=$(stat -c %Y "$dump_file" 2>/dev/null || stat -f %m "$dump_file" 2>/dev/null || echo 0)
+[[ "$dump_mtime" == <-> ]] || dump_mtime=0
+if [[ -f "$dump_file" && $(($(date +%s) - dump_mtime)) -lt 86400 ]]; then
+    compinit -C
+else
+    compinit
+fi
+
+# Syntax highlighting (if installed)
+if command -v zsh-syntax-highlighting &>/dev/null; then
+    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null || true
+fi
+
+# History substring search (if installed)
+if command -v zsh-history-substring-search &>/dev/null; then
+    source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh 2>/dev/null || true
+    bindkey '^[[A' history-substring-search-up
+    bindkey '^[[B' history-substring-search-down
+fi
+
+# Aliases
+alias mt="mise tasks"
+alias n='nvim'
+alias ff='fastfetch'
+alias afz='alias | fzf'
+alias rcp='rsync -r --info=progress2 --info=name0'
+alias speedtest='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
+alias bigfiles='du -hs $(ls -A) | sort -rh | head -5'
+alias k='eza --long --git'
+alias sv='source .venv/bin/activate'
+alias dcu='docker compose up'
+alias dcud='docker compose up -d'
+alias dcd='docker compose down'
+alias rwb='killall -SIGUSR2 .waybar-wrapped'
+alias rhl='hyprctl reload'
+alias ..='cd ..'
+alias oc="opencode"
+alias cterra='codex -m gpt-5.6-terra'
+alias csol='codex -m gpt-5.6-sol'
+alias castral='codex -m gpt-6-astra -c model_reasoning_effort="low"'
+
+alias copus='claude --model opus'
+alias cfab='claude --model fable'
+alias cson='claude --model sonnet'
+alias wget='curl -LO'
+alias tns='tmux new -s $(basename $PWD)'
+alias hns='herdr workspace create --cwd "$PWD" --label "$(basename $PWD)" --focus'
+alias ltmux='tmux -L lazytmux -f /Users/tudor/cave/LazyTmux/lazytmux.tmux new-session -A -s lazytmux'
+
+# GPU
+alias gput="python -c 'import torch;print(torch.cuda.is_available())'"
+alias gputf="python -c 'import tensorflow as tf;tf.config.list_physical_devices()'"
+
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$PATH:$HOME/.maestro/bin"
+
+[[ ! -r "$HOME/.opam/opam-init/init.zsh" ]] || source "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null
+autoload -Uz add-zsh-hook
+add-zsh-hook -d precmd _opam_env_hook 2>/dev/null
+
+eval "$(mise activate zsh)"
+
+# Starship prompt
+if command -v starship &>/dev/null; then
+    eval "$(starship init zsh)"
+fi
+
+# Zoxide hook (deferred)
+if command -v zoxide &>/dev/null; then
+    zsh-defer eval "$(zoxide init zsh)"
+fi
+
+# FZF key bindings (deferred)
+if command -v fzf &>/dev/null; then
+    zsh-defer eval "$(fzf --zsh)"
+fi
+
+# PDF compress function
+pdfcompress() {
+    gs -q -dNOPAUSE -dBATCH -dSAFER -sDEVICE=pdfwrite -dCompatibilityLevel=1.3 -dPDFSETTINGS=/screen -dEmbedAllFonts=true -dSubsetFonts=true -dColorImageDownsampleType=/Bicubic -dColorImageResolution=144 -dGrayImageDownsampleType=/Bicubic -dGrayImageResolution=144 -dMonoImageDownsampleType=/Bicubic -dMonoImageResolution=144 -sOutputFile=${1%.*}.compressed.pdf $1
+}
+
+# Environment variables
+export EDITOR=nvim
+export VISUAL=nvim
+export TERMINAL="${TERMINAL:-ghostty}"
+
+# Keep terminal shells from inheriting a stale working directory.
+if [[ "${TERM_PROGRAM:-}" =~ ^(ghostty|alacritty)$ && -z "${TMUX:-}" && -z "${HERDR_PANE_ID:-}" && "$PWD" != "$HOME" ]]; then
+    cd "$HOME"
+fi
+
+# History
+HISTFILE="$HOME/.local/state/zsh/history"
+HISTSIZE=10000
+SAVEHIST=10000
+
+
+if [[ "$ZSH_PROF" == "1" ]]; then
+    zprof
+fi
+# Create local tmux session for dev or main same as worktree setup
+flowmux() {
+  local session="$(git rev-parse --abbrev-ref HEAD | tr '/' '-')"
+
+  if tmux has-session -t "$session" 2>/dev/null; then
+    tmux attach -t "$session"
+  else
+    tmux new-session -d -s "$session" -n dev-servers
+    tmux new-window -t "$session:" -n agent
+    tmux select-window -t "$session:agent"
+    tmux attach -t "$session"
+  fi
+}
+
+# Create worktree from dev and attach to tmux session
+WT_TMUX_EXEC='S=wt-{{ branch | sanitize }}; while ! tmux has-session -t "$S" 2>/dev/null; do sleep 0.2; done; if [ -n "$TMUX" ]; then tmux switch-client -t "$S" 2>/dev/null || tmux attach -t "$S"; else tmux attach -t "$S"; fi'
+
+wtsw() {
+  wt switch --create "$1" --base dev --no-cd -x "$WT_TMUX_EXEC"
+}
+
+# Attach to current worktree's tmux session (dev-servers window)
+wtdev() {
+  local session="wt-$(git rev-parse --abbrev-ref HEAD | tr '/' '-')"
+  tmux select-window -t "$session:dev-servers" 2>/dev/null
+  tmux attach -t "$session"
+}
+
+wtrm() {
+  wt remove "$1" --force -D
+}
+
+# Reuse an existing agent (macOS provides one via launchd) instead of spawning one per shell
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    eval "$(ssh-agent -s)" > /dev/null
+fi
+
+# Give mise (and other tools) a GitHub token for higher API rate limits
+if command -v gh >/dev/null 2>&1; then
+  export GITHUB_TOKEN="${GITHUB_TOKEN:-$(gh auth token 2>/dev/null)}"
+fi
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+
+if [ -n "$HERDR_PANE_ID" ]; then
+  for _f in ${HOME}/.config/herdr/plugins/github/herdr-automatic-rename-*/shell/hook.zsh(N); do
+    source $_f
+    break
+  done
+fi
+
+# Hide Homebrew environment hints
+export HOMEBREW_NO_ENV_HINTS=1
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"

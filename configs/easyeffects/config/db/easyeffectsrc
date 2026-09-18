@@ -1,0 +1,17 @@
+[Presets]
+lastLoadedOutputPreset=Perfect EQ
+
+[StreamInputs]
+inputDevice=alsa_input.pci-0000_08_00.6.analog-stereo
+
+[StreamOutputs]
+mostUsedPresets=Perfect EQ
+outputDevice=alsa_output.pci-0000_08_00.6.analog-stereo
+plugins=equalizer#0
+usedPresets=Perfect EQ:1
+visiblePlugin=equalizer#0
+
+[Window]
+height=1373
+visiblePresetSheetPage=autoloadingPage
+width=2516

@@ -1,0 +1,86 @@
+[env]
+TERM = "xterm-256color"
+
+[window]
+startup_mode = "Windowed"
+dynamic_title = true
+dynamic_padding = false
+decorations = "Full"
+opacity = 1.0
+blur = false
+option_as_alt = "None"
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[font]
+size = 10.0
+
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "JetBrainsMono Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "JetBrainsMono Nerd Font"
+style = "Italic"
+
+[font.bold_italic]
+family = "JetBrainsMono Nerd Font"
+style = "Bold Italic"
+
+[selection]
+save_to_clipboard = true
+
+[cursor]
+unfocused_hollow = true
+
+[mouse]
+hide_when_typing = false
+
+[colors.primary]
+background = "#282a36"
+foreground = "#f8f8f2"
+
+[colors.cursor]
+text = "#282a36"
+cursor = "#f8f8f2"
+
+[colors.selection]
+text = "#f8f8f2"
+background = "#44475a"
+
+[colors.normal]
+black = "#21222c"
+red = "#ff5555"
+green = "#50fa7b"
+yellow = "#f1fa8c"
+blue = "#bd93f9"
+magenta = "#ff79c6"
+cyan = "#8be9fd"
+white = "#f8f8f2"
+
+[colors.bright]
+black = "#6272a4"
+red = "#ff6e6e"
+green = "#69ff94"
+yellow = "#ffffa5"
+blue = "#d6acff"
+magenta = "#ff92df"
+cyan = "#a4ffff"
+white = "#ffffff"
+
+[terminal]
+shell = { program = "/usr/bin/zsh", args = ["-l"] }
+
+[[hints.enabled]]
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini://|gopher://|https://|http://|news:|file://|git://|ssh:|ftp://)[^\\u0000-\\u001F\\u007F-\\u009F<>\\\"\\s{-}\\^\\u27e8\\u27e9`]+"
+hyperlinks = true
+post_processing = true
+persist = false
+mouse = { enabled = true }
+command = "xdg-open"

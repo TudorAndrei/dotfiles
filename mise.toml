@@ -1,0 +1,313 @@
+[tools]
+bitwarden = "latest"
+just = "latest"
+"npm:ctx7" = "latest"
+
+[bootstrap.hooks]
+post-defaults = "killall Dock || true"
+post-dotfiles = '''
+if [ "$(uname -s)" = "Darwin" ]; then
+  agent="com.tudor.ghostty-config-reload"
+  plist="$HOME/Library/LaunchAgents/$agent.plist"
+  if [ -e "$plist" ]; then
+    launchctl bootout "gui/$(id -u)/$agent" 2>/dev/null || true
+    launchctl bootstrap "gui/$(id -u)" "$plist"
+  fi
+fi
+'''
+
+[bootstrap.macos.dock]
+autohide = true
+autohide_delay = 1000000.0
+autohide_time_modifier = 0.0
+tilesize = 1
+show_recents = false
+orientation = "bottom"
+
+[bootstrap.macos.defaults."com.apple.dock"]
+"persistent-apps" = []
+"persistent-others" = []
+"no-bouncing" = true
+
+[bootstrap.macos.defaults.NSGlobalDomain]
+CGDisableCursorLocationMagnification = true
+_HIHideMenuBar = false
+AppleMenuBarVisibleInFullscreen = true
+
+[bootstrap.macos.defaults."com.apple.controlcenter"]
+"NSStatusItem Visible AutoHide" = false
+
+[bootstrap.directories."~/.local/share/zsh"]
+[bootstrap.directories."~/.local/state/zsh"]
+[bootstrap.directories."~/.tmux/plugins"]
+[bootstrap.directories."~/.local/state/tmux/resurrect"]
+
+[dotfiles]
+"~/.config/zsh" = { source = "configs/zsh", mode = "symlink" }
+"~/.config/ghostty" = { source = "configs/ghostty", mode = "symlink" }
+"~/.config/tmux" = { source = "configs/tmux", mode = "symlink" }
+"~/.config/barrs" = { source = "configs/barrs", mode = "symlink" }
+"~/.config/uv" = { source = "configs/uv", mode = "symlink" }
+"~/.config/nvim" = { source = "nvim", mode = "symlink" }
+"~/.config/starship.toml" = { source = "starship.toml", mode = "symlink" }
+"~/.config/mise/config.toml" = { source = "configs/mise/config.toml", mode = "symlink" }
+"~/.config/herdr/config.toml" = { source = "configs/herdr/config.toml", mode = "symlink" }
+"~/.config/herdr/plugins/config/herdr-navigator/config.toml" = { source = "configs/herdr/plugins/herdr-navigator.toml", mode = "symlink" }
+"~/.config/herdr-automatic-rename/config.sh" = { source = "configs/herdr/plugins/herdr-automatic-rename.sh", mode = "symlink" }
+"~/.config/vicinae/settings.json" = { source = "configs/vicinae/settings.json", mode = "symlink" }
+"~/.gitconfig" = { source = "gitconfig/gitconfig", mode = "symlink" }
+"~/.gitignore_global" = { source = "gitconfig/gitignore_global", mode = "symlink" }
+"~/.gitconfig-pythia" = { source = "gitconfig/gitconfig-pythia", mode = "symlink" }
+"~/.gitconfig-cave" = { source = "gitconfig/gitconfig-cave", mode = "symlink" }
+"~/.tmux.conf" = { source = "configs/tmux/tmux.conf", mode = "symlink" }
+"~/.zshrc" = { source = "configs/zsh/zshrc", mode = "symlink" }
+"~/.zshenv" = { source = "configs/zsh/zshenv", mode = "symlink" }
+"~/.bunfig.toml" = { source = "configs/bun/bunfig.toml", mode = "symlink" }
+"~/.cargo/config.toml" = { source = "configs/cargo/config.toml", mode = "symlink" }
+"~/.codex/config.toml" = { source = "configs/codex/config.toml", mode = "symlink" }
+"~/.claude/CLAUDE.md" = { source = "configs/claude/CLAUDE.md.tera", mode = "template" }
+"~/.codex/AGENTS.md" = { source = "configs/codex/AGENTS.md.tera", mode = "template" }
+
+[dotfiles."~/.config/rift"]
+source = "configs/rift"
+mode = "symlink"
+variants = [{ os = "macos" }]
+
+[dotfiles."~/.config/menuanywhere"]
+source = "configs/macos/menuanywhere"
+mode = "symlink"
+variants = [{ os = "macos" }]
+
+[dotfiles."~/Library/LaunchAgents/com.tudor.ghostty-config-reload.plist"]
+source = "configs/macos/launchagents/com.tudor.ghostty-config-reload.plist"
+mode = "symlink"
+variants = [{ os = "macos" }]
+
+[dotfiles."~/.config/hypr"]
+source = "configs/hypr"
+mode = "symlink"
+variants = [{ os = "linux" }]
+
+[dotfiles."~/.config/waybar"]
+source = "configs/waybar"
+mode = "symlink"
+variants = [{ os = "linux" }]
+
+[dotfiles."~/.config/gammastep"]
+source = "configs/gammastep"
+mode = "symlink"
+variants = [{ os = "linux" }]
+
+[dotfiles."~/.config/swaync"]
+source = "configs/swaync"
+mode = "symlink"
+variants = [{ os = "linux" }]
+
+[dotfiles."~/.config/easyeffects"]
+source = "configs/easyeffects"
+mode = "symlink"
+variants = [{ os = "linux" }]
+
+[dotfiles."~/.config/alacritty"]
+source = "configs/alacritty"
+mode = "symlink"
+variants = [{ os = "linux" }]
+
+[dotfiles."~/.config/fontconfig"]
+source = "configs/fontconfig"
+mode = "symlink"
+variants = [{ os = "linux" }]
+
+[dotfiles."~/.config/systemd/user"]
+source = "configs/systemd/user"
+mode = "symlink-each"
+variants = [{ os = "linux" }]
+
+[dotfiles."~/.config/environment.d"]
+source = "configs/environment.d"
+mode = "symlink-each"
+variants = [{ os = "linux" }]
+
+[bootstrap.packages]
+"brew:ffmpeg" = { os = "macos" }
+"brew:ghostscript" = { os = "macos" }
+"brew:gnupg" = { os = "macos" }
+"brew:imagemagick" = { os = "macos" }
+"brew:lsof" = { os = "macos" }
+"brew:mlx-lm" = { os = "macos" }
+"brew:mole" = { os = "macos" }
+"brew:pinentry-mac" = { os = "macos" }
+"brew:postgresql@17" = { os = "macos" }
+"brew:qemu" = { os = "macos" }
+"brew:sox" = { os = "macos" }
+"brew:sshfs" = { os = "macos" }
+"brew:switchaudio-osx" = { os = "macos" }
+"brew:tectonic" = { os = "macos" }
+"brew:tig" = { os = "macos" }
+"brew:tpm" = { os = "macos" }
+"brew:unar" = { os = "macos" }
+"brew:watchman" = { os = "macos" }
+"brew:wget" = { os = "macos" }
+
+"brew-cask:anki" = { os = "macos" }
+"brew-cask:antigravity" = { os = "macos" }
+"brew-cask:antigravity-ide" = { os = "macos" }
+"brew-cask:anydesk" = { os = "macos" }
+"brew-cask:bitwarden" = { os = "macos" }
+"brew-cask:blackhole-2ch" = { os = "macos" }
+"brew-cask:block-buzz" = { os = "macos" }
+"brew-cask:caffeine" = { os = "macos" }
+"brew-cask:claude" = { os = "macos" }
+"brew-cask:cursor" = { os = "macos" }
+"brew-cask:dbx" = { os = "macos" }
+"brew-cask:discord" = { os = "macos" }
+"brew-cask:fluidvoice" = { os = "macos" }
+"brew-cask:font-carlito" = { os = "macos" }
+"brew-cask:font-fontawesome" = { os = "macos" }
+"brew-cask:font-hack-nerd-font" = { os = "macos" }
+"brew-cask:font-ioskeley-mono" = { os = "macos" }
+"brew-cask:font-jetbrains-mono-nerd-font" = { os = "macos" }
+"brew-cask:font-symbols-only-nerd-font" = { os = "macos" }
+"brew-cask:ghostty" = { os = "macos" }
+"brew-cask:google-chrome" = { os = "macos" }
+"brew-cask:helium-browser" = { os = "macos" }
+"brew-cask:iina" = { os = "macos" }
+"brew-cask:linear" = { os = "macos" }
+"brew-cask:localsend" = { os = "macos" }
+"brew-cask:love" = { os = "macos" }
+"brew-cask:mactex-no-gui" = { os = "macos" }
+"brew-cask:ngrok" = { os = "macos" }
+"brew-cask:obs" = { os = "macos" }
+"brew-cask:obsidian" = { os = "macos" }
+"brew-cask:orbstack" = { os = "macos" }
+"brew-cask:petrichor" = { os = "macos" }
+"brew-cask:protonvpn" = { os = "macos" }
+"brew-cask:raycast" = { os = "macos" }
+"brew-cask:sf-symbols" = { os = "macos" }
+"brew-cask:signal" = { os = "macos" }
+"brew-cask:slack" = { os = "macos" }
+"brew-cask:spotify" = { os = "macos" }
+"brew-cask:stats" = { os = "macos" }
+"brew-cask:stremio" = { os = "macos" }
+"brew-cask:studio-3t" = { os = "macos" }
+"brew-cask:studio-3t-community" = { os = "macos" }
+"brew-cask:syncthing-app" = { os = "macos" }
+"brew-cask:t3-code" = { os = "macos" }
+"brew-cask:telegram" = { os = "macos" }
+"brew-cask:visual-studio-code" = { os = "macos" }
+"brew-cask:vscodium" = { os = "macos" }
+"brew-cask:zed" = { os = "macos" }
+"brew-cask:zen" = { os = "macos" }
+"brew-cask:zotero" = { os = "macos" }
+
+"pacman:alacritty" = "latest"
+"pacman:appmenu-gtk-module" = "latest"
+"pacman:blueman" = "latest"
+"pacman:brightnessctl" = "latest"
+"pacman:btop" = "latest"
+"pacman:buildkit" = "latest"
+"pacman:cachyos-gaming-applications" = "latest"
+"pacman:cachyos-gaming-meta" = "latest"
+"pacman:cliphist" = "latest"
+"pacman:code" = "latest"
+"pacman:discord" = "latest"
+"pacman:docker" = "latest"
+"pacman:docker-buildx" = "latest"
+"pacman:dust" = "latest"
+"pacman:eza" = "latest"
+"pacman:fastfetch" = "latest"
+"pacman:firefox" = "latest"
+"pacman:fnm" = "latest"
+"pacman:fzf" = "latest"
+"pacman:gamescope" = "latest"
+"pacman:gnome-keyring" = "latest"
+"pacman:go" = "latest"
+"pacman:goverlay" = "latest"
+"pacman:grimblast-git" = "latest"
+"pacman:hypridle" = "latest"
+"pacman:hyprcursor" = "latest"
+"pacman:hyprland" = "latest"
+"pacman:hyprlock" = "latest"
+"pacman:hyprpicker" = "latest"
+"pacman:hyprpolkitagent" = "latest"
+"pacman:hyprshot" = "latest"
+"pacman:k9s" = "latest"
+"pacman:kubectl" = "latest"
+"pacman:lazygit" = "latest"
+"pacman:libdbusmenu-glib" = "latest"
+"pacman:libsecret" = "latest"
+"pacman:libva-nvidia-driver" = "latest"
+"pacman:lsof" = "latest"
+"pacman:lua" = "latest"
+"pacman:lutris" = "latest"
+"pacman:mangohud" = "latest"
+"pacman:mpv" = "latest"
+"pacman:network-manager-applet" = "latest"
+"pacman:nodejs" = "latest"
+"pacman:npm" = "latest"
+"pacman:nvidia-container-toolkit" = "latest"
+"pacman:obs-studio" = "latest"
+"pacman:obsidian" = "latest"
+"pacman:opam" = "latest"
+"pacman:openrazer-daemon" = "latest"
+"pacman:openrazer-driver-dkms" = "latest"
+"pacman:pamixer" = "latest"
+"pacman:pnpm" = "latest"
+"pacman:proton-cachyos-slr" = "latest"
+"pacman:python" = "latest"
+"pacman:qbittorrent" = "latest"
+"pacman:qt5-wayland" = "latest"
+"pacman:qt6-wayland" = "latest"
+"pacman:rog-control-center" = "latest"
+"pacman:rust" = "latest"
+"pacman:signal-desktop" = "latest"
+"pacman:speech-dispatcher" = "latest"
+"pacman:starship" = "latest"
+"pacman:steam" = "latest"
+"pacman:swaybg" = "latest"
+"pacman:swaync" = "latest"
+"pacman:syncthing" = "latest"
+"pacman:texlive-bin" = "latest"
+"pacman:tmux" = "latest"
+"pacman:ttf-jetbrains-mono-nerd" = "latest"
+"pacman:ttf-nerd-fonts-symbols" = "latest"
+"pacman:ttf-nerd-fonts-symbols-mono" = "latest"
+"pacman:vlc" = "latest"
+"pacman:waybar" = "latest"
+"pacman:wl-clip-persist" = "latest"
+"pacman:wl-clipboard" = "latest"
+"pacman:xdg-desktop-portal-hyprland" = "latest"
+"pacman:yt-dlp" = "latest"
+"pacman:zoxide" = "latest"
+"pacman:zsh" = "latest"
+
+"aur:polychromatic" = "latest"
+"aur:spicetify-cli" = "latest"
+"aur:spotify" = "latest"
+"aur:tmux-plugin-manager" = "latest"
+"aur:zotero-bin" = "latest"
+
+"apt:build-essential" = "latest"
+"apt:ca-certificates" = "latest"
+"apt:curl" = "latest"
+"apt:ffmpeg" = "latest"
+"apt:fontconfig" = "latest"
+"apt:ghostscript" = "latest"
+"apt:git" = "latest"
+"apt:git-lfs" = "latest"
+"apt:gnupg" = "latest"
+"apt:imagemagick" = "latest"
+"apt:libatomic1" = "latest"
+"apt:libncurses-dev" = "latest"
+"apt:libreadline-dev" = "latest"
+"apt:libssl-dev" = "latest"
+"apt:lsof" = "latest"
+"apt:pkg-config" = "latest"
+"apt:python3-venv" = "latest"
+"apt:tig" = "latest"
+"apt:tmux" = "latest"
+"apt:unar" = "latest"
+"apt:unzip" = "latest"
+"apt:wget" = "latest"
+"apt:zip" = "latest"
+"apt:zsh" = "latest"

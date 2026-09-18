@@ -1,0 +1,9 @@
+[user]
+  email = tudorandrei.dumitrascu@gmail.com
+  name = TudorAndrei
+[github]
+  user = "TudorAndrei"
+[url "personal"]
+  insteadOf = github.com
+[core]
+  sshCommand = "ssh -i ~/.ssh/github"

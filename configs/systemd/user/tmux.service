@@ -1,0 +1,19 @@
+[Unit]
+Description=tmux default session (detached)
+Documentation=man:tmux(1)
+After=graphical-session.target
+Wants=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=forking
+ExecStart=/home/tudor/.config/tmux/start-tmux-wayland.sh
+
+ExecStop=/home/tudor/.config/tmux/plugins/tmux-resurrect/scripts/save.sh
+ExecStop=/usr/bin/tmux kill-server
+KillMode=control-group
+
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target

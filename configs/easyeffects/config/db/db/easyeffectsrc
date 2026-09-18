@@ -1,0 +1,15 @@
+[Presets]
+lastLoadedOutputPreset=Perfect EQ
+
+[StreamInputs]
+inputDevice=alsa_input.pci-0000_08_00.6.analog-stereo
+
+[StreamOutputs]
+mostUsedPresets=Perfect EQ,Bass Enhancing + Perfect EQ
+outputDevice=alsa_output.pci-0000_08_00.6.analog-stereo
+plugins=equalizer#0
+usedPresets=Bass Enhancing + Perfect EQ:1,Perfect EQ:1
+
+[Window]
+height=1373
+width=2516

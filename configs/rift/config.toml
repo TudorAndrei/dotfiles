@@ -1,0 +1,133 @@
+[settings]
+default_disable = false
+animate = true
+animation_duration = 0.2
+animation_fps = 60
+hot_reload = true
+mouse_follows_focus = true
+mouse_hides_on_focus = false
+run_on_start = []
+
+[settings.layout]
+mode = "traditional"
+
+[settings.layout.gaps.outer]
+top = 0
+left = 0
+bottom = 0
+right = 0
+
+[settings.layout.gaps.inner]
+horizontal = 2
+vertical = 2
+
+
+[settings.gestures]
+enabled = true
+fingers = 3
+skip_empty = true
+
+[virtual_workspaces]
+enabled = true
+default_workspace_count = 9
+preserve_focus_per_workspace = true
+workspace_auto_back_and_forth = true
+workspace_rules = [{ workspace = 8, layout = "stack" }]
+
+[[virtual_workspaces.app_rules]]
+app_id = "com.apple.finder"
+floating = true
+
+[[virtual_workspaces.app_rules]]
+title_substring = "Preferences"
+floating = true
+
+[[virtual_workspaces.app_rules]]
+title_substring = "Settings"
+floating = true
+
+[[virtual_workspaces.app_rules]]
+app_id = "com.apple.systempreferences"
+floating = true
+
+[[virtual_workspaces.app_rules]]
+app_id = "app.zen-browser.zen"
+workspace = 0
+
+[[virtual_workspaces.app_rules]]
+app_id = "app.zen-browser.zen"
+ax_subrole = "AXDialog"
+floating = true
+
+[[virtual_workspaces.app_rules]]
+app_id = "com.linear"
+workspace = 6
+
+[[virtual_workspaces.app_rules]]
+app_id = "com.spotify.client"
+workspace = 7
+
+[[virtual_workspaces.app_rules]]
+app_id = "org.telegram.desktop"
+workspace = 8
+
+[[virtual_workspaces.app_rules]]
+app_id = "org.whispersystems.signal-desktop"
+workspace = 8
+
+[[virtual_workspaces.app_rules]]
+app_id = "com.hnc.Discord"
+workspace = 8
+
+[[virtual_workspaces.app_rules]]
+app_id = "com.tinyspeck.slackmacgap"
+workspace = 8
+
+[keys]
+# Activate rift (required on startup)
+"Alt + Z" = "toggle_space_activated"
+
+# Focus navigation
+"Alt + H" = { move_focus = "left" }
+"Alt + J" = { move_focus = "down" }
+"Alt + K" = { move_focus = "up" }
+"Alt + L" = { move_focus = "right" }
+
+# Move windows
+"Alt + Shift + H" = { move_node = "left" }
+"Alt + Shift + J" = { move_node = "down" }
+"Alt + Shift + K" = { move_node = "up" }
+"Alt + Shift + L" = { move_node = "right" }
+
+# Workspaces
+"Alt + 1" = { switch_to_workspace = 0 }
+"Alt + 2" = { switch_to_workspace = 1 }
+"Alt + 3" = { switch_to_workspace = 2 }
+"Alt + 4" = { switch_to_workspace = 3 }
+"Alt + 5" = { switch_to_workspace = 4 }
+"Alt + 6" = { switch_to_workspace = 5 }
+"Alt + 7" = { switch_to_workspace = 6 }
+"Alt + 8" = { switch_to_workspace = 7 }
+"Alt + 9" = { switch_to_workspace = 8 }
+
+# Move window to workspace
+"Alt + Shift + 1" = { move_window_to_workspace = 0 }
+"Alt + Shift + 2" = { move_window_to_workspace = 1 }
+"Alt + Shift + 3" = { move_window_to_workspace = 2 }
+"Alt + Shift + 4" = { move_window_to_workspace = 3 }
+"Alt + Shift + 5" = { move_window_to_workspace = 4 }
+"Alt + Shift + 6" = { move_window_to_workspace = 5 }
+"Alt + Shift + 7" = { move_window_to_workspace = 6 }
+"Alt + Shift + 8" = { move_window_to_workspace = 7 }
+"Alt + Shift + 9" = { move_window_to_workspace = 8 }
+
+# Window state
+"Alt + F" = "toggle_fullscreen"
+"Alt + Shift + Space" = "toggle_window_floating"
+
+# Launch terminal
+"Alt + Return" = { exec = ["open", "-na", "Ghostty"] }
+
+# Resize
+"Alt + Shift + Equal" = "resize_window_grow"
+"Alt + Shift + Minus" = "resize_window_shrink"

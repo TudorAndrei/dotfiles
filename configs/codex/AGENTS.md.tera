@@ -1,0 +1,1 @@
+{{ (read_file(path="configs/codex/AGENTS_HEADER.md") ~ "\n" ~ read_file(path="configs/agents/COMMON.md") ~ "\n" ~ read_file(path="configs/codex/AGENTS_FOOTER.md")) | trim }}

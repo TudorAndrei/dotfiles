@@ -1,0 +1,26 @@
+font-family = Ioskeley Mono
+font-family = JetBrainsMono Nerd Font
+font-family = Symbols Nerd Font
+font-size = 17
+font-thicken = true
+font-thicken-strength = 64
+alpha-blending = linear-corrected
+theme = Dracula
+working-directory = home
+quit-after-last-window-closed = true
+quit-after-last-window-closed-delay = 5m
+confirm-close-surface = false
+clipboard-read = allow
+clipboard-write = allow
+clipboard-paste-protection = false
+app-notifications = no-clipboard-copy
+
+window-decoration = false
+keybind = super+t=ignore
+
+# Link handling
+link-url = true
+mouse-shift-capture = false
+
+# Auto-install terminfo on remote hosts over SSH so xterm-ghostty works
+shell-integration-features = ssh-env,ssh-terminfo

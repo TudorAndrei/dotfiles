@@ -1,0 +1,32 @@
+[user]
+    name = TudorAndrei
+    email = tudorandrei.dumitrascu@gmail.com
+	signingkey = 942B3E71D73EADFB
+
+[includeIf "gitdir:~/pythia/"]
+    path = ~/.gitconfig-pythia
+
+[includeIf "gitdir:~/cave/"]
+    path = ~/.gitconfig-cave
+
+[includeIf "gitdir:~/cave/footprints/"]
+    path = ~/.gitconfig-footprints
+
+[includeIf "gitdir:~/work/"]
+    path = ~/.gitconfig-work
+[init]
+	defaultBranch = main
+[push]
+	autoSetupRemote = true
+[pull]
+	rebase = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[core]
+	excludesfile = ~/.gitignore_global
+	untrackedCache = true
+[gpg]
+	program = /opt/homebrew/bin/gpg
