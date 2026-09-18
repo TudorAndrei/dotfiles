@@ -5,12 +5,20 @@
 On a new machine (macOS, Arch-based, or Debian/Ubuntu):
 
 ```
-curl -fsSL https://tudorandrei.github.io/bootstrap.sh | bash
+bash -c "$(curl -fsSL https://tudorandrei.github.io/bootstrap.sh)"
 ```
 
-That script installs git if necessary, clones this repo into `~/dotfiles` (or
-updates it), and then runs `scripts/bootstrap.sh`. Its source is `bootstrap.sh`
-in the `TudorAndrei/tudorandrei.github.io` repo.
+Use this form, not `curl … | bash`. It keeps the terminal on stdin, so the
+GitHub login can ask its questions.
+
+The script installs git, clones this repo into `~/dotfiles` over HTTPS (or
+updates it), makes `~/.ssh/github` and the `Host github.com` entry in
+`~/.ssh/config` if they are absent, runs `gh auth login` when no key
+authenticates, switches origin and all submodules to SSH, and then runs
+`scripts/bootstrap.sh`. Its source is `bootstrap.sh` in the
+`TudorAndrei/tudorandrei.github.io` repo.
+
+`DOTFILES_SKIP_AUTH=1` keeps HTTPS remotes and asks nothing.
 
 To do the same steps manually:
 
