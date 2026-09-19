@@ -5,7 +5,6 @@ bun = "latest"
 cargo-binstall = "latest"
 "cargo:ast-grep" = "latest"
 cursor-agent = "latest"
-difftastic = "latest"
 "cargo:du-dust" = { version = "latest", default-features = false }
 "cargo:jinja-lsp" = "latest"
 "cargo:selene" = "latest"
@@ -57,6 +56,7 @@ oxlint = "latest"
 "pipx:zotero-cli" = "latest"
 pnpm = "latest"
 ripgrep = "latest"
+ruby = "latest"
 ruff = "latest"
 rumdl = "latest"
 rust = "latest"
@@ -85,6 +85,10 @@ typst = "latest"
 "github:TudorAndrei/ste-cli" = "latest"
 "npm:markdownlint-cli" = "0.49.1"
 "npm:tokenburnmarket" = "latest"
+
+[tools."github:Wilfred/difftastic"]
+version = "latest"
+asset_pattern = 'difft-{{ version }}-{{ arch(x64="x86_64", arm64="aarch64") }}-{{ os(macos="apple-darwin", linux="unknown-linux-gnu") }}.tar.gz'
 
 [tools."http:bend"]
 version = "2.0.5"

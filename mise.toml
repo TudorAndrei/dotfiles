@@ -130,23 +130,42 @@ source = "configs/environment.d"
 mode = "symlink-each"
 variants = [{ os = "linux" }]
 
+[bootstrap.brew.taps]
+"acsandmann/tap" = "https://github.com/acsandmann/homebrew-tap.git"
+"tudorandrei/barrs" = "https://github.com/TudorAndrei/barrs.git"
+
 [bootstrap.packages]
+"brew:borgbackup" = { os = "macos" }
+"brew:cocoapods" = { os = "macos" }
 "brew:ffmpeg" = { os = "macos" }
 "brew:ghostscript" = { os = "macos" }
 "brew:gnupg" = { os = "macos" }
+"brew:googleworkspace-cli" = { os = "macos" }
+"brew:helm" = { os = "macos" }
+"brew:herdr" = { os = "macos" }
 "brew:imagemagick" = { os = "macos" }
+"brew:kind" = { os = "macos" }
+"brew:libimobiledevice" = { os = "macos" }
+"brew:llama.cpp" = { os = "macos" }
 "brew:lsof" = { os = "macos" }
+"brew:lua" = { os = "macos" }
+"brew:luarocks" = { os = "macos" }
 "brew:mlx-lm" = { os = "macos" }
 "brew:mole" = { os = "macos" }
+"brew:mysql-client" = { os = "macos" }
 "brew:pinentry-mac" = { os = "macos" }
 "brew:postgresql@17" = { os = "macos" }
 "brew:qemu" = { os = "macos" }
+"brew:acsandmann/tap/rift" = { os = "macos" }
+"brew:sevenzip" = { os = "macos" }
+"brew:smartmontools" = { os = "macos" }
 "brew:sox" = { os = "macos" }
-"brew:sshfs" = { os = "macos" }
 "brew:switchaudio-osx" = { os = "macos" }
 "brew:tectonic" = { os = "macos" }
+"brew:television" = { os = "macos" }
 "brew:tig" = { os = "macos" }
 "brew:tpm" = { os = "macos" }
+"brew:tudorandrei/barrs/barrs" = { os = "macos" }
 "brew:unar" = { os = "macos" }
 "brew:watchman" = { os = "macos" }
 "brew:wget" = { os = "macos" }
@@ -178,10 +197,10 @@ variants = [{ os = "linux" }]
 "brew-cask:localsend" = { os = "macos" }
 "brew-cask:love" = { os = "macos" }
 "brew-cask:mactex-no-gui" = { os = "macos" }
-"brew-cask:ngrok" = { os = "macos" }
 "brew-cask:obs" = { os = "macos" }
 "brew-cask:obsidian" = { os = "macos" }
 "brew-cask:orbstack" = { os = "macos" }
+"brew-cask:orion" = { os = "macos" }
 "brew-cask:petrichor" = { os = "macos" }
 "brew-cask:protonvpn" = { os = "macos" }
 "brew-cask:raycast" = { os = "macos" }
@@ -191,8 +210,6 @@ variants = [{ os = "linux" }]
 "brew-cask:spotify" = { os = "macos" }
 "brew-cask:stats" = { os = "macos" }
 "brew-cask:stremio" = { os = "macos" }
-"brew-cask:studio-3t" = { os = "macos" }
-"brew-cask:studio-3t-community" = { os = "macos" }
 "brew-cask:syncthing-app" = { os = "macos" }
 "brew-cask:t3-code" = { os = "macos" }
 "brew-cask:telegram" = { os = "macos" }

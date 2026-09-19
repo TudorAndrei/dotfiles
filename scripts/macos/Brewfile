@@ -1,13 +1,9 @@
 tap "acsandmann/tap"
-tap "ampcode/tap"
 tap "grishka/grishka"
 tap "netbirdio/tap"
-tap "tudorandrei/barrs", "https://github.com/TudorAndrei/barrs"
 tap "tudorandrei/muzik"
 
 brew "acsandmann/tap/menuanywhere"
-brew "ampcode/tap/ampcode"
-brew "tudorandrei/barrs/barrs"
 brew "tudorandrei/muzik/muzik"
 
 cask "grishka/grishka/neardrop"

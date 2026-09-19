@@ -78,7 +78,7 @@ bash -n scripts/bootstrap.sh
 | `pi/extensions/` | Pi extensions, linked to `~/.pi/agent/extensions` |
 | `pi/settings.json` | Pi global settings, linked to `~/.pi/agent/settings.json` (sessions, auth and caches stay in `~/.pi/agent`) |
 | `mise.toml` | `[dotfiles]` symlinks, `[bootstrap.directories]`, `[bootstrap.packages]` |
-| `scripts/macos/Brewfile` | Third-party Homebrew taps only; everything else is in `mise.toml` |
+| `scripts/macos/Brewfile` | Only tap packages that mise cannot evaluate (`menuanywhere`, `netbird-ui`, `neardrop`, `muzik`); everything else is in `mise.toml` |
 
 ## Important Neovim Settings
 
