@@ -5,6 +5,21 @@ just = "latest"
 
 [bootstrap.hooks]
 post-defaults = "killall Dock || true"
+post-packages = '''
+case "$(uname -s)" in
+  Darwin)
+    bash "$HOME/dotfiles/scripts/macos/install.sh"
+    ;;
+  Linux)
+    . /etc/os-release 2>/dev/null || true
+    case "${ID:-unknown} ${ID_LIKE:-}" in
+      *debian*|*ubuntu*)
+        bash "$HOME/dotfiles/scripts/debian/install.sh"
+        ;;
+    esac
+    ;;
+esac
+'''
 post-dotfiles = '''
 if [ "$(uname -s)" = "Darwin" ]; then
   agent="com.tudor.ghostty-config-reload"
@@ -41,6 +56,9 @@ AppleMenuBarVisibleInFullscreen = true
 [bootstrap.directories."~/.local/state/zsh"]
 [bootstrap.directories."~/.tmux/plugins"]
 [bootstrap.directories."~/.local/state/tmux/resurrect"]
+
+[bootstrap.repos]
+"~/.local/share/zsh-defer" = { url = "https://github.com/romkatv/zsh-defer.git" }
 
 [dotfiles]
 "~/.config/zsh" = { source = "configs/zsh", mode = "symlink" }

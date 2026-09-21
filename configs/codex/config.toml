@@ -298,6 +298,9 @@ trust_level = "trusted"
 [projects."/Users/tudor/cave/footprints/review-pr-workspace"]
 trust_level = "trusted"
 
+[projects."/Users/tudor/cave/kindle-wokrspace/Kindle-Filler-Disk"]
+trust_level = "trusted"
+
 [plugins."linear@openai-curated"]
 enabled = false
 

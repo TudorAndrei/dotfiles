@@ -49,41 +49,15 @@ symlink-force:
 # Install packages (distro-aware)
 install:
     #!/usr/bin/env bash
-    # zsh-defer has no Homebrew/Arch package; clone the single-file plugin (cross-platform)
-    ZSH_DEFER_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/zsh-defer"
-    if [ ! -d "$ZSH_DEFER_DIR" ]; then
-      echo "==> Installing zsh-defer..."
-      git clone --depth=1 https://github.com/romkatv/zsh-defer.git "$ZSH_DEFER_DIR"
-    else
-      echo "==> Updating zsh-defer..."
-      git -C "$ZSH_DEFER_DIR" pull --ff-only 2>/dev/null || true
-    fi
     if [ ! -x "$HOME/.local/bin/mise" ]; then
       echo "==> Installing mise..."
       curl https://mise.run | sh
     fi
     MISE="$(command -v mise || echo "$HOME/.local/bin/mise")"
-    echo "==> Installing system packages..."
-    if ! "$MISE" bootstrap --only packages --yes; then
+    echo "==> Installing system packages and git repos..."
+    if ! "$MISE" bootstrap --only packages,repos --yes; then
       echo "==> WARNING: some packages did not install; run 'mise bootstrap packages status'"
     fi
-    case "{{distro}}" in
-      macos)
-        echo "==> Running macOS install..."
-        bash "{{scripts}}/macos/install.sh"
-        ;;
-      arch|cachyos|endeavouros|manjaro)
-        echo "==> No extra Arch-based install steps"
-        ;;
-      debian|ubuntu|linuxmint|pop)
-        echo "==> Running Debian/Ubuntu install..."
-        bash "{{scripts}}/debian/install.sh"
-        ;;
-      *)
-        echo "==> Unknown distro: {{distro}}"
-        exit 1
-        ;;
-    esac
     if [ -x "$MISE" ]; then
       echo "==> Installing mise tools..."
       if ! "$MISE" install; then
@@ -153,6 +127,8 @@ update:
     git submodule update --init --recursive --remote --merge
     echo "==> Updating mise tools..."
     mise upgrade
+    echo "==> Updating git repos..."
+    mise bootstrap repos update --yes
     case "{{distro}}" in
       macos)
         echo "==> Requesting sudo access (kept alive for this recipe)..."
@@ -195,6 +171,10 @@ update:
     if command -v herdr >/dev/null 2>&1; then
       echo "==> Updating herdr plugins..."
       bash "{{dotfiles}}/configs/herdr/install-plugins.sh" --update
+    fi
+    if command -v pi >/dev/null 2>&1; then
+      echo "==> Updating pi extensions..."
+      pi update --extensions
     fi
 
 # Add, commit, and push all changes (nvim and pi submodules first)
