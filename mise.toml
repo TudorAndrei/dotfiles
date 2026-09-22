@@ -231,6 +231,7 @@ variants = [{ os = "linux" }]
 "brew-cask:syncthing-app" = { os = "macos" }
 "brew-cask:t3-code" = { os = "macos" }
 "brew-cask:telegram" = { os = "macos" }
+"brew-cask:terminal-browser" = { os = "macos" }
 "brew-cask:visual-studio-code" = { os = "macos" }
 "brew-cask:vscodium" = { os = "macos" }
 "brew-cask:zed" = { os = "macos" }
