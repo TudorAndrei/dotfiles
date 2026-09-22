@@ -3,6 +3,7 @@ scripts  := dotfiles / "scripts"
 
 alias u := update
 alias i := install
+alias brew := packages
 
 os   := `uname -s`
 distro := if os == "Darwin" { "macos" } else { `grep '^ID=' /etc/os-release 2>/dev/null | cut -d= -f2 || echo "unknown"` }
@@ -119,7 +120,10 @@ nvim-plugins:
 bootstrap: submodules symlink install macos-defaults services nvim-plugins herdr-plugins
 
 # Update submodules, mise tools and system packages
-update:
+update: mise packages
+
+# Update git submodules, mise tools and git repos
+mise:
     #!/usr/bin/env bash
     echo "==> Updating git submodules..."
     cd "{{dotfiles}}"
@@ -129,6 +133,10 @@ update:
     mise upgrade
     echo "==> Updating git repos..."
     mise bootstrap repos update --yes
+
+# Update system packages, herdr plugins and pi extensions (distro-aware)
+packages:
+    #!/usr/bin/env bash
     case "{{distro}}" in
       macos)
         echo "==> Requesting sudo access (kept alive for this recipe)..."
