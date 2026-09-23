@@ -194,7 +194,6 @@ variants = [{ os = "linux" }]
 "brew-cask:anydesk" = { os = "macos" }
 "brew-cask:bitwarden" = { os = "macos" }
 "brew-cask:blackhole-2ch" = { os = "macos" }
-"brew-cask:block-buzz" = { os = "macos" }
 "brew-cask:caffeine" = { os = "macos" }
 "brew-cask:claude" = { os = "macos" }
 "brew-cask:cursor" = { os = "macos" }
