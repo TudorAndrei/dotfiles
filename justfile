@@ -26,6 +26,7 @@ submodules:
     git submodule status | awk '/^-/ {print $2}' | while read -r path; do
       echo "==> Fetching submodule $path..."
       git submodule update --init --recursive -- "$path"
+      git -C "$path" switch -q main
     done
 
 # Create config directories and symlinks
@@ -128,7 +129,8 @@ mise:
     echo "==> Updating git submodules..."
     cd "{{dotfiles}}"
     git submodule sync --recursive
-    git submodule update --init --recursive --remote --merge
+    git submodule update --init --recursive
+    git submodule foreach --recursive 'git switch -q main && git pull -q --ff-only'
     echo "==> Updating mise tools..."
     mise upgrade
     echo "==> Updating git repos..."
