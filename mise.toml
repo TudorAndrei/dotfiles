@@ -324,6 +324,7 @@ variants = [{ os = "linux" }]
 "aur:tmux-plugin-manager" = "latest"
 "aur:zotero-bin" = "latest"
 
+"apt:bubblewrap" = "latest"
 "apt:build-essential" = "latest"
 "apt:ca-certificates" = "latest"
 "apt:curl" = "latest"
