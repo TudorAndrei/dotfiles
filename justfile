@@ -130,7 +130,7 @@ mise:
     cd "{{dotfiles}}"
     git submodule sync --recursive
     git submodule update --init --recursive
-    git submodule foreach --recursive 'git switch -q main && git pull -q --ff-only'
+    git submodule foreach --recursive 'git switch -q main && git branch -q --set-upstream-to=origin/main main && git pull -q --ff-only'
     echo "==> Updating mise tools..."
     mise upgrade
     echo "==> Updating git repos..."
