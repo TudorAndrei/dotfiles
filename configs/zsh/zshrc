@@ -183,6 +183,8 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
     eval "$(ssh-agent -s)" > /dev/null
 fi
 
+export GPG_TTY=$(tty)
+
 # Give mise (and other tools) a GitHub token for higher API rate limits
 if command -v gh >/dev/null 2>&1; then
   export GITHUB_TOKEN="${GITHUB_TOKEN:-$(gh auth token 2>/dev/null)}"
