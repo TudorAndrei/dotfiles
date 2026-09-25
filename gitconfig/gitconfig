@@ -30,3 +30,7 @@
 	untrackedCache = true
 [gpg]
 	program = /opt/homebrew/bin/gpg
+[commit]
+	gpgsign = true
+[include]
+	path = ~/.gitconfig.local
