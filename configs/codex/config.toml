@@ -454,7 +454,7 @@ trusted_hash = "sha256:ab104b80f9aede14066a7906dbade0efb4e29fc745c443b71d4f2b5d0
 trusted_hash = "sha256:b667168b4504bb7b99c5afea6af0dbb0f45898bf61c6dabdee686a00e6dae992"
 
 [hooks.state."/Users/tudor/cave/openflow/.codex/hooks.json:post_tool_use:1:0"]
-trusted_hash = "sha256:44212b7eedc2f0c7f058a74f2f6f77edffcc662e86c93c06e4fb3b84db7a9361"
+trusted_hash = "sha256:ccccf9d60693f4f5b627748999bcaa50c7cbfa0cc8e955b4f0947c5fd77d5fcc"
 
 [hooks.state."/Users/tudor/.codex/hooks.json:permission_request:0:0"]
 trusted_hash = "sha256:71e69e8186ddc9d53c0104dc904d7b91c281ade7cb8cd0b67befede4c59f0109"
@@ -524,6 +524,9 @@ trusted_hash = "sha256:d2db4ad7c1bd63eb821fdad605b828c5abc66c9b955b7dd2b7ebec076
 
 [hooks.state."/Users/tudor/cave/openflow/.codex/hooks.json:subagent_stop:0:0"]
 trusted_hash = "sha256:67a7cfe9a4ac6a308d01ff74ebe488e826b3deedc575b7cc4be93aa561a16d9b"
+
+[hooks.state."/Users/tudor/cave/openflow/.codex/hooks.json:stop:1:0"]
+trusted_hash = "sha256:b08e49701cd647b27729d9d4815970406734e3baab1ee439151bff1371437d44"
 
 [marketplaces.openai-bundled]
 source_type = "local"
