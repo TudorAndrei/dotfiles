@@ -155,6 +155,7 @@ variants = [{ os = "linux" }]
 [bootstrap.packages]
 "brew:borgbackup" = { os = "macos" }
 "brew:cocoapods" = { os = "macos" }
+"brew:duti" = { os = "macos" }
 "brew:ffmpeg" = { os = "macos" }
 "brew:ghostscript" = { os = "macos" }
 "brew:gnupg" = { os = "macos" }

@@ -30,6 +30,14 @@ if [ "$(defaults read com.apple.dock expose-group-apps 2>/dev/null)" != "1" ]; t
 fi
 
 echo ""
+echo "==> Setting default applications..."
+if command -v duti >/dev/null 2>&1; then
+    duti "$DOTFILES_DIR/configs/macos/duti"
+else
+    echo "    duti not found, skipping"
+fi
+
+echo ""
 echo "==> NOTE: Set up opam for OCaml development (needed for ocaml-lsp-server):"
 echo "    opam init"
 echo "    opam switch create 5.3.0"
