@@ -228,7 +228,6 @@ variants = [{ os = "linux" }]
 "brew-cask:stats" = { os = "macos" }
 "brew-cask:stremio" = { os = "macos" }
 "brew-cask:syncthing-app" = { os = "macos" }
-"brew-cask:t3-code" = { os = "macos" }
 "brew-cask:telegram" = { os = "macos" }
 "brew-cask:terminal-browser" = { os = "macos" }
 "brew-cask:visual-studio-code" = { os = "macos" }
