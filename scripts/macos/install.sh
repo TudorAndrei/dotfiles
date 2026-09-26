@@ -22,6 +22,12 @@ if [ ! -x "$HOME/.local/bin/wt-herdr" ]; then
         -o "$HOME/.local/bin/wt-herdr" && chmod +x "$HOME/.local/bin/wt-herdr"
 fi
 
+echo ""
+echo "==> Grouping Mission Control windows by application..."
+if [ "$(defaults read com.apple.dock expose-group-apps 2>/dev/null)" != "1" ]; then
+    defaults write com.apple.dock expose-group-apps -bool true
+    killall Dock
+fi
 
 echo ""
 echo "==> NOTE: Set up opam for OCaml development (needed for ocaml-lsp-server):"
