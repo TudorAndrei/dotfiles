@@ -113,6 +113,51 @@ After the first bootstrap:
 echo "options hid_apple fnmode=0" | sudo tee -a /etc/modprobe.d/hid_apple.conf
 ```
 
+## VPN (macOS)
+
+Twingate and the Tailscale app can run at the same time. Both use split
+tunnel: each adds routes only for its own resources or peers, and the
+Tailscale app binds its WireGuard sockets to `en0`.
+
+### No internet when Twingate is on
+
+Twingate routes `100.96.0.0/12` into its tunnel and becomes the DNS resolver.
+If the router gives CGNAT DNS servers in that range (for example
+`100.100.1.1`), Twingate forwards the queries into its own tunnel and names
+stop resolving. `ping 1.1.1.1` works, but `dig google.com` times out.
+
+Look at the DHCP DNS servers:
+
+```
+ipconfig getpacket en0 | grep domain_name_server
+```
+
+Set public DNS servers on Wi-Fi:
+
+```
+networksetup -setdnsservers Wi-Fi 1.1.1.1 1.0.0.1 8.8.8.8
+```
+
+This applies to every Wi-Fi network. If a captive portal does not open, go
+back to the router DNS:
+
+```
+networksetup -setdnsservers Wi-Fi empty
+```
+
+### Other checks
+
+- If the VPN shows Connected but `tailscale status` says `Tailscale is
+  stopped.`, run `tailscale up`. Until then, `100.x` addresses go to `en0`.
+- If Twingate names stop resolving while Tailscale is on, turn off **Use
+  Tailscale DNS settings** in the Tailscale app.
+- Tailscale also uses `100.64.0.0/10`, which contains the Twingate range. A
+  conflict occurs only if a Twingate resource gets the same IP as a Tailscale
+  peer.
+- Do not use a VPN exit node (`0.0.0.0/0`) together with a Tailscale client in
+  a container. The container's WireGuard packets go into the exit node tunnel,
+  and large packets are lost.
+
 ## Firefox
 
 ```
