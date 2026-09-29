@@ -215,4 +215,5 @@ git msg="update":
     else
       git commit -m "{{msg}}"
     fi
+    git pull --rebase
     git push
