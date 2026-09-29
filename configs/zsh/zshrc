@@ -100,6 +100,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$PATH:$HOME/.maestro/bin"
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 
 [[ ! -r "$HOME/.opam/opam-init/init.zsh" ]] || source "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null
 autoload -Uz add-zsh-hook
@@ -198,4 +199,3 @@ fi
 
 # Hide Homebrew environment hints
 export HOMEBREW_NO_ENV_HINTS=1
-export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
