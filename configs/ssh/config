@@ -1,0 +1,8 @@
+Include ~/.orbstack/ssh/config
+Include ~/.ssh/config.local
+
+IgnoreUnknown UseKeychain
+
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes

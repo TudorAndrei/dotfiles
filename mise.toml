@@ -80,6 +80,7 @@ AppleMenuBarVisibleInFullscreen = true
 "~/.tmux.conf" = { source = "configs/tmux/tmux.conf", mode = "symlink" }
 "~/.zshrc" = { source = "configs/zsh/zshrc", mode = "symlink" }
 "~/.zshenv" = { source = "configs/zsh/zshenv", mode = "symlink" }
+"~/.ssh/config" = { source = "configs/ssh/config", mode = "symlink" }
 "~/.bunfig.toml" = { source = "configs/bun/bunfig.toml", mode = "symlink" }
 "~/.cargo/config.toml" = { source = "configs/cargo/config.toml", mode = "symlink" }
 "~/.codex/config.toml" = { source = "configs/codex/config.toml", mode = "symlink" }
