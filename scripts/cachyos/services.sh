@@ -9,6 +9,7 @@ systemctl --user enable swaync.service 2>/dev/null || true
 systemctl --user enable gammastep.service 2>/dev/null || true
 systemctl --user enable hypridle.service 2>/dev/null || true
 systemctl --user enable speech-dispatcherd.service 2>/dev/null || true
+systemctl --user enable --now ssh-agent.service 2>/dev/null || true
 
 echo ""
 echo "=== Services Enabled! ==="

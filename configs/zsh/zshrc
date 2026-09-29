@@ -178,15 +178,7 @@ wtrm() {
   wt remove "$1" --force -D
 }
 
-# Reuse an existing agent (macOS provides one via launchd) instead of spawning one per shell
-if [ -z "$SSH_AUTH_SOCK" ]; then
-    export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
-    ssh-add -l >/dev/null 2>&1
-    if [ $? -eq 2 ]; then
-        rm -f "$SSH_AUTH_SOCK"
-        eval "$(ssh-agent -s -a "$SSH_AUTH_SOCK")" > /dev/null
-    fi
-fi
+[ -z "$SSH_AUTH_SOCK" ] && [ -n "$XDG_RUNTIME_DIR" ] && export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 export GPG_TTY=$(tty)
 
