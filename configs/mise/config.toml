@@ -88,6 +88,7 @@ typst = "latest"
 "github:TudorAndrei/criv" = "0.12.2"
 "github:TudorAndrei/muzik" = { version = "latest", matching = "muzik-cli" }
 "npm:@alchemy/cli" = "0.22.0"
+"github:Ovyerus/bandsnatch" = "latest"
 
 [tools."github:Wilfred/difftastic"]
 version = "latest"
