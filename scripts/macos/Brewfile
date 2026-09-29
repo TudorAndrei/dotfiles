@@ -4,7 +4,7 @@ tap "netbirdio/tap"
 tap "tudorandrei/muzik"
 
 brew "acsandmann/tap/menuanywhere"
-brew "tudorandrei/muzik/muzik"
 
 cask "grishka/grishka/neardrop"
 cask "netbirdio/tap/netbird-ui"
+cask "tudorandrei/muzik/muzik"
