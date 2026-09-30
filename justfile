@@ -17,17 +17,15 @@ check-distro:
     @echo "OS:     {{os}}"
     @echo "Distro: {{distro}}"
 
-# Fetch git submodules (nvim config, pi config)
+# Fetch and update git submodules (nvim config, pi config) on main
 submodules:
     #!/usr/bin/env bash
     set -e
+    echo "==> Updating git submodules..."
     cd "{{dotfiles}}"
     git submodule sync --recursive
-    git submodule status | awk '/^-/ {print $2}' | while read -r path; do
-      echo "==> Fetching submodule $path..."
-      git submodule update --init --recursive -- "$path"
-      git -C "$path" switch -q main
-    done
+    git submodule update --init --recursive
+    git submodule foreach --recursive 'git switch -q main && git branch -q --set-upstream-to=origin/main main && git pull -q --ff-only'
 
 # Create config directories and symlinks
 symlink:
@@ -121,16 +119,11 @@ nvim-plugins:
 bootstrap: submodules symlink install macos-defaults services nvim-plugins herdr-plugins
 
 # Update submodules, mise tools and system packages
-update: mise packages
+update: submodules mise packages
 
-# Update git submodules, mise tools and git repos
+# Update mise tools and git repos
 mise:
     #!/usr/bin/env bash
-    echo "==> Updating git submodules..."
-    cd "{{dotfiles}}"
-    git submodule sync --recursive
-    git submodule update --init --recursive
-    git submodule foreach --recursive 'git switch -q main && git branch -q --set-upstream-to=origin/main main && git pull -q --ff-only'
     echo "==> Updating mise tools..."
     mise upgrade
     echo "==> Updating git repos..."
