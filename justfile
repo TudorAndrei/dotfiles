@@ -12,11 +12,6 @@ distro := if os == "Darwin" { "macos" } else { `grep '^ID=' /etc/os-release 2>/d
 [private]
 default: (git)
 
-# Show detected OS/distro
-check-distro:
-    @echo "OS:     {{os}}"
-    @echo "Distro: {{distro}}"
-
 # Fetch and update git submodules (nvim config, pi config) on main
 submodules:
     #!/usr/bin/env bash
