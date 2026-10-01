@@ -29,7 +29,7 @@
 	excludesfile = ~/.gitignore_global
 	untrackedCache = true
 [gpg]
-	program = /opt/homebrew/bin/gpg
+	program = gpg
 [commit]
 	gpgsign = true
 [include]
