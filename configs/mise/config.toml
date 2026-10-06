@@ -91,6 +91,7 @@ typst = "latest"
 "github:Ovyerus/bandsnatch" = "latest"
 opencode = "latest"
 "npm:likec4" = "latest"
+tokei = "latest"
 
 [tools."github:Wilfred/difftastic"]
 version = "latest"
