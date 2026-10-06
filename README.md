@@ -60,8 +60,7 @@ After the first bootstrap:
 1. Log out and log back in (or restart)
 2. Start Hyprland from SDDM
 3. Set up openrazer-daemon: `sudo gpasswd -a $USER plugdev`
-4. Install Spotify, then run `spicetify apply`
-5. In tmux, press `C-Space I` to install the tmux plugins
+4. In tmux, press `C-Space I` to install the tmux plugins
 
 ## Packages
 

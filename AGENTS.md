@@ -79,7 +79,7 @@ bash -n scripts/bootstrap.sh
 | `pi/settings.json` | Pi global settings, linked to `~/.pi/agent/settings.json` (sessions, auth and caches stay in `~/.pi/agent`) |
 | `mise.toml` | `[dotfiles]` symlinks, `[bootstrap.directories]`, `[bootstrap.repos]`, `[bootstrap.packages]`, `[bootstrap.hooks]` |
 | `[bootstrap.hooks].post-packages` | Runs `scripts/macos/install.sh` or `scripts/debian/install.sh` by platform |
-| `scripts/macos/Brewfile` | Only tap packages that mise cannot evaluate (`menuanywhere`, `neardrop`, `muzik`); everything else is in `mise.toml` |
+| `scripts/macos/Brewfile` | Only tap packages that mise cannot evaluate (`menuanywhere`, `neardrop`, `muzik`, `spotifast`); everything else is in `mise.toml` |
 
 ## Important Neovim Settings
 

@@ -226,7 +226,6 @@ variants = [{ os = "linux" }]
 "brew-cask:sf-symbols" = { os = "macos" }
 "brew-cask:signal" = { os = "macos" }
 "brew-cask:slack" = { os = "macos" }
-"brew-cask:spotify" = { os = "macos" }
 "brew-cask:stats" = { os = "macos" }
 "brew-cask:stremio" = { os = "macos" }
 "brew-cask:syncthing-app" = { os = "macos" }
@@ -320,8 +319,7 @@ variants = [{ os = "linux" }]
 "pacman:zsh" = "latest"
 
 "aur:polychromatic" = "latest"
-"aur:spicetify-cli" = "latest"
-"aur:spotify" = "latest"
+"aur:spotifast-bin" = "latest"
 "aur:tmux-plugin-manager" = "latest"
 "aur:zotero-bin" = "latest"
 

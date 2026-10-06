@@ -1,8 +1,10 @@
 tap "acsandmann/tap"
+tap "crmne/tap"
 tap "grishka/grishka"
 tap "tudorandrei/muzik"
 
 brew "acsandmann/tap/menuanywhere"
 
+cask "crmne/tap/spotifast"
 cask "grishka/grishka/neardrop"
 cask "tudorandrei/muzik/muzik"
