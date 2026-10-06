@@ -77,7 +77,7 @@ app_id = "com.linear"
 workspace = 6
 
 [[virtual_workspaces.app_rules]]
-app_id = "me.paolino.spotifast"
+app_id = "rocks.spotifast.Spotifast"
 workspace = 7
 
 [[virtual_workspaces.app_rules]]
