@@ -8,6 +8,8 @@ service_tier = "default"
 
 personality = "pragmatic"
 
+notify = ["/Users/tudor/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
+
 [auto_review]
 # Default policy from Codex 0.153.4, verified against the local reviewer catalog.
 # Source: https://github.com/openai/codex/blob/3d2ee51ca2d5db578f328aa75e20aa22c0197c9a/codex-rs/core/assets/guardian/policy.md
