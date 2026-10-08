@@ -86,6 +86,7 @@ AppleMenuBarVisibleInFullscreen = true
 "~/.codex/config.toml" = { source = "configs/codex/config.toml", mode = "symlink" }
 "~/.pi/agent/extensions" = { source = "pi/extensions", mode = "symlink" }
 "~/.pi/agent/settings.json" = { source = "pi/settings.json", mode = "symlink" }
+"~/.claude/settings.json" = { source = "configs/claude/settings.json", mode = "symlink" }
 "~/.claude/CLAUDE.md" = { source = "configs/claude/CLAUDE.md.tera", mode = "template" }
 "~/.codex/AGENTS.md" = { source = "configs/codex/AGENTS.md.tera", mode = "template" }
 
