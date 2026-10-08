@@ -75,6 +75,8 @@ bash -n scripts/bootstrap.sh
 | `configs/herdr/plugins/<id>.toml` | Per-plugin config, linked to `~/.config/herdr/plugins/config/<id>/config.toml` |
 | `configs/herdr/install-plugins.sh` | Installs everything in `plugins.txt` (`just herdr-plugins`) |
 | `configs/herdr/tmux-resurrect-import.py` | Converts a tmux-resurrect save into a herdr-resurrect snapshot |
+| `configs/claude/settings.json` | Claude Code settings, linked to `~/.claude/settings.json` |
+| `configs/codex/config.toml` | Codex config, linked to `~/.codex/config.toml` |
 | `pi/extensions/` | Pi extensions, linked to `~/.pi/agent/extensions` |
 | `pi/settings.json` | Pi global settings, linked to `~/.pi/agent/settings.json` (sessions, auth and caches stay in `~/.pi/agent`) |
 | `mise.toml` | `[dotfiles]` symlinks, `[bootstrap.directories]`, `[bootstrap.repos]`, `[bootstrap.packages]`, `[bootstrap.hooks]` |
