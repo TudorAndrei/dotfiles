@@ -50,7 +50,6 @@ opam = { version = "latest", asset_pattern = "opam-*-{gnu_arch}-{os}" }
 oxfmt = "latest"
 oxlint = "latest"
 "pipx:djlint" = "latest"
-"pipx:git+https://github.com/tudorandrei/kokoro-tts.git" = "main"
 "pipx:huggingface_hub" = "latest"
 "pipx:zotero-cli" = "latest"
 pnpm = "latest"
