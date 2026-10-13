@@ -142,6 +142,10 @@ incus launch images:ubuntu/noble gpu-example -p default -p nvidia
 incus exec gpu-example -- nvidia-smi
 ```
 
+The profile also mounts Nixpkgs' unmodified `nvidia-smi` binary read-only.
+It targets glibc-based guests such as Ubuntu/Debian, whose loader can run
+that binary without needing the host's Nix store.
+
 For kernel or GPU-driver changes, stage the system for the next boot with
 `~/dotfiles/nix/hosts/nixos-laptop/deploy boot`, then reboot the laptop.
 This avoids loading a new NVIDIA stack over the currently bound driver.
@@ -169,6 +173,14 @@ Sources: [nixos-hardware](https://github.com/NixOS/nixos-hardware/blob/master/RE
 [Intel pstate](https://www.kernel.org/doc/html/latest/admin-guide/pm/intel_pstate.html),
 [TLP processor policy](https://linrunner.de/tlp/settings/processor.html),
 [Incus GPU devices](https://linuxcontainers.org/incus/docs/main/reference/devices_gpu/).
+
+Validated on this laptop with driver 595.71.05: the open kernel driver loaded,
+an unprivileged Ubuntu container executed a CUDA/PTX kernel (`41 + 1 = 42`),
+`nvidia-smi` worked in the container, and NVENC/NVDEC libraries loaded. After
+removing the test container, both NVIDIA PCI functions suspended and video
+memory turned off. Idle CPU-package energy samples over 20 seconds were
+4.48 W before and 2.34 W after; these are short CPU-only measurements, not
+wall-power or sustained-performance benchmarks. No services were failed.
 
 For a fresh laptop installation, create the EFI and root filesystems with
 the labels in `hardware-configuration.nix`, then initialize its dedicated

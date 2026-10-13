@@ -37,10 +37,20 @@
       "nvidia.runtime" = "true";
       "nvidia.driver.capabilities" = "compute,utility,video";
     };
-    devices.gpu = {
-      type = "gpu";
-      gputype = "physical";
-      pci = "0000:01:00.0";
+    devices = {
+      gpu = {
+        type = "gpu";
+        gputype = "physical";
+        pci = "0000:01:00.0";
+      };
+      # Nixpkgs keeps upstream ELF binaries for non-NixOS containers here.
+      # The host binary has a Nix store interpreter that a guest cannot resolve.
+      nvidia-smi = {
+        type = "disk";
+        source = "${config.hardware.nvidia.package.bin}/origBin/nvidia-smi";
+        path = "/usr/local/bin/nvidia-smi";
+        readonly = "true";
+      };
     };
   }];
 }
