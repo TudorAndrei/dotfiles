@@ -62,8 +62,6 @@ After the first bootstrap:
 3. Set up openrazer-daemon: `sudo gpasswd -a $USER plugdev`
 4. In tmux, press `C-Space I` to install the tmux plugins
 
-## Packages
-
 ## Nix: Ubuntu/WSL and the homelab laptop
 
 Both machines use this repository at `~/dotfiles`:
@@ -116,6 +114,8 @@ For a fresh laptop installation, create the EFI and root filesystems with
 the labels in `hardware-configuration.nix`, then initialize its dedicated
 Incus partition as the `default` LVM volume group before applying the
 Incus preseed. The configuration expects that existing group.
+
+## Packages
 
 ## Asus
 
