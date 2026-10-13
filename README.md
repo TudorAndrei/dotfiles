@@ -142,6 +142,10 @@ incus launch images:ubuntu/noble gpu-example -p default -p nvidia
 incus exec gpu-example -- nvidia-smi
 ```
 
+For kernel or GPU-driver changes, stage the system for the next boot with
+`~/dotfiles/nix/hosts/nixos-laptop/deploy boot`, then reboot the laptop.
+This avoids loading a new NVIDIA stack over the currently bound driver.
+
 The default profile does not attach a GPU. This configuration supports
 container GPU sharing; whole-device VM passthrough requires a separate VFIO
 configuration. No CUDA toolkit is installed on the host; applications supply

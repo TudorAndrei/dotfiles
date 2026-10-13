@@ -5,6 +5,11 @@ set -euo pipefail
 config_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 system_link="$HOME/.local/share/dotfiles/nixos-laptop-system"
 ssh_config="$HOME/.ssh/config"
+activation="${1:-switch}"
+case "$activation" in
+  switch|boot) ;;
+  *) echo "Usage: $0 [switch|boot]" >&2; exit 2 ;;
+esac
 mkdir -p "$(dirname -- "$system_link")"
 
 nix build "path:$config_dir#nixosConfigurations.nixos-laptop.config.system.build.toplevel" \
@@ -22,4 +27,4 @@ tar -C "$config_dir" -cf - flake.nix flake.lock configuration.nix hardware-confi
 
 # This is NixOS's system generation, not a user package profile.
 ssh -F "$ssh_config" nixos-laptop \
-  "sudo nix-env -p /nix/var/nix/profiles/system --set '$system' && sudo '$system/bin/switch-to-configuration' switch"
+  "sudo nix-env -p /nix/var/nix/profiles/system --set '$system' && sudo '$system/bin/switch-to-configuration' '$activation'"
