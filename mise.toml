@@ -163,7 +163,6 @@ variants = [{ os = "linux" }]
 "brew:gnupg" = { os = "macos" }
 "brew:googleworkspace-cli" = { os = "macos" }
 "brew:helm" = { os = "macos" }
-"brew:herdr" = { os = "macos" }
 "brew:imagemagick" = { os = "macos" }
 "brew:kind" = { os = "macos" }
 "brew:libimobiledevice" = { os = "macos" }
