@@ -1,5 +1,6 @@
 { pkgs, ... }:
 {
+  imports = [ ./nvidia.nix ./power.nix ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 10;
@@ -28,6 +29,11 @@
     experimental-features = [ "nix-command" "flakes" ];
     trusted-users = [ "root" "@wheel" ];
     auto-optimise-store = true;
+    # Host builds share 16 GiB RAM and CPU capacity with the guests.
+    max-jobs = 2;
+    cores = 8;
+    min-free = 2147483648;
+    max-free = 8589934592;
   };
   nix.gc = {
     automatic = true;
@@ -127,8 +133,16 @@
     };
   };
   systemd.services.incus.unitConfig.RequiresMountsFor = [ "/var/lib/incus" ];
+  systemd.services.nix-daemon.serviceConfig = {
+    CPUWeight = 20;
+    IOWeight = 20;
+  };
+  services.lvm.dmeventd.enable = true;
+  services.smartd.enable = true;
 
-  environment.systemPackages = with pkgs; [ neovim git htop lvm2 rsync ];
+  environment.systemPackages = with pkgs; [
+    neovim git htop lvm2 rsync pciutils lm_sensors nvme-cli powertop
+  ];
   environment.variables.EDITOR = "nvim";
   system.stateVersion = "26.05";
 }

@@ -124,6 +124,48 @@ Wi-Fi credentials, SSH private keys, account passwords and Tailscale state
 stay on their respective machines. Local `.nh-backup.*` directories are
 ignored. Off-machine backups still need a destination.
 
+### Laptop NVIDIA and power policy
+
+The MSI Raider GE66 12UGS has an i7-12700H, 16 GiB RAM and an RTX 3070 Ti
+Laptop GPU (`0000:01:00.0`). Its pinned `nixos-hardware` input supplies the
+matching Intel CPU, laptop, SSD and NVIDIA Ampere modules. There is no exact
+Raider GE66 module; profiles for other MSI models are not imported.
+
+`nvidia.nix` selects NVIDIA's production driver and open kernel modules.
+The host remains headless. DRM is available to Incus while NVIDIA's console
+framebuffer and persistence daemon are disabled, allowing runtime D3 when
+the GPU is unused. The optional `nvidia` profile adds the NVIDIA device and
+injects its compute, utility and video libraries into a container:
+
+```bash
+incus launch images:ubuntu/noble gpu-example -p default -p nvidia
+incus exec gpu-example -- nvidia-smi
+```
+
+The default profile does not attach a GPU. This configuration supports
+container GPU sharing; whole-device VM passthrough requires a separate VFIO
+configuration. No CUDA toolkit is installed on the host; applications supply
+their matching toolkit/runtime inside their containers.
+
+`power.nix` uses TLP with Intel HWP scaling and balanced EPP on AC. On battery
+it prioritizes efficiency and disables CPU turbo to extend outage runtime.
+Thermald manages CPU thermals using the platform's policy. Wi-Fi power saving
+stays off on both power sources because this is the administration link.
+Sleep remains disabled. LVM monitoring and SMART monitoring are enabled;
+background Nix builds have limited parallelism and lower CPU/I/O weight.
+
+Querying `nvidia-smi` wakes the GPU. To check idle suspend without waking it,
+read `/sys/bus/pci/devices/0000:01:00.0/power/runtime_status` after stopping
+GPU workloads. `/proc/driver/nvidia/gpus/0000:01:00.0/power` reports RTD3
+and video-memory status.
+
+Sources: [nixos-hardware](https://github.com/NixOS/nixos-hardware/blob/master/README.md),
+[NVIDIA open modules](https://download.nvidia.com/XFree86/Linux-x86_64/595.71.05/README/kernel_open.html),
+[NVIDIA RTD3](https://download.nvidia.com/XFree86/Linux-x86_64/595.71.05/README/dynamicpowermanagement.html),
+[Intel pstate](https://www.kernel.org/doc/html/latest/admin-guide/pm/intel_pstate.html),
+[TLP processor policy](https://linrunner.de/tlp/settings/processor.html),
+[Incus GPU devices](https://linuxcontainers.org/incus/docs/main/reference/devices_gpu/).
+
 For a fresh laptop installation, create the EFI and root filesystems with
 the labels in `hardware-configuration.nix`, then initialize its dedicated
 Incus partition as the `default` LVM volume group before applying the

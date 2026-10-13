@@ -16,7 +16,7 @@ system=$(readlink -f -- "$system_link")
 NIX_SSHOPTS="-F $ssh_config" nix copy --no-check-sigs \
   --to ssh-ng://nixos-laptop "$system"
 
-tar -C "$config_dir" -cf - flake.nix flake.lock configuration.nix hardware-configuration.nix deploy |
+tar -C "$config_dir" -cf - flake.nix flake.lock configuration.nix hardware-configuration.nix nvidia.nix power.nix deploy |
   ssh -F "$ssh_config" nixos-laptop \
     'tar -C /home/tudor/dotfiles/nix/hosts/nixos-laptop -xf -'
 
