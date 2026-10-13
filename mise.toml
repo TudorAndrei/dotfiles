@@ -192,6 +192,7 @@ variants = [{ os = "linux" }]
 
 "brew-cask:anki" = { os = "macos" }
 "brew-cask:antigravity" = { os = "macos" }
+"brew-cask:antigravity-cli" = { os = "macos" }
 "brew-cask:antigravity-ide" = { os = "macos" }
 "brew-cask:anydesk" = { os = "macos" }
 "brew-cask:bitwarden" = { os = "macos" }
