@@ -64,6 +64,59 @@ After the first bootstrap:
 
 ## Packages
 
+## Nix: Ubuntu/WSL and the homelab laptop
+
+Both machines use this repository at `~/dotfiles`:
+
+| Path | Machine and role |
+|------|------------------|
+| `nix/flake.nix`, `nix/home.nix`, `nix/packages.nix` | Ubuntu/WSL management machine: Lix, Home Manager and NH |
+| `nix/hosts/nixos-laptop/` | Headless NixOS/Lix runtime host: Incus containers and VMs, Tailscale and SSH |
+
+The flakes have separate lock files: the management environment uses
+`nixos-unstable`, while the laptop uses `nixos-26.05`.
+
+Apply the management machine's packages and environment:
+
+```bash
+nh home switch --configuration tudor "path:$HOME/dotfiles/nix"
+# Once just is available:
+just nix-home
+```
+
+Build and deploy the laptop configuration from the management machine:
+
+```bash
+~/dotfiles/nix/hosts/nixos-laptop/deploy
+# Or:
+just nixos-laptop
+```
+
+The deployment script builds locally, copies the system closure over SSH,
+updates the laptop's configuration files, and activates the system. On the
+laptop, `/etc/nixos` links to
+`/home/tudor/dotfiles/nix/hosts/nixos-laptop`.
+
+`configs/ssh/config` contains the laptop's LAN and Tailscale aliases. Each
+management machine needs its own authorized key at `~/.ssh/nixos-laptop`.
+Keep GitHub identity settings in the included `~/.ssh/config.local`; origin
+on the management machine uses `git@github.com:TudorAndrei/dotfiles.git`.
+
+The laptop currently uses Wi-Fi. NetworkManager prefers Ethernet when a
+wired link is available. Incus owns the `default` LVM volume group on the
+remaining NVMe partition; its containers and VMs use `10.77.0.0/24` behind
+NAT. Lid-close events are ignored, sleep is disabled, and a timer requests
+a clean shutdown at 5% battery while discharging.
+
+Wi-Fi credentials, SSH private keys, account passwords and Tailscale state
+stay on their respective machines. Local `.nh-backup.*` directories are
+ignored. Off-machine backups still need a destination.
+
+For a fresh laptop installation, create the EFI and root filesystems with
+the labels in `hardware-configuration.nix`, then initialize its dedicated
+Incus partition as the `default` LVM volume group before applying the
+Incus preseed. The configuration expects that existing group.
+
 ## Asus
 
 <https://asus-linux.org/guides/arch-guide/>

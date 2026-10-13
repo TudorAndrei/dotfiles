@@ -60,6 +60,14 @@ install:
       fi
     fi
 
+# Apply the Ubuntu/WSL Home Manager environment through NH
+nix-home:
+    nh home switch --configuration tudor "path:{{dotfiles}}/nix"
+
+# Build on this machine and deploy the headless NixOS laptop over SSH
+nixos-laptop:
+    "{{dotfiles}}/nix/hosts/nixos-laptop/deploy"
+
 # Apply macOS user defaults
 macos-defaults:
     #!/usr/bin/env bash
