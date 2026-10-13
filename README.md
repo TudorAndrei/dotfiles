@@ -88,6 +88,14 @@ repository file directly, then run `herdr server reload-config` to apply
 changes to a running session. Herdr's runtime files remain in its config
 directory.
 
+The same Home Manager activation installs the plugins listed in
+`configs/herdr/plugins.txt` and links the Navigator and automatic-rename
+settings from `configs/herdr/plugins/`. `just herdr-plugins` installs missing
+plugins; `bash configs/herdr/install-plugins.sh --update` updates existing
+plugin versions too. Nix provides the Rust build tools and plugin runtime
+dependencies; plugin checkouts and compiled binaries stay in Herdr's runtime
+directory.
+
 Build and deploy the laptop configuration from the management machine:
 
 ```bash
