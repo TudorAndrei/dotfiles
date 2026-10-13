@@ -82,6 +82,12 @@ nh home switch --configuration tudor "path:$HOME/dotfiles/nix"
 just nix-home
 ```
 
+Home Manager links `~/.config/herdr/config.toml` to
+`~/dotfiles/configs/herdr/config.toml` with `mkOutOfStoreSymlink`. Edit the
+repository file directly, then run `herdr server reload-config` to apply
+changes to a running session. Herdr's runtime files remain in its config
+directory.
+
 Build and deploy the laptop configuration from the management machine:
 
 ```bash
