@@ -64,6 +64,10 @@ install:
 nix-home:
     nh home switch --configuration tudor "path:{{dotfiles}}/nix"
 
+# Apply this desktop's Windows WSL settings and Ubuntu Lix daemon budget
+wsl-optimize:
+    bash "{{scripts}}/wsl/apply.sh"
+
 # Build on this machine and deploy the headless NixOS laptop over SSH
 nixos-laptop:
     "{{dotfiles}}/nix/hosts/nixos-laptop/deploy"

@@ -1,0 +1,9 @@
+# This desktop has 64 GiB RAM and 20 logical CPUs.
+[wsl2]
+memory=32GB
+processors=20
+swap=8GB
+
+[experimental]
+# Return idle cache gradually while retaining useful build cache longer.
+autoMemoryReclaim=gradual

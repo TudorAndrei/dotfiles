@@ -82,6 +82,39 @@ nh home switch --configuration tudor "path:$HOME/dotfiles/nix"
 just nix-home
 ```
 
+The WSL desktop has 64 GiB RAM, 20 logical CPUs and an RTX 3080 (10 GiB).
+`just wsl-optimize` copies `configs/wsl/wslconfig` to the Windows user's
+`.wslconfig` and applies the root-owned Ubuntu Lix settings using WSL's
+root-user interoperability. Existing Windows configuration is backed up
+before replacement; edit the repository template to retain custom settings.
+These machine-specific system files use an explicit installer rather than
+mise's user-config symlinks.
+
+Lix allows two concurrent builds with eight threads each, instead of twenty
+builds each requesting twenty threads. Its daemon has lower CPU and I/O
+weight under contention. Unrooted store paths can be collected when free
+space falls below 2 GiB, targeting 8 GiB free; rooted generations remain.
+The client and daemon both load `nix/nix.custom.conf` (the daemon receives
+a root-owned copy). Reapply with `just wsl-optimize` after changing it.
+
+WSL retains a 32 GiB memory ceiling, all 20 CPUs and 8 GiB swap. Gradual
+idle cache reclamation balances Windows memory recovery with warm Linux
+build caches. Lix changes take effect immediately; Windows WSL changes
+require saving work, running `wsl --shutdown` in Windows, and reopening
+Ubuntu. This terminates every WSL session, including Herdr.
+
+Keep build trees and `/nix` on the Linux filesystem, as this checkout
+already does. GPU access uses the Windows NVIDIA driver through WSL:
+`/usr/lib/wsl/lib/nvidia-smi` works, and a CUDA driver API kernel test on
+the RTX 3080 returned `41 + 1 = 42`. CPU power management and GPU display
+drivers belong to Windows; bare-metal laptop power services are not applied
+inside this VM. Nix-built GPU applications may need their own runtime
+library integration; the CUDA check validates the Ubuntu driver bridge.
+
+Sources: [Microsoft WSL configuration](https://learn.microsoft.com/en-us/windows/wsl/wsl-config),
+[Lix build concurrency](https://docs.lix.systems/manual/lix/stable/advanced-topics/cores-vs-jobs.html),
+[NVIDIA CUDA on WSL](https://docs.nvidia.com/cuda/wsl-user-guide/index.html).
+
 Home Manager links `~/.config/herdr/config.toml` to
 `~/dotfiles/configs/herdr/config.toml` with `mkOutOfStoreSymlink`. Edit the
 repository file directly, then run `herdr server reload-config` to apply
