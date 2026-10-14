@@ -1,0 +1,13 @@
+{
+  "defaultModel": "gpt-5.6-terra",
+  "defaultProvider": "openai-codex",
+  "defaultThinkingLevel": "medium",
+  "hideThinkingBlock": true,
+  "lastChangelogVersion": "1.2.0",
+  "packages": [
+    "npm:@narumitw/pi-goal",
+    "npm:@plannotator/pi-extension",
+    "npm:@ff-labs/pi-fff"
+  ],
+  "theme": "dark"
+}

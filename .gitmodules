@@ -1,6 +1,3 @@
 [submodule "nvim"]
 	path = nvim
 	url = git@github.com:TudorAndrei/nvim.git
-[submodule "pi"]
-	path = pi
-	url = git@github.com:TudorAndrei/pi-config.git

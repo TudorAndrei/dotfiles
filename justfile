@@ -12,7 +12,7 @@ distro := if os == "Darwin" { "macos" } else { `grep '^ID=' /etc/os-release 2>/d
 [private]
 default: (git)
 
-# Fetch and update git submodules (nvim config, pi config) on main
+# Fetch and update the nvim submodule on main
 submodules:
     #!/usr/bin/env bash
     set -e
@@ -20,7 +20,7 @@ submodules:
     cd "{{dotfiles}}"
     git submodule sync --recursive
     git submodule update --init --recursive
-    git submodule foreach --recursive 'git switch -q main && git branch -q --set-upstream-to=origin/main main && git pull -q --ff-only'
+    git submodule foreach --recursive 'git switch -q main && git branch -q --set-upstream-to=origin/main main && git pull -q --no-rebase --ff-only'
 
 # Create config directories and symlinks
 symlink:
@@ -175,12 +175,12 @@ packages:
       pi update --extensions
     fi
 
-# Add, commit, and push all changes (nvim and pi submodules first)
+# Add, commit, and push all changes (nvim submodule first)
 git msg="update":
     #!/usr/bin/env bash
     set -e
     cd "{{dotfiles}}"
-    for sub in nvim pi; do
+    for sub in nvim; do
       [ -d "$sub/.git" ] || [ -f "$sub/.git" ] || continue
       if [ -n "$(git -C "$sub" status --porcelain)" ]; then
         echo "==> Committing $sub..."

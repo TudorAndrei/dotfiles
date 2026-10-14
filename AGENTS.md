@@ -9,7 +9,7 @@ Configuration for programs defined in these dotfiles should only be edited here 
 This is a dotfiles repository containing configuration files for various tools:
 
 - **Neovim** (LazyVim-based) - `nvim/` directory
-- **Pi coding agent** - `pi/` directory (submodule; extensions and global settings)
+- **Pi coding agent** - `pi/` directory (extensions and global settings)
 - **Zsh** - `configs/zsh/`
 - **Tmux** - `.tmux.conf` and `configs/tmux/`
 - **Herdr** - `configs/herdr/` (agent multiplexer, mirrors the tmux keymap)
