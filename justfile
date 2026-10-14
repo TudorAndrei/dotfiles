@@ -62,7 +62,7 @@ install:
 
 # Apply the Ubuntu/WSL Home Manager environment through NH
 nix-home:
-    nh home switch --configuration tudor "path:{{dotfiles}}/nix"
+    nh home switch --configuration "tudor@parnaie" "path:{{dotfiles}}/nix"
 
 # Apply this desktop's Windows WSL settings and Ubuntu Lix daemon budget
 wsl-optimize:

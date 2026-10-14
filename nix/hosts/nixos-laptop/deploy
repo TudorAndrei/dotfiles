@@ -3,6 +3,7 @@ set -euo pipefail
 
 # Build on the management machine, then deploy to the persistent runtime host.
 config_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+flake_dir=$(cd -- "$config_dir/../.." && pwd)
 system_link="$HOME/.local/share/dotfiles/nixos-laptop-system"
 ssh_config="$HOME/.ssh/config"
 activation="${1:-switch}"
@@ -12,7 +13,7 @@ case "$activation" in
 esac
 mkdir -p "$(dirname -- "$system_link")"
 
-nix build "path:$config_dir#nixosConfigurations.nixos-laptop.config.system.build.toplevel" \
+nix build "path:$flake_dir#nixosConfigurations.nixos-laptop.config.system.build.toplevel" \
   --out-link "$system_link"
 system=$(readlink -f -- "$system_link")
 
@@ -21,9 +22,16 @@ system=$(readlink -f -- "$system_link")
 NIX_SSHOPTS="-F $ssh_config" nix copy --no-check-sigs \
   --to ssh-ng://nixos-laptop "$system"
 
-tar -C "$config_dir" -cf - flake.nix flake.lock configuration.nix hardware-configuration.nix nvidia.nix power.nix media-public.nix deploy |
+tar -C "$flake_dir" -cf - flake.nix flake.lock home.nix packages.nix \
+  hosts/nixos-laptop/configuration.nix hosts/nixos-laptop/hardware-configuration.nix \
+  hosts/nixos-laptop/nvidia.nix hosts/nixos-laptop/power.nix \
+  hosts/nixos-laptop/media-public.nix hosts/nixos-laptop/deploy |
   ssh -F "$ssh_config" nixos-laptop \
-    'tar -C /home/tudor/dotfiles/nix/hosts/nixos-laptop -xf -'
+    'tar -C /home/tudor/dotfiles/nix -xf -'
+
+# Make local NixOS rebuilds use the same flake as the management machine.
+ssh -F "$ssh_config" nixos-laptop \
+  'sudo ln -sfn /home/tudor/dotfiles/nix /etc/nixos'
 
 # This is NixOS's system generation, not a user package profile.
 ssh -F "$ssh_config" nixos-laptop \

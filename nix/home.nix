@@ -24,6 +24,6 @@ in
   '';
   home.sessionVariables = {
     NH_HOME_FLAKE = "/home/tudor/dotfiles/nix";
-    NH_OS_FLAKE = "/home/tudor/dotfiles/nix/hosts/nixos-laptop";
+    NH_OS_FLAKE = "/home/tudor/dotfiles/nix";
   };
 }

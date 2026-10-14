@@ -71,13 +71,22 @@ Both machines use this repository at `~/dotfiles`:
 | `nix/flake.nix`, `nix/home.nix`, `nix/packages.nix` | Ubuntu/WSL management machine: Lix, Home Manager and NH |
 | `nix/hosts/nixos-laptop/` | Headless NixOS/Lix runtime host: Incus containers and VMs, Tailscale and SSH |
 
-The flakes have separate lock files: the management environment uses
-`nixos-unstable`, while the laptop uses `nixos-26.05`.
+One flake at `nix/flake.nix` and one lock file manage both machines:
+
+- `homeConfigurations."tudor@parnaie"`: Ubuntu/WSL desktop Home Manager environment.
+- `nixosConfigurations.nixos-laptop`: full laptop NixOS system.
+- `packages.x86_64-linux`: management packages and NH.
+
+The desktop uses the pinned `nixpkgs` unstable input; the laptop uses the
+pinned `nixpkgs-stable` 26.05 input. Home Manager follows the desktop input
+and nixos-hardware follows the laptop input. Both NH flake variables point
+to `~/dotfiles/nix`. The older Home Manager output name `tudor` remains an
+alias for compatibility.
 
 Apply the management machine's packages and environment:
 
 ```bash
-nh home switch --configuration tudor "path:$HOME/dotfiles/nix"
+nh home switch --configuration "tudor@parnaie" "path:$HOME/dotfiles/nix"
 # Once just is available:
 just nix-home
 ```
@@ -140,7 +149,7 @@ just nixos-laptop
 The deployment script builds locally, copies the system closure over SSH,
 updates the laptop's configuration files, and activates the system. On the
 laptop, `/etc/nixos` links to
-`/home/tudor/dotfiles/nix/hosts/nixos-laptop`.
+`/home/tudor/dotfiles/nix`.
 
 `configs/ssh/config` contains the laptop's LAN and Tailscale aliases. Each
 management machine needs its own authorized key at `~/.ssh/nixos-laptop`.
