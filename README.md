@@ -349,6 +349,15 @@ filter and an 80% media-volume usage gate bound new downloads.
 Seedstrem is built from commit
 `dd04439e1b3ce0731168feb2b92a2bb66ca94718` in the installer. Its upstream
 Dockerfile's build-base tags and guest apt packages are not fully pinned.
+Local patches in `configs/media/patches` apply idempotently to that pinned
+source. Stream JSON emits only `description`: Stremio aliases `title` to
+that field and discards streams when both are present. For private trackers,
+discovery retains opaque references and fetches only the selected torrent's
+metadata at playback time; private Prowlarr download URLs stay server-side.
+The bounded reference registry expires after two hours or a service restart;
+reopen the title if a saved stream reference expires. Discovery has an
+eight-second search budget and a one-hour cache. Patch regression tests run
+as part of the image build.
 The Python installer generates service passwords, connects both backend
 APIs, and initializes Seedstrem settings. Later runs preserve settings
 changed in Seedstrem's UI. Prowlarr and qBittorrent use username `admin`.
@@ -464,3 +473,9 @@ encoded path traversal, keyed manifests and FileList discovery. Returned
 playback URLs include the key. A temporary, locally generated 4 KiB torrent
 also passed HTTP byte-range streaming (206 with the expected payload and
 Content-Range); its torrent, database records and files were removed.
+
+Stremio compatibility validation: the Windows app's own core reports
+Backrooms as Ready with nine streams after the JSON alias fix. Cold public
+requests returned Backrooms in 0.22 seconds and Shawshank in 1.9 seconds.
+Deferred lookup, credential exclusion, registry expiry, single-description
+serialization and selected-torrent playback are covered by regression tests.

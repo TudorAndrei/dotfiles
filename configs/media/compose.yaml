@@ -42,6 +42,8 @@ services:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Bucharest
+      PROWLARR_SEARCH_TIMEOUT: 8s
+      PROWLARR_SEARCH_CACHE_TTL: 1h
     volumes:
       - /srv/media/config/seedstrem:/config
       - /srv/media/downloads:/data
