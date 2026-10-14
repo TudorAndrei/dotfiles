@@ -194,11 +194,12 @@ exist. The NixOS mount uses `nofail` so a missing volume does not stop boot.
 Immich refuses to start unless `/var/lib/immich` is mounted; uploads cannot
 fill the 100 GiB root filesystem by mistake.
 
-Open `https://nixos-laptop.tail582219.ts.net:9444/` from a Tailscale device
-to create the first Immich account. Tailscale Serve provides HTTPS for the
-tailnet. Immich listens only on `127.0.0.1:2283`. The host firewall does not
-open that port, and the public Caddy site has no Immich route. Tailscale ACLs
-still control which tailnet members can reach the laptop.
+Open `http://100.121.29.45:2283/` from a Tailscale device to create the first
+Immich account. Immich binds only to the laptop's Tailscale address. It does
+not use Tailscale Serve. The host firewall does not open port 2283 on other
+interfaces, and the public Caddy site has no Immich route. The Tailscale
+connection encrypts traffic between devices. Tailscale ACLs control which
+tailnet members can reach the laptop.
 
 Back up both `/var/lib/immich` and the local PostgreSQL database. Immich's
 database dumps in the library do not include the original photos. The thin
