@@ -173,6 +173,38 @@ Wi-Fi credentials, SSH private keys, account passwords and Tailscale state
 stay on their respective machines. Local `.nh-backup.*` directories are
 ignored. Off-machine backups still need a destination.
 
+### Immich on the laptop
+
+Immich runs as a NixOS service with the package from the pinned unstable
+Nixpkgs input and local PostgreSQL and Redis. Its photo library uses a
+separate 200 GiB ext4 thin volume in the existing `default`
+LVM pool. The Incus `media-data` volume remains with the media container.
+The database stays on the laptop's local root filesystem. This arrangement
+does not add another container to the 16 GiB host.
+
+Create the volume once, on the laptop, before the first deployment:
+
+```bash
+ssh nixos-laptop 'sudo bash -s' < nix/hosts/nixos-laptop/prepare-immich-storage
+just nixos-laptop
+```
+
+The storage script creates the volume and formats it only when it does not
+exist. The NixOS mount uses `nofail` so a missing volume does not stop boot.
+Immich refuses to start unless `/var/lib/immich` is mounted; uploads cannot
+fill the 100 GiB root filesystem by mistake.
+
+Open `https://nixos-laptop.tail582219.ts.net:9444/` from a Tailscale device
+to create the first Immich account. Tailscale Serve provides HTTPS for the
+tailnet. Immich listens only on `127.0.0.1:2283`. The host firewall does not
+open that port, and the public Caddy site has no Immich route. Tailscale ACLs
+still control which tailnet members can reach the laptop.
+
+Back up both `/var/lib/immich` and the local PostgreSQL database. Immich's
+database dumps in the library do not include the original photos. The thin
+pool is shared with Incus, so monitor its physical use with
+`sudo lvs -o lv_name,lv_size,data_percent default/IncusThinPool`.
+
 ### Laptop NVIDIA and power policy
 
 The MSI Raider GE66 12UGS has an i7-12700H, 16 GiB RAM and an RTX 3070 Ti

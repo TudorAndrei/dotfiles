@@ -25,7 +25,8 @@ NIX_SSHOPTS="-F $ssh_config" nix copy --no-check-sigs \
 tar -C "$flake_dir" -cf - flake.nix flake.lock home.nix packages.nix \
   hosts/nixos-laptop/configuration.nix hosts/nixos-laptop/hardware-configuration.nix \
   hosts/nixos-laptop/nvidia.nix hosts/nixos-laptop/power.nix \
-  hosts/nixos-laptop/media-public.nix hosts/nixos-laptop/deploy |
+  hosts/nixos-laptop/media-public.nix hosts/nixos-laptop/immich.nix \
+  hosts/nixos-laptop/prepare-immich-storage hosts/nixos-laptop/deploy |
   ssh -F "$ssh_config" nixos-laptop \
     'tar -C /home/tudor/dotfiles/nix -xf -'
 

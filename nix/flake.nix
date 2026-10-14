@@ -33,6 +33,7 @@
     };
     nixosConfigurations.nixos-laptop = nixpkgs-stable.lib.nixosSystem {
       inherit system;
+      specialArgs.immichPackage = nixpkgs.legacyPackages.${system}.immich;
       modules = [
         # No exact MSI Raider GE66 12UGS profile exists upstream.
         nixos-hardware.nixosModules.common-cpu-intel-cpu-only
