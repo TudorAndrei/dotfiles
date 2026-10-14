@@ -367,8 +367,8 @@ up this volume/config independently of the Git checkout.
 Enable Tailscale **Serve** once in the account, then run `just media-https`.
 For this private mode, Funnel is unnecessary and Stremio devices must be connected to your tailnet. Public access is described below:
 
-- Seedstrem: `https://nixos-laptop.tail582219.ts.net/`
-- Stremio manifest: `https://nixos-laptop.tail582219.ts.net/stremio/manifest.json`
+- Seedstrem: `https://nixos-laptop.tail582219.ts.net:9443/`
+- Stremio manifest: `https://nixos-laptop.tail582219.ts.net:9443/stremio/manifest.json`
 - Prowlarr: `https://nixos-laptop.tail582219.ts.net:8443/`
 - qBittorrent: `https://nixos-laptop.tail582219.ts.net:8444/`
 
@@ -410,10 +410,19 @@ Sources: [Seedstrem](https://github.com/kipsilabs/seedstrem),
 
 ### Public streaming without registering client devices
 
-`just media-public` deploys the pinned Nginx gateway and enables Tailscale
-Funnel on HTTPS port 10000. The account owner must first approve Funnel
-for this node. Only that gateway is published; administration on ports
-443, 8443 and 8444 remains tailnet-only.
+`just media-direct` deploys Caddy HTTPS at `casapuiu.home.ro` and activates
+that origin for the key-protected streaming gateway. Digi DDNS must track
+the router's public WAN address. Reserve `192.168.0.244` for laptop Wi-Fi
+MAC `70:1a:b8:22:30:c6`, and forward TCP 80 and 443 to the same internal
+ports at that address. Caddy binds this LAN address and obtains/renews its
+certificate automatically. Keep both forwarding rules enabled.
+Administration stays private on Tailscale ports 9443, 8443 and 8444.
+Tailscale DNS acceptance is disabled on this host so router DNS remains
+available independently of the tailnet DNS resolver.
+
+`just media-public` is an optional Funnel alternative; it changes the
+public origin. Funnel DNS did not publish during this deployment, so the
+Digi endpoint is the active setup.
 
 A randomly generated 256-bit URL key authenticates addon and playback
 requests. The gateway permits only the keyed `/stremio/` and `/dl/` paths;
@@ -433,25 +442,22 @@ Replace the previous Seedstrem addon with this URL in Stremio. Phones and
 TVs can then fetch the addon and streams without Tailscale. Installing the
 URL supplies the credential automatically; there is no separate browser
 Basic Auth prompt. Seedstrem's private administration remains accessible
-at its original tailnet URL. Subsequent media deployments preserve the
+at its private tailnet URL on port 9443. Subsequent media deployments preserve the
 public gateway and reload it after service changes.
 
-To revoke a leaked URL, turn Funnel off immediately:
+To revoke a leaked URL, stop the public gateway immediately:
 
 ```bash
-ssh nixos-laptop 'sudo tailscale funnel --https=10000 off'
+ssh nixos-laptop 'sudo incus exec media -- docker stop media-public-gateway-1'
 ```
 
 Then replace `public_token` with a freshly generated secret in the guest
-credentials file and run `just media-public`; the script rerenders/reloads
-the gateway and updates playback URLs. Reinstall the new manifest URL on
-clients. This invalidates the previous URL credential.
-
-Funnel's public DNS may take up to ten minutes to propagate. Its bandwidth
-limits are not configurable, so verify playback of your intended bitrate;
-it is not a guarantee of high-bitrate 4K streaming performance.
+credentials file and run `just media-public` to rerender/reload the gateway,
+followed by `just media-direct` to restore the Digi origin. Reinstall the
+new manifest on clients. This invalidates the previous URL credential.
+Streaming performance depends on home upload bandwidth and torrent peers.
 Sources: [Stremio's key authentication example](https://github.com/Stremio/stremio-addon-with-key),
-[Tailscale Funnel](https://tailscale.com/docs/features/tailscale-funnel).
+[Caddy automatic HTTPS](https://caddyserver.com/docs/automatic-https).
 
 Gateway checks passed for missing/wrong keys, blocked administration,
 encoded path traversal, keyed manifests and FileList discovery. Returned

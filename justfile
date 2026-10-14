@@ -84,6 +84,10 @@ media-https:
 media-public:
     bash "{{scripts}}/media/public.sh"
 
+# Publish the gateway through Digi DDNS and the router forwarding rules
+media-direct:
+    bash "{{scripts}}/media/direct.sh"
+
 # Apply macOS user defaults
 macos-defaults:
     #!/usr/bin/env bash

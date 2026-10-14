@@ -17,6 +17,8 @@ if ! incus config device get media public-gateway listen >/dev/null 2>&1; then
 fi
 incus exec media -- bash -c 'cd /opt/media; docker compose -f compose.yaml -f images.lock.yaml -f public-compose.yaml up -d public-gateway; docker compose -f compose.yaml -f images.lock.yaml -f public-compose.yaml exec -T public-gateway nginx -t; docker compose -f compose.yaml -f images.lock.yaml -f public-compose.yaml exec -T public-gateway nginx -s reload' < /dev/null
 # Funnel publishes only the authenticated gateway, never the raw app or admin ports.
-timeout 20 tailscale funnel --bg --https=10000 http://127.0.0.1:8082
+timeout 20 tailscale serve --bg --https=9443 http://127.0.0.1:8081
+timeout 20 tailscale funnel --bg --https=443 http://127.0.0.1:8082
+tailscale funnel --https=10000 off || true
 incus exec media -- python3 /opt/media/public-configure.py "$domain" --activate < /dev/null
 REMOTE

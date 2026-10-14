@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  imports = [ ./nvidia.nix ./power.nix ];
+  imports = [ ./nvidia.nix ./power.nix ./media-public.nix ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 10;
@@ -60,6 +60,9 @@
   services.tailscale = {
     enable = true;
     openFirewall = true;
+    # Keep host Internet DNS on NetworkManager's router resolver. Tailscale
+    # still supplies private routing; client devices can use MagicDNS.
+    extraSetFlags = [ "--accept-dns=false" ];
   };
 
   # Keep running when the lid closes or the machine is idle/on battery.

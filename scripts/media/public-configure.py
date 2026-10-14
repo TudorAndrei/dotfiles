@@ -11,7 +11,8 @@ root = pathlib.Path('/srv/media/config')
 creds_file = root / 'credentials.json'
 creds = json.loads(creds_file.read_text())
 creds.setdefault('public_token', secrets.token_urlsafe(32))
-base = 'https://' + sys.argv[1] + ':10000/' + creds['public_token']
+origin = sys.argv[1].rstrip('/') if sys.argv[1].startswith('https://') else 'https://' + sys.argv[1]
+base = origin + '/' + creds['public_token']
 creds['public_manifest_url'] = base + '/stremio/manifest.json'
 creds_file.write_text(json.dumps(creds, indent=2) + '\n')
 creds_file.chmod(0o600)
@@ -33,5 +34,6 @@ if '--activate' in sys.argv[2:]:
     client.open(urllib.request.Request(api + 'config', json.dumps(config).encode(),
         method='PUT', headers=headers), timeout=10).read()
     creds['public_enabled'] = True
+    creds['public_origin'] = origin
     creds_file.write_text(json.dumps(creds, indent=2) + '\n')
 print('Public streaming credential generated; admin routes are excluded from the gateway.')
