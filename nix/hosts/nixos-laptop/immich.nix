@@ -19,6 +19,7 @@
   systemd.services.immich-server = {
     unitConfig.RequiresMountsFor = "/var/lib/immich";
     unitConfig.AssertPathIsMountPoint = "/var/lib/immich";
+    serviceConfig.StateDirectoryMode = "0700";
   };
 
   # Tailscale Serve terminates HTTPS within the tailnet. The Immich process
