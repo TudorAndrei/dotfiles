@@ -18,6 +18,8 @@ request = urllib.request.Request(base + 'session', json.dumps({'password': creds
 client.open(request, timeout=10).read()
 config = json.load(client.open(base + 'config', timeout=10))
 config['server']['external_url'] = 'https://' + sys.argv[1]
+if creds.get('public_enabled'):
+    config['server']['external_url'] += ':10000/' + creds['public_token']
 request = urllib.request.Request(base + 'config', json.dumps(config).encode(), method='PUT',
                                  headers={'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'})
 client.open(request, timeout=10).read()

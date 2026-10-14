@@ -365,7 +365,7 @@ Service state, SQLite databases and credentials live under the guest's
 up this volume/config independently of the Git checkout.
 
 Enable Tailscale **Serve** once in the account, then run `just media-https`.
-Funnel is unnecessary. Stremio devices must be connected to your tailnet:
+For this private mode, Funnel is unnecessary and Stremio devices must be connected to your tailnet. Public access is described below:
 
 - Seedstrem: `https://nixos-laptop.tail582219.ts.net/`
 - Stremio manifest: `https://nixos-laptop.tail582219.ts.net/stremio/manifest.json`
@@ -400,10 +400,55 @@ host; outbound connections work, but inbound connectability needs separate
 port forwarding if desired.
 
 Validation on deployment: health/manifest responses, Seedstrem's backend
-connection tests, private HTTPS/manifest, the Prowlarr login redirect and an Incus guest restart passed. FileList authentication
-and real media playback require your credentials and remain unverified.
+connection tests, private HTTPS/manifest, the Prowlarr login redirect and an Incus guest restart passed. FileList authentication and a test search passed after credentials were added
+(seven streams). Actual media playback still needs client validation.
 
 Sources: [Seedstrem](https://github.com/kipsilabs/seedstrem),
 [Seedstrem configuration](https://github.com/kipsilabs/seedstrem/blob/main/config.example.yaml),
 [Prowlarr FileList integration](https://github.com/Prowlarr/Prowlarr/tree/develop/src/NzbDrone.Core/Indexers/Definitions/FileList),
 [Docker inside Incus](https://linuxcontainers.org/incus/docs/main/faq/#how-can-i-run-docker-inside-an-incus-container).
+
+### Public streaming without registering client devices
+
+`just media-public` deploys the pinned Nginx gateway and enables Tailscale
+Funnel on HTTPS port 10000. The account owner must first approve Funnel
+for this node. Only that gateway is published; administration on ports
+443, 8443 and 8444 remains tailnet-only.
+
+A randomly generated 256-bit URL key authenticates addon and playback
+requests. The gateway permits only the keyed `/stremio/` and `/dl/` paths;
+missing/wrong keys and admin paths return 404. Access logging is disabled
+on the gateway, and the rendered key-bearing configuration is stored only
+in the guest's root-protected config directory. Requests still reach the
+app's normal download limits. The key grants search/playback access, so
+treat the entire install URL as a password.
+
+Retrieve the `public_manifest_url` value from the credentials file:
+
+```bash
+ssh nixos-laptop 'sudo incus exec media -- cat /srv/media/config/credentials.json'
+```
+
+Replace the previous Seedstrem addon with this URL in Stremio. Phones and
+TVs can then fetch the addon and streams without Tailscale. Installing the
+URL supplies the credential automatically; there is no separate browser
+Basic Auth prompt. Seedstrem's private administration remains accessible
+at its original tailnet URL. Subsequent media deployments preserve the
+public gateway and reload it after service changes.
+
+To revoke a leaked URL, turn Funnel off immediately:
+
+```bash
+ssh nixos-laptop 'sudo tailscale funnel --https=10000 off'
+```
+
+Then replace `public_token` with a freshly generated secret in the guest
+credentials file and run `just media-public`; the script rerenders/reloads
+the gateway and updates playback URLs. Reinstall the new manifest URL on
+clients. This invalidates the previous URL credential.
+
+Funnel's public DNS may take up to ten minutes to propagate. Its bandwidth
+limits are not configurable, so verify playback of your intended bitrate;
+it is not a guarantee of high-bitrate 4K streaming performance.
+Sources: [Stremio's key authentication example](https://github.com/Stremio/stremio-addon-with-key),
+[Tailscale Funnel](https://tailscale.com/docs/features/tailscale-funnel).

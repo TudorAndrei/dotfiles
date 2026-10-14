@@ -80,6 +80,10 @@ media-deploy:
 media-https:
     bash "{{scripts}}/media/https.sh"
 
+# Publish only the key-protected Stremio streaming gateway through Funnel
+media-public:
+    bash "{{scripts}}/media/public.sh"
+
 # Apply macOS user defaults
 macos-defaults:
     #!/usr/bin/env bash

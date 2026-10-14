@@ -31,4 +31,9 @@ fi
 docker compose -f compose.yaml -f images.lock.yaml up -d qbittorrent prowlarr
 python3 configure.py
 docker compose -f compose.yaml -f images.lock.yaml build seedstrem
-docker compose -f compose.yaml -f images.lock.yaml up -d
+compose_files=(-f compose.yaml -f images.lock.yaml)
+if [[ -f public-compose.yaml ]]; then compose_files+=(-f public-compose.yaml); fi
+docker compose "${compose_files[@]}" up -d
+if [[ -f public-compose.yaml ]]; then
+    docker compose "${compose_files[@]}" exec -T public-gateway nginx -s reload
+fi
