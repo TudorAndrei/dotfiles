@@ -72,6 +72,14 @@ wsl-optimize:
 nixos-laptop:
     "{{dotfiles}}/nix/hosts/nixos-laptop/deploy"
 
+# Deploy the FileList/Stremio services inside the laptop's Incus media guest
+media-deploy:
+    bash "{{scripts}}/media/deploy.sh"
+
+# Enable private HTTPS after the account owner enables Tailscale Serve
+media-https:
+    bash "{{scripts}}/media/https.sh"
+
 # Apply macOS user defaults
 macos-defaults:
     #!/usr/bin/env bash

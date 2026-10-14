@@ -327,3 +327,83 @@ add userChrome.css
 `λ sudo systemctl enable --now docker`
 
 `λ sudo usermod -aG docker $USER`
+
+## FileList and Stremio on the laptop
+
+`just media-deploy` provisions an unprivileged Ubuntu 24.04 Incus container
+named `media` on `nixos-laptop`. It runs Docker Compose inside the guest,
+using upstream Seedstrem's supported deployment. The NixOS host retains
+Incus and its existing GPU/power configuration; no GPU is needed here.
+The guest gets four CPUs, 4 GiB RAM, an inherited 30 GiB root disk and a
+separate 200 GiB `media-data` volume from the existing LVM pool. Incus
+starts the guest at boot, and Docker restarts all three services.
+
+The flow is Stremio → Seedstrem → Prowlarr/FileList for search, then
+Seedstrem → qBittorrent-nox for downloading/seeding and HTTP playback.
+Torrentio can remain installed alongside it. Searching alone does not
+start downloads. Full torrents download for seeding; a 50 GiB release
+filter and an 80% media-volume usage gate bound new downloads.
+
+`configs/media/compose.yaml` defines the services;
+`configs/media/images.lock.yaml` pins Prowlarr/qBittorrent image digests.
+Seedstrem is built from commit
+`dd04439e1b3ce0731168feb2b92a2bb66ca94718` in the installer. Its upstream
+Dockerfile's build-base tags and guest apt packages are not fully pinned.
+The Python installer generates service passwords, connects both backend
+APIs, and initializes Seedstrem settings. Later runs preserve settings
+changed in Seedstrem's UI. Prowlarr and qBittorrent use username `admin`.
+
+Retrieve generated passwords locally, without adding them to Git:
+
+```bash
+ssh nixos-laptop 'sudo incus exec media -- cat /srv/media/config/credentials.json'
+```
+
+Service state, SQLite databases and credentials live under the guest's
+`/srv/media/config`; downloads live under `/srv/media/downloads`, both on
+`media-data`. These persistent files are not mise-managed symlinks. Back
+up this volume/config independently of the Git checkout.
+
+Enable Tailscale **Serve** once in the account, then run `just media-https`.
+Funnel is unnecessary. Stremio devices must be connected to your tailnet:
+
+- Seedstrem: `https://nixos-laptop.tail582219.ts.net/`
+- Stremio manifest: `https://nixos-laptop.tail582219.ts.net/stremio/manifest.json`
+- Prowlarr: `https://nixos-laptop.tail582219.ts.net:8443/`
+- qBittorrent: `https://nixos-laptop.tail582219.ts.net:8444/`
+
+Until Serve is enabled, native clients on Tailscale can use
+`http://100.121.29.45:8081/stremio/manifest.json`. The host firewall leaves
+8081 closed to ordinary LAN/public access while allowing its existing
+trusted Tailscale interface. Admin backends bind host localhost; access
+them over SSH if HTTPS is not configured:
+
+```bash
+ssh -N -L 8081:127.0.0.1:8081 -L 9696:127.0.0.1:9696 -L 8080:127.0.0.1:8080 nixos-laptop
+```
+
+Open `http://localhost:9696`, add the **FileList** indexer, enter your
+FileList username and passkey, then Test and Save. Prowlarr requires a
+passkey, not your normal account password. Enter it in the private UI;
+never put it in this public repository. With FileList as the only enabled
+indexer, Seedstrem searches it automatically. Then install the manifest
+URL in Stremio and test a movie or episode.
+
+Automatic deletion is disabled initially (seed time, target ratio and
+abandoned-playback triggers are all zero). Once current FileList/VIP
+requirements are confirmed, set a retention policy in Seedstrem Settings.
+Eligible removals delete both the torrent and payload; labels must not be
+applied to unrelated torrents unless you intend to manage them here.
+The 80% limit stops new downloads; it does not evict existing files.
+Incoming BitTorrent ports are not forwarded through the home router or
+host; outbound connections work, but inbound connectability needs separate
+port forwarding if desired.
+
+Validation on deployment: health/manifest responses, Seedstrem's backend
+connection tests and an Incus guest restart passed. FileList authentication
+and real media playback require your credentials and remain unverified.
+
+Sources: [Seedstrem](https://github.com/kipsilabs/seedstrem),
+[Seedstrem configuration](https://github.com/kipsilabs/seedstrem/blob/main/config.example.yaml),
+[Prowlarr FileList integration](https://github.com/Prowlarr/Prowlarr/tree/develop/src/NzbDrone.Core/Indexers/Definitions/FileList),
+[Docker inside Incus](https://linuxcontainers.org/incus/docs/main/faq/#how-can-i-run-docker-inside-an-incus-container).
