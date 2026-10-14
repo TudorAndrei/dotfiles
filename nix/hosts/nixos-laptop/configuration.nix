@@ -46,6 +46,7 @@
     extraGroups = [ "wheel" "networkmanager" "incus-admin" ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDN3b2tmU8MBXGKl3FlFOoK4yXsY3MDjVlPqxntAfrNV tudor@parnaie"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICBeWyH8UVnqE8dq04cUany476fWr/nUECUgp/3U/fgG tudor@piticu.local"
     ];
   };
   security.sudo.wheelNeedsPassword = false;
