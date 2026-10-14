@@ -148,7 +148,14 @@ Keep GitHub identity settings in the included `~/.ssh/config.local`; origin
 on the management machine uses `git@github.com:TudorAndrei/dotfiles.git`.
 
 The laptop currently uses Wi-Fi. NetworkManager prefers Ethernet when a
-wired link is available. Incus owns the `default` LVM volume group on the
+wired link is available. Its existing `CasaPuiu` connection is pinned to
+5 GHz on the host with `nmcli connection modify CasaPuiu 802-11-wireless.band a`;
+this saved NetworkManager profile setting is not managed by the NixOS flake.
+The AX1675i connects with Wi-Fi 6 at 160 MHz; it does not support Wi-Fi 7 MLO.
+SSH accepts the declared `parnaie` and `piticu.local` public keys for `tudor`;
+password authentication is disabled. Use `IdentitiesOnly=yes` and an explicit
+private key if an SSH agent offers too many identities.
+Incus owns the `default` LVM volume group on the
 remaining NVMe partition; its containers and VMs use `10.77.0.0/24` behind
 NAT. Lid-close events are ignored, sleep is disabled, and a timer requests
 a clean shutdown at 5% battery while discharging.
