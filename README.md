@@ -452,3 +452,9 @@ limits are not configurable, so verify playback of your intended bitrate;
 it is not a guarantee of high-bitrate 4K streaming performance.
 Sources: [Stremio's key authentication example](https://github.com/Stremio/stremio-addon-with-key),
 [Tailscale Funnel](https://tailscale.com/docs/features/tailscale-funnel).
+
+Gateway checks passed for missing/wrong keys, blocked administration,
+encoded path traversal, keyed manifests and FileList discovery. Returned
+playback URLs include the key. A temporary, locally generated 4 KiB torrent
+also passed HTTP byte-range streaming (206 with the expected payload and
+Content-Range); its torrent, database records and files were removed.
