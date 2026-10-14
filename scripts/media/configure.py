@@ -52,7 +52,8 @@ for attempt in range(90):
         response = post('/api/v2/auth/login', {'username': 'admin', 'password': password})
         if response != b'Ok.':
             raise RuntimeError('qBittorrent login failed; credentials may have been changed manually')
-        post('/api/v2/app/setPreferences', {'json': json.dumps({
+        if not configured:
+            post('/api/v2/app/setPreferences', {'json': json.dumps({
             'web_ui_password': creds['qbittorrent'], 'save_path': '/downloads/',
             'max_active_downloads': 2, 'max_active_torrents': 20,
             'max_active_uploads': 20, 'queueing_enabled': True,
@@ -81,14 +82,18 @@ request = urllib.request.Request('http://127.0.0.1:9696/api/v1/config/host',
 with urllib.request.urlopen(request, timeout=10) as response:
     host_config = json.load(response)
 if host_config['authenticationMethod'] == 'none':
+    info = json.loads(subprocess.check_output(['docker', 'inspect', 'media-prowlarr-1']))[0]
+    gateway = info['NetworkSettings']['Networks']['media_default']['Gateway']
     host_config.update(authenticationMethod='forms', authenticationRequired='enabled',
         username='admin', password=creds['prowlarr'], passwordConfirmation=creds['prowlarr'],
-        analyticsEnabled=False, updateAutomatically=False)
+        analyticsEnabled=False, updateAutomatically=False, trustedNetworks=gateway + '/32')
     request = urllib.request.Request('http://127.0.0.1:9696/api/v1/config/host',
         json.dumps(host_config).encode(), method='PUT',
         headers={'X-Api-Key': api_key, 'Content-Type': 'application/json'})
     with urllib.request.urlopen(request, timeout=10) as response:
         response.read()
+    # Forwarded-header trust is captured at startup. Reload it before UI use.
+    subprocess.run(['docker', 'compose', 'restart', 'prowlarr'], check=True)
 
 # JSON is valid YAML. On later deployments preserve the settings edited in the UI.
 config_file = root / 'seedstrem/config.yaml'

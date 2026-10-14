@@ -400,7 +400,7 @@ host; outbound connections work, but inbound connectability needs separate
 port forwarding if desired.
 
 Validation on deployment: health/manifest responses, Seedstrem's backend
-connection tests and an Incus guest restart passed. FileList authentication
+connection tests, private HTTPS/manifest, the Prowlarr login redirect and an Incus guest restart passed. FileList authentication
 and real media playback require your credentials and remain unverified.
 
 Sources: [Seedstrem](https://github.com/kipsilabs/seedstrem),
