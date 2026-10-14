@@ -4,5 +4,6 @@ Include ~/.ssh/config.local
 IgnoreUnknown UseKeychain
 
 Host *
-  AddKeysToAgent yes
+  IdentityAgent none
+  IdentitiesOnly yes
   UseKeychain yes
