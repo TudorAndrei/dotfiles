@@ -11,8 +11,7 @@
   services.immich = {
     enable = true;
     package = immichPackage;
-    # Bind only to this node's Tailscale address, never to LAN or wildcard.
-    host = "100.121.29.45";
+    host = "0.0.0.0";
     openFirewall = false;
   };
 
