@@ -514,8 +514,60 @@ laptop loopback for these login flows. OAuth files persist in
 curl -H 'Authorization: Bearer <client-key>' https://casapuiu.home.ro/llm/v1/models
 ```
 
+#### Use the API from another laptop
+
+Install the Codex and Claude Code CLIs on that laptop. Get the client key
+from `access.api-keys` as shown above. In a new terminal, enter the key
+without saving it in shell history:
+
+```bash
+printf 'Client key: '
+read -rs CLIPROXY_API_KEY
+printf '\n'
+export CLIPROXY_API_KEY
+curl -fsS -o /dev/null -w '%{http_code}\n' \
+  -H "Authorization: Bearer $CLIPROXY_API_KEY" \
+  https://casapuiu.home.ro/llm/v1/models
+```
+
+The last command must print `200`. Keep the key out of tracked files.
+Enter it again in each new terminal, or load it from a local secret store.
+
+For **Codex**, put this profile in `~/.codex/cliproxy.config.toml` on the
+client laptop:
+
+```toml
+model = "gpt-6-sol"
+model_provider = "cliproxy"
+
+[model_providers.cliproxy]
+name = "Home CLIProxyAPI"
+base_url = "https://casapuiu.home.ro/llm/v1"
+env_key = "CLIPROXY_API_KEY"
+wire_api = "responses"
+requires_openai_auth = false
+supports_websockets = false
+```
+
+Run `codex --profile cliproxy` from the terminal that has the key. If this
+dotfiles repo manages Codex on the client laptop, add the profile to the
+repo and link it from there; do not edit a managed symlink.
+
+For **Claude Code**, use the same key in that terminal:
+
+```bash
+export ANTHROPIC_BASE_URL=https://casapuiu.home.ro/llm
+export ANTHROPIC_AUTH_TOKEN="$CLIPROXY_API_KEY"
+claude
+```
+
+Run `/status` in Claude Code. It must show the gateway base URL and the
+auth token. These shell settings apply only to that terminal.
+
 Sources: [CLIProxyAPI configuration](https://github.com/router-for-me/CLIProxyAPI/blob/main/config.example.yaml),
-[Docker layout](https://github.com/router-for-me/CLIProxyAPI/blob/main/docker-compose.yml).
+[Docker layout](https://github.com/router-for-me/CLIProxyAPI/blob/main/docker-compose.yml),
+[Codex configuration](https://learn.chatgpt.com/docs/config-file/config-reference),
+[Claude Code gateway setup](https://code.claude.com/docs/en/llm-gateway-connect).
 
 ### Public streaming without registering client devices
 
