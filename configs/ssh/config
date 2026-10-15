@@ -1,10 +1,12 @@
 Include ~/.orbstack/ssh/config
-Include ~/.ssh/config.local
 
 IgnoreUnknown UseKeychain
 
-Host nixos-laptop
+Match originalhost nixos-laptop localnetwork 192.168.0.0/24
   HostName 192.168.0.244
+
+Host nixos-laptop
+  HostName 100.121.29.45
   User tudor
   IdentityFile ~/.ssh/nixos-laptop
   IdentitiesOnly yes
@@ -14,6 +16,8 @@ Host nixos-laptop-tailscale
   User tudor
   IdentityFile ~/.ssh/nixos-laptop
   IdentitiesOnly yes
+
+Include ~/.ssh/config.local
 
 Host *
   IdentityAgent none

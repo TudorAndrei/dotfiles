@@ -151,8 +151,11 @@ updates the laptop's configuration files, and activates the system. On the
 laptop, `/etc/nixos` links to
 `/home/tudor/dotfiles/nix`.
 
-`configs/ssh/config` contains the laptop's LAN and Tailscale aliases. Each
-management machine needs its own authorized key at `~/.ssh/nixos-laptop`.
+`ssh nixos-laptop` uses `192.168.0.244` when the management machine has an
+address on `192.168.0.0/24`. Else, it uses the Tailscale address
+`100.121.29.45`. Use `ssh nixos-laptop-tailscale` to select Tailscale on the
+local network. Each management machine needs its own authorized key at
+`~/.ssh/nixos-laptop`.
 Keep GitHub identity settings in the included `~/.ssh/config.local`; origin
 on the management machine uses `git@github.com:TudorAndrei/dotfiles.git`.
 
