@@ -204,6 +204,27 @@ database dumps in the library do not include the original photos. The thin
 pool is shared with Incus, so monitor its physical use with
 `sudo lvs -o lv_name,lv_size,data_percent default/IncusThinPool`.
 
+### Laptop dashboard
+
+Homepage runs as a NixOS service on `nixos-laptop`. Open
+`https://nixos-laptop.tail582219.ts.net:8446/` from a Tailscale device.
+The page has links and availability checks for Immich, Seedstrem, Prowlarr,
+qBittorrent and CLIProxyAPI. Its header shows host CPU, RAM, uptime, root
+disk and Immich disk use. A system card shows Incus thin pool use. The pool
+value comes from a read-only endpoint on host loopback. Homepage and that
+endpoint do not use the public Caddy site.
+
+After the NixOS deployment, add the private HTTPS route once:
+
+```bash
+ssh nixos-laptop 'sudo tailscale serve --bg --https=8446 http://127.0.0.1:8083'
+```
+
+Homepage configuration lives in `nix/hosts/nixos-laptop/homepage.nix`. Its
+service checks use host loopback addresses, so they do not need API keys or
+Docker socket access. The disk widgets show the host root and Immich mounts;
+the thin pool widget reports the shared LVM pool that backs Incus storage.
+
 ### Laptop NVIDIA and power policy
 
 The MSI Raider GE66 12UGS has an i7-12700H, 16 GiB RAM and an RTX 3070 Ti
