@@ -1,5 +1,6 @@
 [tools]
 bitwarden = "latest"
+"github:simulot/immich-go" = "latest"
 just = "latest"
 "npm:ctx7" = "latest"
 
