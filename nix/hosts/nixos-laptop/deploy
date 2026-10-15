@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Build on the management machine, then deploy to the persistent runtime host.
+config_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+flake_dir=$(cd -- "$config_dir/../.." && pwd)
+system_link="$HOME/.local/share/dotfiles/nixos-laptop-system"
+ssh_config="$HOME/.ssh/config"
+activation="${1:-switch}"
+case "$activation" in
+  switch|boot) ;;
+  *) echo "Usage: $0 [switch|boot]" >&2; exit 2 ;;
+esac
+mkdir -p "$(dirname -- "$system_link")"
+
+nix build "path:$flake_dir#nixosConfigurations.nixos-laptop.config.system.build.toplevel" \
+  --out-link "$system_link"
+system=$(readlink -f -- "$system_link")
+
+# Our locally built configuration is unsigned; the SSH key authenticates
+# transport and the server explicitly trusts its wheel administrators.
+NIX_SSHOPTS="-F $ssh_config" nix copy --no-check-sigs \
+  --to ssh-ng://nixos-laptop "$system"
+
+tar -C "$flake_dir" -cf - flake.nix flake.lock home.nix packages.nix \
+  hosts/nixos-laptop/configuration.nix hosts/nixos-laptop/hardware-configuration.nix \
+  hosts/nixos-laptop/nvidia.nix hosts/nixos-laptop/power.nix \
+  hosts/nixos-laptop/media-public.nix hosts/nixos-laptop/immich.nix \
+  hosts/nixos-laptop/prepare-immich-storage hosts/nixos-laptop/deploy |
+  ssh -F "$ssh_config" nixos-laptop \
+    'tar -C /home/tudor/dotfiles/nix -xf -'
+
+# Make local NixOS rebuilds use the same flake as the management machine.
+ssh -F "$ssh_config" nixos-laptop \
+  'sudo ln -sfn /home/tudor/dotfiles/nix /etc/nixos'
+
+# This is NixOS's system generation, not a user package profile.
+ssh -F "$ssh_config" nixos-laptop \
+  "sudo nix-env -p /nix/var/nix/profiles/system --set '$system' && sudo '$system/bin/switch-to-configuration' '$activation'"

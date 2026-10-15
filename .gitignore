@@ -1,2 +1,8 @@
 configs/tmux/plugins/
 configs/tmux/resurrect/
+
+# Local Home Manager migration backups and Nix build outputs.
+.nh-backup.*/
+result
+result-*
+.direnv/
