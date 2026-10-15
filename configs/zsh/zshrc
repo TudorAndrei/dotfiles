@@ -50,17 +50,19 @@ else
     compinit
 fi
 
-# Syntax highlighting (if installed)
-if command -v zsh-syntax-highlighting &>/dev/null; then
-    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null || true
+# Syntax highlighting (installed via `just install`)
+_zsh_plugins="${XDG_DATA_HOME:-$HOME/.local/share}"
+if [[ -r "$_zsh_plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+    source "$_zsh_plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
 
-# History substring search (if installed)
-if command -v zsh-history-substring-search &>/dev/null; then
-    source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh 2>/dev/null || true
+# History substring search (installed via `just install`)
+if [[ -r "$_zsh_plugins/zsh-history-substring-search/zsh-history-substring-search.zsh" ]]; then
+    source "$_zsh_plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
     bindkey '^[[A' history-substring-search-up
     bindkey '^[[B' history-substring-search-down
 fi
+unset _zsh_plugins
 
 # Aliases
 alias mt="mise tasks"

@@ -59,6 +59,8 @@ AppleMenuBarVisibleInFullscreen = true
 
 [bootstrap.repos]
 "~/.local/share/zsh-defer" = { url = "https://github.com/romkatv/zsh-defer.git" }
+"~/.local/share/zsh-syntax-highlighting" = { url = "https://github.com/zsh-users/zsh-syntax-highlighting.git" }
+"~/.local/share/zsh-history-substring-search" = { url = "https://github.com/zsh-users/zsh-history-substring-search.git" }
 
 [dotfiles]
 "~/.config/zsh" = { source = "configs/zsh", mode = "symlink" }

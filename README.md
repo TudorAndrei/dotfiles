@@ -279,18 +279,6 @@ Incus preseed. The configuration expects that existing group.
 
 - [alacritty](https://github.com/alacritty/alacritty)
 - [Zsh](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH)
-  - [zimfw](https://github.com/zimfw/zimfw)
-    - environment
-    - git
-    - archive
-    - utility
-    - fzf
-    - duration-info
-    - rimraf/k
-    - agkozak/zsh-z
-    - zsh-user/zsh-syntax-highlighting
-    - zsh-user/zsh-history-substring-search
-    - zsh-users/zsh-completions
   - [starship](https://github.com/starship/starship)
 
 - [Bat](https://github.com/sharkdp/bat)
