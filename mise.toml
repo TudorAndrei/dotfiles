@@ -67,7 +67,7 @@ AppleMenuBarVisibleInFullscreen = true
 "~/.config/barrs" = { source = "configs/barrs", mode = "symlink" }
 "~/.config/uv" = { source = "configs/uv", mode = "symlink" }
 "~/.config/nvim" = { source = "nvim", mode = "symlink" }
-"~/.config/starship.toml" = { source = "starship.toml", mode = "symlink" }
+"~/.config/starship.toml" = { source = "configs/starship/starship.toml", mode = "symlink" }
 "~/.config/mise/config.toml" = { source = "configs/mise/config.toml", mode = "symlink" }
 "~/.config/herdr/config.toml" = { source = "configs/herdr/config.toml", mode = "symlink" }
 "~/.config/herdr/plugins/config/herdr-navigator/config.toml" = { source = "configs/herdr/plugins/herdr-navigator.toml", mode = "symlink" }

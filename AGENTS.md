@@ -15,7 +15,7 @@ This is a dotfiles repository containing configuration files for various tools:
 - **Herdr** - `configs/herdr/` (agent multiplexer, mirrors the tmux keymap)
 - **Hyprland** - `configs/hypr/`
 - **Alacritty** - `configs/alacritty/`
-- **Starship** - `starship.toml`
+- **Starship** - `configs/starship/`
 - Various other tools (Alacritty, Rofi, Waybar, etc.)
 
 ## Build/Lint/Test Commands
