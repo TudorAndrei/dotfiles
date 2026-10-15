@@ -20,6 +20,8 @@ management:
   allow-remote: false
   secret-key: ""
   disable-control-panel: true
+routing:
+  session-affinity: true
 access:
   api-keys:
     - "$key"

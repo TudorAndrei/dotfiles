@@ -461,6 +461,9 @@ CLIProxyAPI in Docker. Caddy sends `https://casapuiu.home.ro/llm/v1/*` to
 the guest. The guest and laptop listen on loopback only. The first deployment
 creates a random client key in `/srv/cliproxy/config.yaml` inside the guest.
 The management API is disabled. Keep the key and the OAuth files private.
+Session affinity keeps each Codex session on one OAuth account when more
+accounts are added. If that account becomes unavailable, CLIProxyAPI can
+select another account.
 
 Deploy the laptop NixOS configuration, then the guest:
 
@@ -487,6 +490,19 @@ the login URL printed by the tool:
 
 ```bash
 ssh -N -L 1455:127.0.0.1:1455 nixos-laptop
+```
+
+To add a Claude Code account, run this command in one Mac terminal:
+
+```bash
+ssh -t nixos-laptop 'sudo incus exec cliproxy -- docker compose -f /opt/cliproxy/compose.yaml run --rm cli-proxy-api ./CLIProxyAPI -claude-login -no-browser'
+```
+
+In another Mac terminal, forward the Claude callback port, then open the
+login URL printed by the first command:
+
+```bash
+ssh -N -L 54545:127.0.0.1:54545 nixos-laptop
 ```
 
 For another provider, use its login flag and forward its callback port.
