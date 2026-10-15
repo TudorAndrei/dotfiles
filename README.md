@@ -142,8 +142,6 @@ Build and deploy the laptop configuration from the management machine:
 
 ```bash
 ~/dotfiles/nix/hosts/nixos-laptop/deploy
-# Or:
-just nixos-laptop
 ```
 
 The deployment script builds locally, copies the system closure over SSH,
@@ -186,7 +184,7 @@ Create the volume once, on the laptop, before the first deployment:
 
 ```bash
 ssh nixos-laptop 'sudo bash -s' < nix/hosts/nixos-laptop/prepare-immich-storage
-just nixos-laptop
+nix/hosts/nixos-laptop/deploy
 ```
 
 The storage script creates the volume and formats it only when it does not
@@ -367,8 +365,8 @@ add userChrome.css
 
 ## FileList and Stremio on the laptop
 
-`just media-deploy` provisions an unprivileged Ubuntu 24.04 Incus container
-named `media` on `nixos-laptop`. It runs Docker Compose inside the guest,
+`bash scripts/media/deploy.sh` provisions an unprivileged Ubuntu 24.04 Incus
+container named `media` on `nixos-laptop`. It runs Docker Compose inside the guest,
 using upstream Seedstrem's supported deployment. The NixOS host retains
 Incus and its existing GPU/power configuration; no GPU is needed here.
 The guest gets four CPUs, 4 GiB RAM, an inherited 30 GiB root disk and a
@@ -410,7 +408,8 @@ Service state, SQLite databases and credentials live under the guest's
 `media-data`. These persistent files are not mise-managed symlinks. Back
 up this volume/config independently of the Git checkout.
 
-Enable Tailscale **Serve** once in the account, then run `just media-https`.
+Enable Tailscale **Serve** once in the account, then run
+`bash scripts/media/https.sh`.
 For this private mode, Funnel is unnecessary and Stremio devices must be connected to your tailnet. Public access is described below:
 
 - Seedstrem: `https://nixos-laptop.tail582219.ts.net:9443/`
@@ -456,8 +455,8 @@ Sources: [Seedstrem](https://github.com/kipsilabs/seedstrem),
 
 ### CLIProxyAPI on the laptop
 
-`just cliproxy-deploy` creates an Incus guest named `cliproxy` and runs
-CLIProxyAPI in Docker. Caddy sends `https://casapuiu.home.ro/llm/v1/*` to
+`bash scripts/cliproxy/deploy.sh` creates an Incus guest named `cliproxy`
+and runs CLIProxyAPI in Docker. Caddy sends `https://casapuiu.home.ro/llm/v1/*` to
 the guest. The guest and laptop listen on loopback only. The first deployment
 creates a random client key in `/srv/cliproxy/config.yaml` inside the guest.
 The management API is disabled. Keep the key and the OAuth files private.
@@ -468,8 +467,8 @@ select another account.
 Deploy the laptop NixOS configuration, then the guest:
 
 ```bash
-just nixos-laptop
-just cliproxy-deploy
+nix/hosts/nixos-laptop/deploy
+bash scripts/cliproxy/deploy.sh
 ```
 
 Read the client key from `access.api-keys` in the guest config:
@@ -571,8 +570,8 @@ Sources: [CLIProxyAPI configuration](https://github.com/router-for-me/CLIProxyAP
 
 ### Public streaming without registering client devices
 
-`just media-direct` deploys Caddy HTTPS at `casapuiu.home.ro` and activates
-that origin for the key-protected streaming gateway. Digi DDNS must track
+`bash scripts/media/direct.sh` deploys Caddy HTTPS at `casapuiu.home.ro`
+and activates that origin for the key-protected streaming gateway. Digi DDNS must track
 the router's public WAN address. Reserve `192.168.0.244` for laptop Wi-Fi
 MAC `70:1a:b8:22:30:c6`, and forward TCP 80 and 443 to the same internal
 ports at that address. Caddy binds this LAN address and obtains/renews its
@@ -581,8 +580,8 @@ Administration stays private on Tailscale ports 9443, 8443 and 8444.
 Tailscale DNS acceptance is disabled on this host so router DNS remains
 available independently of the tailnet DNS resolver.
 
-`just media-public` is an optional Funnel alternative; it changes the
-public origin. Funnel DNS did not publish during this deployment, so the
+`bash scripts/media/public.sh` is an optional Funnel alternative; it changes
+the public origin. Funnel DNS did not publish during this deployment, so the
 Digi endpoint is the active setup.
 
 A randomly generated 256-bit URL key authenticates addon and playback
@@ -613,9 +612,9 @@ ssh nixos-laptop 'sudo incus exec media -- docker stop media-public-gateway-1'
 ```
 
 Then replace `public_token` with a freshly generated secret in the guest
-credentials file and run `just media-public` to rerender/reload the gateway,
-followed by `just media-direct` to restore the Digi origin. Reinstall the
-new manifest on clients. This invalidates the previous URL credential.
+credentials file and run `bash scripts/media/public.sh` to rerender/reload the
+gateway, followed by `bash scripts/media/direct.sh` to restore the Digi
+origin. Reinstall the new manifest on clients. This invalidates the previous URL credential.
 Streaming performance depends on home upload bandwidth and torrent peers.
 Sources: [Stremio's key authentication example](https://github.com/Stremio/stremio-addon-with-key),
 [Caddy automatic HTTPS](https://caddyserver.com/docs/automatic-https).

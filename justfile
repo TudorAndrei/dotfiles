@@ -68,30 +68,6 @@ nix-home:
 wsl-optimize:
     bash "{{scripts}}/wsl/apply.sh"
 
-# Build on this machine and deploy the headless NixOS laptop over SSH
-nixos-laptop:
-    "{{dotfiles}}/nix/hosts/nixos-laptop/deploy"
-
-# Deploy the FileList/Stremio services inside the laptop's Incus media guest
-media-deploy:
-    bash "{{scripts}}/media/deploy.sh"
-
-# Enable private HTTPS after the account owner enables Tailscale Serve
-media-https:
-    bash "{{scripts}}/media/https.sh"
-
-# Publish only the key-protected Stremio streaming gateway through Funnel
-media-public:
-    bash "{{scripts}}/media/public.sh"
-
-# Publish the gateway through Digi DDNS and the router forwarding rules
-media-direct:
-    bash "{{scripts}}/media/direct.sh"
-
-# Deploy CLIProxyAPI inside the laptop's Incus cliproxy guest
-cliproxy-deploy:
-    bash "{{scripts}}/cliproxy/deploy.sh"
-
 # Apply macOS user defaults
 macos-defaults:
     #!/usr/bin/env bash
