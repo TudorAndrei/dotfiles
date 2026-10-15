@@ -5,6 +5,7 @@
   "hideThinkingBlock": true,
   "lastChangelogVersion": "1.2.0",
   "packages": [
+    "npm:@router-for-me/pi-cliproxyapi-provider",
     "npm:@narumitw/pi-goal",
     "npm:@plannotator/pi-extension",
     "npm:@ff-labs/pi-fff"
