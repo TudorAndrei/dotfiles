@@ -1,0 +1,372 @@
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -15,6 +15,7 @@
+ RUN go mod download
+ COPY . .
+ COPY --from=web /src/web/dist ./web/dist
++RUN go test ./internal/prowlarr ./internal/stremio
+ ARG VERSION=docker
+ ARG TARGETOS
+ ARG TARGETARCH
+--- a/internal/prowlarr/client.go
++++ b/internal/prowlarr/client.go
+@@ -4,6 +4,7 @@
+ 
+ import (
+ 	"context"
++	"crypto/sha256"
+ 	"encoding/json"
+ 	"errors"
+ 	"fmt"
+@@ -33,6 +34,7 @@
+ 	// metadata fetch, which is unreliable for private-tracker peers. Nil
+ 	// when the release already had a magnet/infohash.
+ 	TorrentFile []byte
++	DownloadURL string
+ 	Size        int64
+ 	Seeders     int
+ 	Categories  []int
+@@ -45,9 +47,10 @@
+ 
+ // Client talks to a Prowlarr instance.
+ type Client struct {
+-	http    *http.Client
+-	baseURL string
+-	apiKey  string
++	http              *http.Client
++	baseURL           string
++	apiKey            string
++	DeferTorrentFiles bool
+ }
+ 
+ // New builds a Client with a default HTTP timeout.
+@@ -157,6 +160,13 @@
+ 			continue // usenet or unknown — not resolvable via qBittorrent
+ 		}
+ 		res := normalize(r)
++		if c.DeferTorrentFiles && res.MagnetURL == "" && r.DownloadURL != "" {
++			// Discovery retains an opaque identity, not the private download URL.
++			res.InfoHash = fmt.Sprintf("%x", sha256.Sum256([]byte(r.DownloadURL)))
++			res.DownloadURL = r.DownloadURL
++			out = append(out, res)
++			continue
++		}
+ 		if res.MagnetURL == "" && r.DownloadURL != "" {
+ 			// Some (typically private-tracker) indexers omit magnetUrl and
+ 			// infoHash and only publish a .torrent download link. Fetch it
+@@ -453,3 +463,19 @@
+ 	}
+ 	return nil
+ }
++
++// ResolveDeferred fetches only the release selected for playback.
++func (c *Client) ResolveDeferred(ctx context.Context, res Result) (Result, error) {
++	hash, name, trackers, raw, err := c.fetchTorrentHash(ctx, res.DownloadURL)
++	if err != nil {
++		return Result{}, err
++	}
++	res.InfoHash = hash
++	if res.Title == "" {
++		res.Title = name
++	}
++	res.MagnetURL = synthesizeMagnet(hash, res.Title, trackers)
++	res.TorrentFile = raw
++	res.DownloadURL = ""
++	return res, nil
++}
+--- /dev/null
++++ b/internal/prowlarr/deferred_test.go
+@@ -0,0 +1,43 @@
++package prowlarr
++
++import (
++	"context"
++	"fmt"
++	"net/http"
++	"net/http/httptest"
++	"strings"
++	"sync/atomic"
++	"testing"
++)
++
++func TestDeferredSearchFetchesMetadataOnlyOnSelection(t *testing.T) {
++	var downloads atomic.Int32
++	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
++		if r.URL.Path == "/api/v1/search" {
++			fmt.Fprintf(w, `[{"title":"one","downloadUrl":"http://%s/torrent/one"},{"title":"two","downloadUrl":"http://%s/torrent/two"}]`, r.Host, r.Host)
++			return
++		}
++		downloads.Add(1)
++		w.Write([]byte("d8:announce26:http://tr.example/announce4:infod4:name4:testee"))
++	}))
++	defer srv.Close()
++	pc := NewWithClient(srv.URL, "test", srv.Client())
++	pc.DeferTorrentFiles = true
++	results, err := pc.Search(context.Background(), "test", "search", nil, nil)
++	if err != nil || len(results) != 2 {
++		t.Fatalf("discovery: count=%d error=%v", len(results), err)
++	}
++	if downloads.Load() != 0 {
++		t.Fatal("discovery downloaded torrent metadata")
++	}
++	if results[0].InfoHash == results[1].InfoHash {
++		t.Fatal("references are not distinct")
++	}
++	resolved, err := pc.ResolveDeferred(context.Background(), results[0])
++	if err != nil {
++		t.Fatal(err)
++	}
++	if downloads.Load() != 1 || len(resolved.TorrentFile) == 0 || !strings.Contains(resolved.MagnetURL, "tr=") {
++		t.Fatal("selection lost raw torrent or tracker")
++	}
++}
+--- a/internal/stremio/handler.go
++++ b/internal/stremio/handler.go
+@@ -85,6 +85,8 @@
+ 
+ 	torrentFiles *torrentFileCache
+ 	searchCache  *searchCache
++	deferredMu   sync.Mutex
++	deferred     map[string]deferredRelease
+ 
+ 	// diskUsage reports (used, total) bytes for a local path. Injectable
+ 	// for tests; defaults to diskusage.Stat.
+@@ -106,6 +108,8 @@
+ 	r.Use(cors)
+ 	r.Get("/manifest.json", h.manifest)
+ 	r.Get("/stream/{type}/{id}", h.stream)
++	r.Get("/deferred/{ref}", h.playDeferred)
++	r.Head("/deferred/{ref}", h.playDeferred)
+ 	r.Get("/play/{infohash}", h.play)
+ 	r.Head("/play/{infohash}", h.play)
+ 	return r
+@@ -135,7 +139,9 @@
+ }
+ 
+ func (h *Handler) prowlarr(s Settings) *prowlarr.Client {
+-	return prowlarr.New(s.Prowlarr.URL, s.Prowlarr.APIKey)
++	pc := prowlarr.New(s.Prowlarr.URL, s.Prowlarr.APIKey)
++	pc.DeferTorrentFiles = true
++	return pc
+ }
+ 
+ // searchEach wraps prowlarr.Client.SearchEach with the search-result
+--- a/internal/stremio/stream.go
++++ b/internal/stremio/stream.go
+@@ -2,6 +2,7 @@
+ 
+ import (
+ 	"context"
++	"encoding/json"
+ 	"fmt"
+ 	"net/http"
+ 	"net/url"
+@@ -21,10 +22,29 @@
+ // streamItem is one entry in a Stremio stream response.
+ type streamItem struct {
+ 	Name          string         `json:"name"`
+-	Title         string         `json:"title"`                 // deprecated by Stremio; kept for back-compat
++	Title         string         `json:"-"`                     // deprecated by Stremio; kept for back-compat
+ 	Description   string         `json:"description,omitempty"` // Stremio-preferred; AIOStreams reads it
+ 	URL           string         `json:"url"`
+ 	BehaviorHints map[string]any `json:"behaviorHints,omitempty"`
++}
++
++// Stremio aliases title to description; emitting both makes strict clients
++// discard the stream as a duplicate field. Accept the legacy name on reads.
++func (item *streamItem) UnmarshalJSON(data []byte) error {
++	type wire streamItem
++	var decoded struct {
++		wire
++		LegacyTitle string `json:"title"`
++	}
++	if err := json.Unmarshal(data, &decoded); err != nil {
++		return err
++	}
++	*item = streamItem(decoded.wire)
++	if item.Description == "" {
++		item.Description = decoded.LegacyTitle
++	}
++	item.Title = item.Description
++	return nil
+ }
+ 
+ type streamResponse struct {
+@@ -577,6 +597,11 @@
+ 		v.Set("ix", res.Indexer)
+ 	}
+ 	playURL := fmt.Sprintf("%s/stremio/play/%s?%s", base, res.InfoHash, v.Encode())
++	if res.DownloadURL != "" {
++		h.rememberDeferred(res)
++		v.Del("magnet")
++		playURL = fmt.Sprintf("%s/stremio/deferred/%s?%s", base, res.InfoHash, v.Encode())
++	}
+ 
+ 	// Surface the parsed resolution on the name's second line so Stremio's
+ 	// resolution badge and AIOStreams' grouping resolve cleanly.
+--- /dev/null
++++ b/internal/stremio/deferred.go
+@@ -0,0 +1,65 @@
++package stremio
++
++import (
++	"github.com/go-chi/chi/v5"
++	"github.com/kipsilabs/seedstrem/internal/prowlarr"
++	"net/http"
++	"time"
++)
++
++type deferredRelease struct {
++	result prowlarr.Result
++	at     time.Time
++}
++
++// Keep private download URLs server-side in a bounded, expiring registry.
++func (h *Handler) rememberDeferred(res prowlarr.Result) {
++	h.deferredMu.Lock()
++	defer h.deferredMu.Unlock()
++	if h.deferred == nil {
++		h.deferred = make(map[string]deferredRelease)
++	}
++	for key, entry := range h.deferred {
++		if time.Since(entry.at) > 2*time.Hour {
++			delete(h.deferred, key)
++		}
++	}
++	if _, exists := h.deferred[res.InfoHash]; !exists && len(h.deferred) >= 512 {
++		var oldest string
++		var at time.Time
++		for key, entry := range h.deferred {
++			if oldest == "" || entry.at.Before(at) {
++				oldest = key
++				at = entry.at
++			}
++		}
++		delete(h.deferred, oldest)
++	}
++	h.deferred[res.InfoHash] = deferredRelease{res, time.Now()}
++}
++
++func (h *Handler) playDeferred(w http.ResponseWriter, r *http.Request) {
++	h.deferredMu.Lock()
++	entry, ok := h.deferred[chi.URLParam(r, "ref")]
++	h.deferredMu.Unlock()
++	if !ok || time.Since(entry.at) > 2*time.Hour {
++		http.Error(w, "stream reference expired; reopen the title", http.StatusGone)
++		return
++	}
++	s := h.settings()
++	resolved, err := prowlarr.New(s.Prowlarr.URL, s.Prowlarr.APIKey).ResolveDeferred(r.Context(), entry.result)
++	if err != nil {
++		http.Error(w, "failed to fetch selected torrent metadata", http.StatusBadGateway)
++		return
++	}
++	h.torrentFiles.put(resolved.InfoHash, resolved.TorrentFile)
++	// Reuse the original private-tracker/raw-torrent playback path.
++	forwarded := r.Clone(r.Context())
++	u := *r.URL
++	query := u.Query()
++	query.Set("magnet", resolved.MagnetURL)
++	u.RawQuery = query.Encode()
++	forwarded.URL = &u
++	chi.RouteContext(forwarded.Context()).URLParams.Add("infohash", resolved.InfoHash)
++	h.play(w, forwarded)
++}
+--- /dev/null
++++ b/internal/stremio/deferred_test.go
+@@ -0,0 +1,95 @@
++package stremio
++
++import (
++	"bytes"
++	"encoding/json"
++	"fmt"
++	"github.com/kipsilabs/seedstrem/internal/downloader/fake"
++	"github.com/kipsilabs/seedstrem/internal/meta"
++	"github.com/kipsilabs/seedstrem/internal/metainfo"
++	"github.com/kipsilabs/seedstrem/internal/prowlarr"
++	"net/http"
++	"net/http/httptest"
++	"strings"
++	"testing"
++	"time"
++)
++
++func TestDeferredStreamKeepsDownloadCredentialsPrivate(t *testing.T) {
++	h := &Handler{}
++	res := prowlarr.Result{InfoHash: "opaque-reference", Title: "fixture", DownloadURL: "http://prowlarr:9696/download?apikey=private-secret"}
++	item := h.toStreamItem("https://example.test/access", meta.Query{}, res, 0)
++	if !strings.Contains(item.URL, "/stremio/deferred/opaque-reference?") || strings.Contains(item.URL, "private-secret") || strings.Contains(item.URL, "magnet=") {
++		t.Fatal("invalid deferred stream URL")
++	}
++	if h.deferred[res.InfoHash].result.DownloadURL != res.DownloadURL {
++		t.Fatal("download URL was not retained server-side")
++	}
++}
++
++func TestDeferredRegistryIsBoundedAndExpiredReferencesFail(t *testing.T) {
++	h := &Handler{}
++	for i := range 513 {
++		h.rememberDeferred(prowlarr.Result{InfoHash: fmt.Sprint(i)})
++	}
++	if len(h.deferred) != 512 {
++		t.Fatalf("registry size=%d", len(h.deferred))
++	}
++	h.deferred["expired"] = deferredRelease{at: time.Now().Add(-3 * time.Hour)}
++	for _, ref := range []string{"missing", "expired"} {
++		rr := httptest.NewRecorder()
++		h.Router().ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/deferred/"+ref, nil))
++		if rr.Code != http.StatusGone {
++			t.Fatalf("reference %s: status=%d", ref, rr.Code)
++		}
++	}
++}
++
++func TestStreamJSONEmitsOnlyOneDescriptionField(t *testing.T) {
++	data, err := json.Marshal(streamItem{Title: "details", Description: "details", URL: "https://example.test/video"})
++	if err != nil {
++		t.Fatal(err)
++	}
++	var fields map[string]json.RawMessage
++	if err = json.Unmarshal(data, &fields); err != nil {
++		t.Fatal(err)
++	}
++	if _, exists := fields["title"]; exists {
++		t.Fatal("legacy alias duplicated the description")
++	}
++	if _, exists := fields["description"]; !exists {
++		t.Fatal("description missing")
++	}
++	var decoded streamItem
++	if err = json.Unmarshal(data, &decoded); err != nil {
++		t.Fatal(err)
++	}
++	if decoded.Title != "details" || decoded.Description != "details" {
++		t.Fatal("description did not decode")
++	}
++}
++
++func TestDeferredSelectionUsesOriginalPlaybackPath(t *testing.T) {
++	h := newHarness(t)
++	raw := []byte("d8:announce26:http://tr.example/announce4:infod6:lengthi16e4:name11:fixture.mkvee")
++	hash, _, _, err := metainfo.FromTorrent(raw)
++	if err != nil {
++		t.Fatal(err)
++	}
++	h.fakeDC.Put(&fake.Torrent{Hash: hash, State: "Paused", Files: []fake.File{{Name: "fixture.mkv", Size: 16}}})
++	source := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { w.Write(raw) }))
++	defer source.Close()
++	h.handler.rememberDeferred(prowlarr.Result{InfoHash: "reference", DownloadURL: source.URL, Title: "fixture"})
++	client := &http.Client{CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}
++	response, err := client.Get(h.server.URL + "/stremio/deferred/reference?src=imdb&cid=tt26657236")
++	if err != nil {
++		t.Fatal(err)
++	}
++	defer response.Body.Close()
++	if response.StatusCode != http.StatusFound || !strings.HasPrefix(response.Header.Get("Location"), h.server.URL+"/dl/") {
++		t.Fatalf("playback status=%d", response.StatusCode)
++	}
++	if !bytes.Equal(h.handler.torrentFiles.get(hash), raw) {
++		t.Fatal("selected raw torrent was not passed to playback")
++	}
++}

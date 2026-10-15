@@ -1,0 +1,10 @@
+{
+  "services": {
+    "qbittorrent": {
+      "image": "lscr.io/linuxserver/qbittorrent@sha256:97333cc1ccf903e0bbcd8eb67e3332e4970e9c1ecabe145e499e9c0847ebcaed"
+    },
+    "prowlarr": {
+      "image": "lscr.io/linuxserver/prowlarr@sha256:f9151e5bc1025c6d0a630d503210cdcb6bb55a7cc098562609d96a408d838902"
+    }
+  }
+}

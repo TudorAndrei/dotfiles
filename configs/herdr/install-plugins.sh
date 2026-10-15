@@ -12,6 +12,7 @@ if ! command -v herdr >/dev/null 2>&1; then
 fi
 
 installed="$(herdr plugin list 2>/dev/null || true)"
+failed=0
 
 while IFS= read -r repo; do
     case "$repo" in
@@ -25,8 +26,12 @@ while IFS= read -r repo; do
     fi
 
     echo "==> Installing $repo"
-    herdr plugin install "$repo" --yes || echo "  FAILED: $repo"
+    if ! herdr plugin install "$repo" --yes; then
+        echo "  FAILED: $repo" >&2
+        failed=1
+    fi
 done < "$PLUGINS_FILE"
 
 herdr server reload-config >/dev/null 2>&1 || true
 echo "  Run 'herdr plugin list' to confirm"
+exit "$failed"
