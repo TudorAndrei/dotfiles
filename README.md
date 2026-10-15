@@ -460,7 +460,8 @@ Sources: [Seedstrem](https://github.com/kipsilabs/seedstrem),
 and runs CLIProxyAPI in Docker. Caddy sends `https://casapuiu.home.ro/llm/v1/*` to
 the guest. The guest and laptop listen on loopback only. The first deployment
 creates a random client key in `/srv/cliproxy/config.yaml` inside the guest.
-The management API is disabled. Keep the key and the OAuth files private.
+The management dashboard uses a separate key. Keep both keys and the OAuth
+files private.
 Session affinity keeps each Codex session on one OAuth account when more
 accounts are added. If that account becomes unavailable, CLIProxyAPI can
 select another account.
@@ -477,6 +478,18 @@ Read the client key from `access.api-keys` in the guest config:
 ```bash
 ssh nixos-laptop 'sudo incus exec cliproxy -- cat /srv/cliproxy/config.yaml'
 ```
+
+From a device on the tailnet, open
+`https://nixos-laptop.tail582219.ts.net:8445/management.html`. Read the
+management key and enter it in the dashboard:
+
+```bash
+ssh nixos-laptop 'sudo incus exec cliproxy -- cat /srv/cliproxy/management.key'
+```
+
+The dashboard can change proxy settings and OAuth files. The public
+`/llm` route does not serve it. Tailscale Serve restricts access to the
+tailnet, and the dashboard still requires its management key.
 
 To add a Codex account, open a laptop SSH session and run the login tool
 in the guest. Keep that session open until login is complete:

@@ -28,5 +28,7 @@ set -euo pipefail
 incus file push /var/lib/dotfiles-cliproxy/configs/cliproxy/compose.yaml cliproxy/opt/cliproxy/compose.yaml
 incus file push /var/lib/dotfiles-cliproxy/scripts/cliproxy/bootstrap.sh cliproxy/opt/cliproxy/bootstrap.sh
 incus exec cliproxy -- bash /opt/cliproxy/bootstrap.sh < /dev/null
+timeout 20 tailscale serve --bg --https=8445 http://127.0.0.1:8318
 REMOTE
 echo "Retrieve the client key: ssh nixos-laptop 'sudo incus exec cliproxy -- cat /srv/cliproxy/config.yaml'"
+echo 'Dashboard on the tailnet: https://nixos-laptop.tail582219.ts.net:8445/management.html'
