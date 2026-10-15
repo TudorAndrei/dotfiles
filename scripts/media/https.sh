@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-# The account owner must first enable Serve on the tailnet. Funnel is unnecessary.
+# The account owner must first enable Serve on the tailnet.
 ssh -F "$HOME/.ssh/config" nixos-laptop 'sudo bash -s' <<'REMOTE'
 set -euo pipefail
 timeout 20 tailscale serve --bg --https=9443 http://127.0.0.1:8081
