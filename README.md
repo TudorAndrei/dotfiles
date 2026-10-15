@@ -454,6 +454,53 @@ Sources: [Seedstrem](https://github.com/kipsilabs/seedstrem),
 [Prowlarr FileList integration](https://github.com/Prowlarr/Prowlarr/tree/develop/src/NzbDrone.Core/Indexers/Definitions/FileList),
 [Docker inside Incus](https://linuxcontainers.org/incus/docs/main/faq/#how-can-i-run-docker-inside-an-incus-container).
 
+### CLIProxyAPI on the laptop
+
+`just cliproxy-deploy` creates an Incus guest named `cliproxy` and runs
+CLIProxyAPI in Docker. Caddy sends `https://casapuiu.home.ro/llm/v1/*` to
+the guest. The guest and laptop listen on loopback only. The first deployment
+creates a random client key in `/srv/cliproxy/config.yaml` inside the guest.
+The management API is disabled. Keep the key and the OAuth files private.
+
+Deploy the laptop NixOS configuration, then the guest:
+
+```bash
+just nixos-laptop
+just cliproxy-deploy
+```
+
+Read the client key from `access.api-keys` in the guest config:
+
+```bash
+ssh nixos-laptop 'sudo incus exec cliproxy -- cat /srv/cliproxy/config.yaml'
+```
+
+To add a Codex account, open a laptop SSH session and run the login tool
+in the guest. Keep that session open until login is complete:
+
+```bash
+ssh -t nixos-laptop 'sudo incus exec cliproxy -- docker compose -f /opt/cliproxy/compose.yaml run --rm cli-proxy-api ./CLIProxyAPI -codex-login -no-browser'
+```
+
+In another Mac terminal, forward the Codex callback port before opening
+the login URL printed by the tool:
+
+```bash
+ssh -N -L 1455:127.0.0.1:1455 nixos-laptop
+```
+
+For another provider, use its login flag and forward its callback port.
+The guest forwards ports 8085, 1455, 54545, 51121, and 11451 to the
+laptop loopback for these login flows. OAuth files persist in
+`/srv/cliproxy/auths` inside the guest. Check the model list after login:
+
+```bash
+curl -H 'Authorization: Bearer <client-key>' https://casapuiu.home.ro/llm/v1/models
+```
+
+Sources: [CLIProxyAPI configuration](https://github.com/router-for-me/CLIProxyAPI/blob/main/config.example.yaml),
+[Docker layout](https://github.com/router-for-me/CLIProxyAPI/blob/main/docker-compose.yml).
+
 ### Public streaming without registering client devices
 
 `just media-direct` deploys Caddy HTTPS at `casapuiu.home.ro` and activates

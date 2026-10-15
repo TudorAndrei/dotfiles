@@ -1,0 +1,9 @@
+services:
+  cli-proxy-api:
+    image: eceasy/cli-proxy-api:latest
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - /srv/cliproxy/config.yaml:/CLIProxyAPI/config.yaml
+      - /srv/cliproxy/auths:/root/.cli-proxy-api
+      - /srv/cliproxy/logs:/CLIProxyAPI/logs

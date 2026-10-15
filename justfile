@@ -88,6 +88,10 @@ media-public:
 media-direct:
     bash "{{scripts}}/media/direct.sh"
 
+# Deploy CLIProxyAPI inside the laptop's Incus cliproxy guest
+cliproxy-deploy:
+    bash "{{scripts}}/cliproxy/deploy.sh"
+
 # Apply macOS user defaults
 macos-defaults:
     #!/usr/bin/env bash
