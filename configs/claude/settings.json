@@ -11,7 +11,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash '/Users/tudor/.claude/hooks/herdr-agent-state.sh' session",
+            "command": "f=\"$HOME/.claude/hooks/herdr-agent-state.sh\"; [ ! -f \"$f\" ] || bash \"$f\" session",
             "timeout": 10
           }
         ]
@@ -26,5 +26,6 @@
   "verbose": true,
   "autoCompactEnabled": true,
   "terminalProgressBarEnabled": false,
-  "agentPushNotifEnabled": false
+  "agentPushNotifEnabled": false,
+  "skipWorkflowUsageWarning": true
 }
