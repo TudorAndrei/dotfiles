@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, tailscalePackage, ... }:
 {
   imports = [ ./nvidia.nix ./power.nix ./media-public.nix ./immich.nix ./homepage.nix ./desktop.nix ];
   boot.loader.systemd-boot.enable = true;
@@ -60,6 +60,7 @@
   };
   services.tailscale = {
     enable = true;
+    package = tailscalePackage;
     openFirewall = true;
     # Keep host Internet DNS on NetworkManager's router resolver. Tailscale
     # still supplies private routing; client devices can use MagicDNS.
