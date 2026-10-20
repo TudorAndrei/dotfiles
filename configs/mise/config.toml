@@ -90,6 +90,7 @@ typst = "latest"
 "npm:@opencode/cli" = { version = "2", allow_builds = ["@opencode/cli"] }
 "npm:likec4" = "latest"
 tokei = "latest"
+rclone = "latest"
 
 [tools."github:Wilfred/difftastic"]
 version = "latest"
