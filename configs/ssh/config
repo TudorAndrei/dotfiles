@@ -1,21 +1,24 @@
 Include ~/.orbstack/ssh/config
 Include ~/.ssh/config.local
 
-IgnoreUnknown UseKeychain
+Match originalhost nixos-laptop localnetwork 192.168.0.0/24
+  HostName 192.168.0.244
 
 Host nixos-laptop
-  HostName 192.168.0.244
-  User tudor
-  IdentityFile ~/.ssh/nixos-laptop
-  IdentitiesOnly yes
-
-Host nixos-laptop-tailscale
   HostName 100.121.29.45
   User tudor
   IdentityFile ~/.ssh/nixos-laptop
-  IdentitiesOnly yes
+
+Host rpi
+  HostName 192.168.0.233
+  User user
+  IdentityFile ~/.ssh/rpi
 
 Host *
   IdentityAgent none
   IdentitiesOnly yes
-  UseKeychain yes
+  ServerAliveInterval 30
+  ServerAliveCountMax 3
+  ControlMaster auto
+  ControlPath ~/.ssh/cm/%C
+  ControlPersist 10m

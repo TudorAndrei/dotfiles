@@ -57,6 +57,7 @@ AppleMenuBarVisibleInFullscreen = true
 [bootstrap.directories."~/.local/state/zsh"]
 [bootstrap.directories."~/.tmux/plugins"]
 [bootstrap.directories."~/.local/state/tmux/resurrect"]
+[bootstrap.directories."~/.ssh/cm"]
 
 [bootstrap.repos]
 "~/.local/share/zsh-defer" = { url = "https://github.com/romkatv/zsh-defer.git" }
