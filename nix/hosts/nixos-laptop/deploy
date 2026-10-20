@@ -26,7 +26,8 @@ tar -C "$flake_dir" -cf - flake.nix flake.lock home.nix packages.nix \
   hosts/nixos-laptop/configuration.nix hosts/nixos-laptop/hardware-configuration.nix \
   hosts/nixos-laptop/nvidia.nix hosts/nixos-laptop/power.nix \
   hosts/nixos-laptop/media-public.nix hosts/nixos-laptop/immich.nix \
-  hosts/nixos-laptop/homepage.nix hosts/nixos-laptop/pool-metrics.py \
+  hosts/nixos-laptop/homepage.nix hosts/nixos-laptop/desktop.nix \
+  hosts/nixos-laptop/pool-metrics.py \
   hosts/nixos-laptop/prepare-immich-storage hosts/nixos-laptop/deploy |
   ssh -F "$ssh_config" nixos-laptop \
     'tar -C /home/tudor/dotfiles/nix -xf -'

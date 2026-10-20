@@ -48,7 +48,7 @@ node = "latest"
 "npm:yaml-language-server" = "latest"
 opam = { version = "latest", asset_pattern = "opam-*-{gnu_arch}-{os}" }
 oxfmt = "latest"
-oxlint = "latest"
+"npm:oxlint" = "latest"
 "pipx:djlint" = "latest"
 "pipx:huggingface_hub" = "latest"
 "pipx:zotero-cli" = "latest"
