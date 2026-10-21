@@ -127,6 +127,8 @@ update: submodules mise packages
 # Update mise tools and git repos
 mise:
     #!/usr/bin/env bash
+    echo "==> Updating mise..."
+    mise self-update --yes
     echo "==> Updating mise tools..."
     mise upgrade
     echo "==> Updating git repos..."
