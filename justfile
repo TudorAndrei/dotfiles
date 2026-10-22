@@ -121,8 +121,8 @@ nvim-plugins:
 # Run full bootstrap (submodules + symlink + install + defaults + services + plugins)
 bootstrap: submodules symlink install macos-defaults services nvim-plugins herdr-plugins
 
-# Update submodules, mise tools and system packages
-update: submodules mise packages
+# Update submodules, mise tools, system packages and pi extensions
+update: submodules mise packages pi
 
 # Update mise tools and git repos
 mise:
@@ -134,7 +134,7 @@ mise:
     echo "==> Updating git repos..."
     mise bootstrap repos update --yes
 
-# Update system packages, herdr plugins and pi extensions (distro-aware)
+# Update system packages and herdr plugins (distro-aware)
 packages:
     #!/usr/bin/env bash
     case "{{distro}}" in
@@ -180,10 +180,16 @@ packages:
       echo "==> Updating herdr plugins..."
       bash "{{dotfiles}}/configs/herdr/install-plugins.sh" --update
     fi
-    if command -v pi >/dev/null 2>&1; then
-      echo "==> Updating pi extensions..."
-      pi update --extensions
+
+# Update pi extensions
+pi:
+    #!/usr/bin/env bash
+    if ! command -v pi >/dev/null 2>&1; then
+      echo "  SKIP: pi not installed"
+      exit 0
     fi
+    echo "==> Updating pi extensions..."
+    pi update --extensions
 
 # Add, commit, and push all changes (nvim submodule first)
 git msg="update":
