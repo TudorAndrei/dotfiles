@@ -84,6 +84,13 @@ in
               siteMonitor = "http://127.0.0.1:8318/management.html";
             };
           }
+          {
+            "T3 Code" = {
+              icon = "mdi-robot";
+              href = "https://${tailnetHost}:8447/";
+              siteMonitor = "http://127.0.0.1:3773/";
+            };
+          }
         ];
       }
     ];

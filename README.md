@@ -603,6 +603,62 @@ Sources: [CLIProxyAPI configuration](https://github.com/router-for-me/CLIProxyAP
 [Codex configuration](https://learn.chatgpt.com/docs/config-file/config-reference),
 [Claude Code gateway setup](https://code.claude.com/docs/en/llm-gateway-connect).
 
+### Terminal on the laptop
+
+`nix/hosts/nixos-laptop/terminal.nix` makes zsh the login shell and runs
+home-manager for `tudor`. It imports `nix/home.nix` and installs the terminal
+tools from nixpkgs-unstable. The zsh, starship, tmux, nvim and herdr configs
+are `mkOutOfStoreSymlink` links into `~/dotfiles` on the laptop, so edits in
+that clone apply without a rebuild. The laptop does not run `mise bootstrap`.
+
+### T3 Code agents on the laptop
+
+`nix/hosts/nixos-laptop/agents.nix` prepares the laptop for T3 Code. It
+enables nix-ld for the prebuilt `t3`, `claude` and `codex` binaries, keeps
+user services running without a login, and adds the `cliproxy-key` helper.
+The helper prints the CLIProxyAPI client key from the `cliproxy` guest, so
+no key file exists on the host. These agent configs use CLIProxyAPI on
+`http://127.0.0.1:8318`:
+
+- `~/.claude/settings.json`: the default Claude Code settings on the laptop,
+  with `ANTHROPIC_BASE_URL` and `apiKeyHelper`. Nix links this file on each
+  switch, so `claude` needs no login.
+- `~/.codex-cliproxy`: Codex `config.toml` with the `cliproxy` provider and
+  command auth. Nix copies this file only when it is missing, because Codex
+  writes to it. Delete it to get the current version from Nix.
+
+Install the CLIs on the laptop. They update themselves:
+
+```bash
+curl -fsSL https://t3.codes/install.sh | sh
+curl -fsSL https://claude.ai/install.sh | bash
+npm install -g --prefix ~/.local @openai/codex
+```
+
+Run T3 Code as a user service and serve it on the tailnet. The firewall
+trusts only `tailscale0`, so port 3773 is not open on the LAN:
+
+```bash
+printf 'T3CODE_HOST=0.0.0.0\nT3CODE_PORT=3773\n' > ~/.t3/service.env
+chmod 600 ~/.t3/service.env
+t3 service install
+sudo tailscale serve --bg --https=8447 http://127.0.0.1:3773
+```
+
+Run `t3 pair` on the laptop to get a one-time token for each new device.
+In the T3 Code desktop app, use Add environment with
+`http://100.121.29.45:3773` and the token. Devices that resolve the tailnet
+name can use `https://nixos-laptop.tail582219.ts.net:8447/` instead. In
+The default Claude provider uses the proxy. In Settings > Providers, add a
+Codex instance with `CODEX_HOME` `/home/tudor/.codex-cliproxy`.
+
+Agents run as `tudor`, who has passwordless sudo and Incus admin rights.
+
+Sources: [T3 Code remote access](https://github.com/pingdotgg/t3code/blob/main/docs/user/remote-access.md),
+[T3 Code background service](https://github.com/pingdotgg/t3code/blob/main/docs/user/background-service.md),
+[T3 Code Claude provider](https://github.com/pingdotgg/t3code/blob/main/docs/user/providers-claude.md),
+[Codex command auth](https://learn.chatgpt.com/docs/config-file/config-advanced).
+
 ### Public streaming without registering client devices
 
 `bash scripts/media/direct.sh` deploys Caddy HTTPS at `casapuiu.home.ro`
