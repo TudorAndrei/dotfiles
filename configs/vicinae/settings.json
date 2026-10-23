@@ -15,6 +15,9 @@
          "name": "vicinae-dark"
       }
    },
+   "global_shortcuts": {
+      "toggle": "control+space"
+   },
    "providers": {
       "applications": {
          "entrypoints": {
