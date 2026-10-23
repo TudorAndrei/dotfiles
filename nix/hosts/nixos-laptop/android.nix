@@ -1,0 +1,33 @@
+{ pkgs, unstable, ... }:
+let
+  androidPkgs = import unstable.path {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    config = {
+      allowUnfree = true;
+      android_sdk.accept_license = true;
+    };
+  };
+  android = androidPkgs.androidenv.composeAndroidPackages {
+    platformVersions = [ "36" "37.0" ];
+    buildToolsVersions = [ "36.0.0" "37.0.0" ];
+    includeNDK = true;
+    ndkVersions = [ "27.1.12297006" ];
+    cmakeVersions = [ "3.22.1" ];
+    includeEmulator = true;
+    includeSystemImages = true;
+    systemImageTypes = [ "google_apis_playstore" ];
+    abiVersions = [ "x86_64" ];
+  };
+  sdk = android.androidsdk;
+  sdkRoot = "${sdk}/libexec/android-sdk";
+in
+{
+  users.users.tudor.extraGroups = [ "kvm" ];
+
+  environment.systemPackages = [ sdk pkgs.jdk17 ];
+  environment.sessionVariables = {
+    ANDROID_HOME = sdkRoot;
+    ANDROID_SDK_ROOT = sdkRoot;
+    JAVA_HOME = "${pkgs.jdk17}/lib/openjdk";
+  };
+}
