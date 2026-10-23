@@ -201,7 +201,6 @@ variants = [{ os = "linux" }]
 "brew-cask:anydesk" = { os = "macos" }
 "brew-cask:bitwarden" = { os = "macos" }
 "brew-cask:blackhole-2ch" = { os = "macos" }
-"brew-cask:caffeine" = { os = "macos" }
 "brew-cask:claude" = { os = "macos" }
 "brew-cask:cursor" = { os = "macos" }
 "brew-cask:dbx" = { os = "macos" }
@@ -230,7 +229,6 @@ variants = [{ os = "linux" }]
 "brew-cask:sf-symbols" = { os = "macos" }
 "brew-cask:signal" = { os = "macos" }
 "brew-cask:slack" = { os = "macos" }
-"brew-cask:stats" = { os = "macos" }
 "brew-cask:stremio" = { os = "macos" }
 "brew-cask:syncthing-app" = { os = "macos" }
 "brew-cask:tailscale-app" = { os = "macos" }
