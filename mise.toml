@@ -227,7 +227,6 @@ variants = [{ os = "linux" }]
 "brew-cask:orion" = { os = "macos" }
 "brew-cask:petrichor" = { os = "macos" }
 "brew-cask:protonvpn" = { os = "macos" }
-"brew-cask:raycast" = { os = "macos" }
 "brew-cask:sf-symbols" = { os = "macos" }
 "brew-cask:signal" = { os = "macos" }
 "brew-cask:slack" = { os = "macos" }
