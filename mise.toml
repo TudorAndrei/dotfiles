@@ -239,6 +239,7 @@ variants = [{ os = "linux" }]
 "brew-cask:terminal-browser" = { os = "macos" }
 "brew-cask:twingate" = { os = "macos" }
 "brew-cask:utm" = { os = "macos" }
+"brew-cask:vicinae" = { os = "macos" }
 "brew-cask:visual-studio-code" = { os = "macos" }
 "brew-cask:vscodium" = { os = "macos" }
 "brew-cask:zed" = { os = "macos" }
