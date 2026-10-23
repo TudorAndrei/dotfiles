@@ -20,6 +20,7 @@
   },
   "enabledPlugins": {},
   "extraKnownMarketplaces": {},
+  "outputStyle": "Concise",
   "effortLevel": "high",
   "tui": "fullscreen",
   "skipWorkflowUsageWarning": true,
