@@ -138,16 +138,19 @@ plugin versions too. Nix provides the Rust build tools and plugin runtime
 dependencies; plugin checkouts and compiled binaries stay in Herdr's runtime
 directory.
 
-Build and deploy the laptop configuration from the management machine:
+Push changes to `main`, then deploy the laptop from GitHub:
 
 ```bash
-~/dotfiles/nix/hosts/nixos-laptop/deploy
+ssh -t nixos-laptop 'sudo nixos-rebuild switch --flake github:TudorAndrei/dotfiles?dir=nix#nixos-laptop'
 ```
 
-The deployment script builds locally, copies the system closure over SSH,
-updates the laptop's configuration files, and activates the system. On the
-laptop, `/etc/nixos` links to
-`/home/tudor/dotfiles/nix`.
+The laptop builds its own system and the two Incus guests, `media` and
+`cliproxy`. `nix/hosts/nixos-laptop/guests.nix` declares the guest
+profiles, volumes and port forwards in the Incus preseed. For each guest, an
+`incus-guest-<name>` unit creates the instance from `images:nixos/26.05` if
+it does not exist, copies the guest system from the host store, and switches
+it. The guest systems are `nixosConfigurations.media` and
+`nixosConfigurations.cliproxy` in `nix/guests/`.
 
 `configs/ssh/config` contains the laptop's LAN and Tailscale aliases. Each
 management machine needs its own authorized key at `~/.ssh/nixos-laptop`.
@@ -180,15 +183,8 @@ LVM pool. The Incus `media-data` volume remains with the media container.
 The database stays on the laptop's local root filesystem. This arrangement
 does not add another container to the 16 GiB host.
 
-Create the volume once, on the laptop, before the first deployment:
-
-```bash
-ssh nixos-laptop 'sudo bash -s' < nix/hosts/nixos-laptop/prepare-immich-storage
-nix/hosts/nixos-laptop/deploy
-```
-
-The storage script creates the volume and formats it only when it does not
-exist. The NixOS mount uses `nofail` so a missing volume does not stop boot.
+The `immich-storage` unit creates the volume and formats it only when it
+does not exist. The NixOS mount uses `nofail` so a missing volume does not stop boot.
 Immich refuses to start unless `/var/lib/immich` is mounted; uploads cannot
 fill the 100 GiB root filesystem by mistake.
 
@@ -241,8 +237,8 @@ The profile also mounts Nixpkgs' unmodified `nvidia-smi` binary read-only.
 It targets glibc-based guests such as Ubuntu/Debian, whose loader can run
 that binary without needing the host's Nix store.
 
-For kernel or GPU-driver changes, stage the system for the next boot with
-`~/dotfiles/nix/hosts/nixos-laptop/deploy boot`, then reboot the laptop.
+For kernel or GPU-driver changes, use `nixos-rebuild boot` in place of
+`nixos-rebuild switch`, then reboot the laptop.
 This avoids loading a new NVIDIA stack over the currently bound driver.
 
 The default profile does not attach a GPU. This configuration supports
@@ -380,13 +376,12 @@ add userChrome.css
 
 ## FileList and Stremio on the laptop
 
-`bash scripts/media/deploy.sh` provisions an unprivileged Ubuntu 24.04 Incus
-container named `media` on `nixos-laptop`. It runs Docker Compose inside the guest,
-using upstream Seedstrem's supported deployment. The NixOS host retains
-Incus and its existing GPU/power configuration; no GPU is needed here.
-The guest gets four CPUs, 4 GiB RAM, an inherited 30 GiB root disk and a
-separate 200 GiB `media-data` volume from the existing LVM pool. Incus
-starts the guest at boot, and Docker restarts all three services.
+The `media` Incus guest runs NixOS. `nix/guests/media.nix` declares
+qBittorrent-nox, Prowlarr, Seedstrem and the public nginx gateway as native
+services. No GPU is needed here. The guest gets four CPUs, 4 GiB RAM, an
+inherited 30 GiB root disk and a separate 200 GiB `media-data` volume from
+the existing LVM pool. Incus starts the guest at boot, and systemd restarts
+the services.
 
 The flow is Stremio → Seedstrem → Prowlarr/FileList for search, then
 Seedstrem → qBittorrent-nox for downloading/seeding and HTTP playback.
@@ -394,23 +389,19 @@ Torrentio can remain installed alongside it. Searching alone does not
 start downloads. Full torrents download for seeding; a 50 GiB release
 filter and an 80% media-volume usage gate bound new downloads.
 
-`configs/media/compose.yaml` defines the services;
-`configs/media/images.lock.yaml` pins Prowlarr/qBittorrent image digests.
-Seedstrem is built from commit
-`dd04439e1b3ce0731168feb2b92a2bb66ca94718` in the installer. Its upstream
-Dockerfile's build-base tags and guest apt packages are not fully pinned.
-Local patches in `configs/media/patches` apply idempotently to that pinned
-source. Stream JSON emits only `description`: Stremio aliases `title` to
+Nix builds Seedstrem from commit
+`dd04439e1b3ce0731168feb2b92a2bb66ca94718` in `nix/pkgs/seedstrem`, with
+the local patches in that directory. The flake lock pins qBittorrent and
+Prowlarr. Stream JSON emits only `description`: Stremio aliases `title` to
 that field and discards streams when both are present. For private trackers,
 discovery retains opaque references and fetches only the selected torrent's
 metadata at playback time; private Prowlarr download URLs stay server-side.
 The bounded reference registry expires after two hours or a service restart;
 reopen the title if a saved stream reference expires. Discovery has an
-eight-second search budget and a one-hour cache. Patch regression tests run
-as part of the image build.
-The Python installer generates service passwords, connects both backend
-APIs, and initializes Seedstrem settings. Later runs preserve settings
-changed in Seedstrem's UI. Prowlarr and qBittorrent use username `admin`.
+eight-second search budget and a one-hour cache.
+Service passwords, API connections and Seedstrem settings are state on
+`media-data`. NixOS does not overwrite them, so settings changed in the
+UIs stay. Prowlarr and qBittorrent use username `admin`.
 
 Retrieve generated passwords locally, without adding them to Git:
 
@@ -420,7 +411,8 @@ ssh nixos-laptop 'sudo incus exec media -- cat /srv/media/config/credentials.jso
 
 Service state, SQLite databases and credentials live under the guest's
 `/srv/media/config`; downloads live under `/srv/media/downloads`, both on
-`media-data`. These persistent files are not mise-managed symlinks. Back
+`media-data`. The guest runs the services as uid 1000, which owns these
+files. These persistent files are not mise-managed symlinks. Back
 up this volume/config independently of the Git checkout.
 
 Stremio devices must connect to your tailnet for this private route.
@@ -451,33 +443,25 @@ Incoming BitTorrent ports are not forwarded through the home router or
 host; outbound connections work, but inbound connectability needs separate
 port forwarding if desired.
 
-Validation on deployment: health/manifest responses, Seedstrem's backend
-connection tests, private HTTPS/manifest, the Prowlarr login redirect and an Incus guest restart passed. FileList authentication and a test search passed after credentials were added
-(seven streams). Actual media playback still needs client validation.
 
 Sources: [Seedstrem](https://github.com/kipsilabs/seedstrem),
 [Seedstrem configuration](https://github.com/kipsilabs/seedstrem/blob/main/config.example.yaml),
 [Prowlarr FileList integration](https://github.com/Prowlarr/Prowlarr/tree/develop/src/NzbDrone.Core/Indexers/Definitions/FileList),
-[Docker inside Incus](https://linuxcontainers.org/incus/docs/main/faq/#how-can-i-run-docker-inside-an-incus-container).
+[Incus preseed](https://linuxcontainers.org/incus/docs/main/howto/initialize/#non-interactive-configuration).
 
 ### CLIProxyAPI on the laptop
 
-`bash scripts/cliproxy/deploy.sh` creates an Incus guest named `cliproxy`
-and runs CLIProxyAPI in Docker. Caddy sends `https://casapuiu.home.ro/llm/v1/*` to
-the guest. The guest and laptop listen on loopback only. The first deployment
-creates a random client key in `/srv/cliproxy/config.yaml` inside the guest.
-The management dashboard uses a separate key. Keep both keys and the OAuth
+The `cliproxy` Incus guest runs NixOS. `nix/guests/cliproxy.nix` runs the
+Nixpkgs CLIProxyAPI package as a systemd service. Caddy sends
+`https://casapuiu.home.ro/llm/v1/*` to the guest. The service listens on
+guest loopback, and Incus forwards host port 8318 to it. Its state is on the
+`cliproxy-data` volume at `/srv/cliproxy`: `config.yaml` holds the client
+key, `management.key` holds the dashboard key, and `auths/` holds the OAuth
+files. Keep both keys and the OAuth
 files private.
 Session affinity keeps each Codex session on one OAuth account when more
 accounts are added. If that account becomes unavailable, CLIProxyAPI can
 select another account.
-
-Deploy the laptop NixOS configuration, then the guest:
-
-```bash
-nix/hosts/nixos-laptop/deploy
-bash scripts/cliproxy/deploy.sh
-```
 
 Read the client key from `access.api-keys` in the guest config:
 
@@ -501,7 +485,7 @@ To add a Codex account, open a laptop SSH session and run the login tool
 in the guest. Keep that session open until login is complete:
 
 ```bash
-ssh -t nixos-laptop 'sudo incus exec cliproxy -- docker compose -f /opt/cliproxy/compose.yaml run --rm cli-proxy-api ./CLIProxyAPI -codex-login -no-browser'
+ssh -t nixos-laptop 'sudo incus exec cliproxy -- cliproxyapi -config /srv/cliproxy/config.yaml -codex-login -no-browser'
 ```
 
 In another Mac terminal, forward the Codex callback port before opening
@@ -514,7 +498,7 @@ ssh -N -L 1455:127.0.0.1:1455 nixos-laptop
 To add a Claude Code account, run this command in one Mac terminal:
 
 ```bash
-ssh -t nixos-laptop 'sudo incus exec cliproxy -- docker compose -f /opt/cliproxy/compose.yaml run --rm cli-proxy-api ./CLIProxyAPI -claude-login -no-browser'
+ssh -t nixos-laptop 'sudo incus exec cliproxy -- cliproxyapi -config /srv/cliproxy/config.yaml -claude-login -no-browser'
 ```
 
 In another Mac terminal, forward the Claude callback port, then open the
@@ -584,7 +568,6 @@ Run `/status` in Claude Code. It must show the gateway base URL and the
 auth token. These shell settings apply only to that terminal.
 
 Sources: [CLIProxyAPI configuration](https://github.com/router-for-me/CLIProxyAPI/blob/main/config.example.yaml),
-[Docker layout](https://github.com/router-for-me/CLIProxyAPI/blob/main/docker-compose.yml),
 [Codex configuration](https://learn.chatgpt.com/docs/config-file/config-reference),
 [Claude Code gateway setup](https://code.claude.com/docs/en/llm-gateway-connect).
 
@@ -644,21 +627,22 @@ Sources: [T3 Code remote access](https://github.com/pingdotgg/t3code/blob/main/d
 
 ### Public streaming without registering client devices
 
-`bash scripts/media/direct.sh` deploys Caddy HTTPS at `casapuiu.home.ro`
-and activates that origin for the key-protected streaming gateway. Digi DDNS must track
+`media-public.nix` runs Caddy HTTPS at `casapuiu.home.ro` in front of the
+key-protected streaming gateway in the `media` guest. Digi DDNS must track
 the router's public WAN address. Reserve `192.168.0.244` for laptop Wi-Fi
 MAC `70:1a:b8:22:30:c6`, and forward TCP 80 and 443 to the same internal
 ports at that address. Caddy binds this LAN address and obtains/renews its
 certificate automatically. Keep both forwarding rules enabled.
-Administration stays private on Tailscale ports 9443, 8443 and 8444.
+Administration stays private on Tailscale ports 8081, 9696 and 8080.
 Tailscale DNS acceptance is disabled on this host so router DNS remains
 available independently of the tailnet DNS resolver.
 
 A randomly generated 256-bit URL key authenticates addon and playback
 requests. The gateway permits only the keyed `/stremio/` and `/dl/` paths;
 missing/wrong keys and admin paths return 404. Access logging is disabled
-on the gateway, and the rendered key-bearing configuration is stored only
-in the guest's root-protected config directory. Requests still reach the
+on the gateway. The key is `public_token` in the guest's root-protected
+credentials file. At boot, `media-gateway-token` renders it into
+`/run/media-gateway/token.conf` for nginx. Requests still reach the
 app's normal download limits. The key grants search/playback access, so
 treat the entire install URL as a password.
 
@@ -672,18 +656,18 @@ Replace the previous Seedstrem addon with this URL in Stremio. Phones and
 TVs can then fetch the addon and streams without Tailscale. Installing the
 URL supplies the credential automatically; there is no separate browser
 Basic Auth prompt. Seedstrem's private administration remains accessible
-at its private tailnet URL on port 9443. Subsequent media deployments preserve the
-public gateway and reload it after service changes.
+at its private tailnet URL on port 8081.
 
 To revoke a leaked URL, stop the public gateway immediately:
 
 ```bash
-ssh nixos-laptop 'sudo incus exec media -- docker stop media-public-gateway-1'
+ssh nixos-laptop 'sudo incus exec media -- systemctl stop nginx'
 ```
 
-Then replace `public_token` with a freshly generated secret in the guest
-credentials file. Run `bash scripts/media/direct.sh` to rerender and reload
-the gateway. Reinstall the new manifest on clients. This invalidates the
+Then replace `public_token` and `public_manifest_url` with a freshly
+generated secret in the guest credentials file. Set Seedstrem's external
+URL to the new keyed origin in its Settings, then run
+`systemctl restart media-gateway-token nginx` in the guest. Reinstall the new manifest on clients. This invalidates the
 previous URL credential.
 Streaming performance depends on home upload bandwidth and torrent peers.
 Sources: [Stremio's key authentication example](https://github.com/Stremio/stremio-addon-with-key),
