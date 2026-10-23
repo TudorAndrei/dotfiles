@@ -8,3 +8,8 @@ brew "acsandmann/tap/menuanywhere"
 cask "crmne/tap/spotifast"
 cask "grishka/grishka/neardrop"
 cask "tudorandrei/muzik/muzik"
+
+mas "DevCleaner", id: 1388020431
+mas "paperLESS vTOKEN", id: 6667100978
+mas "WireGuard", id: 1451685025
+mas "Xcode", id: 497799835
