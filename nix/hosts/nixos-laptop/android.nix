@@ -19,7 +19,15 @@ let
     abiVersions = [ "x86_64" ];
   };
   sdk = android.androidsdk;
-  sdkRoot = "${sdk}/libexec/android-sdk";
+  sdkRoot = pkgs.runCommand "android-sdk-root" { } ''
+    sdk=${sdk}/libexec/android-sdk
+    mkdir -p $out/cmdline-tools
+    for entry in "$sdk"/*; do
+      [ "''${entry##*/}" = cmdline-tools ] || ln -s "$entry" $out/
+    done
+    ln -s "$sdk"/cmdline-tools/* $out/cmdline-tools/
+    ln -s "$(echo "$sdk"/cmdline-tools/*)" $out/cmdline-tools/latest
+  '';
 in
 {
   users.users.tudor.extraGroups = [ "kvm" ];
