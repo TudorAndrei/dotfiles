@@ -12,16 +12,22 @@
     home-manager-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
   };
 
-  outputs = { nixpkgs, nixpkgs-stable, nixos-hardware, home-manager, home-manager-stable, ... }: let
+  outputs = { self, nixpkgs, nixpkgs-stable, nixos-hardware, home-manager, home-manager-stable, ... }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs { inherit system; };
     desktopHome = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       modules = [ ./home.nix ];
     };
+    guest = name: nixpkgs-stable.lib.nixosSystem {
+      inherit system;
+      specialArgs.unstable = nixpkgs.legacyPackages.${system};
+      modules = [ ./guests/common.nix (./guests + "/${name}.nix") ];
+    };
   in {
     packages.${system} = {
       nh = pkgs.nh;
+      seedstrem = pkgs.callPackage ./pkgs/seedstrem { };
       default = pkgs.buildEnv {
         name = "tudor-packages";
         paths = import ./packages.nix { inherit pkgs; };
@@ -38,6 +44,7 @@
       specialArgs.immichPackage = nixpkgs.legacyPackages.${system}.immich;
       specialArgs.tailscalePackage = nixpkgs.legacyPackages.${system}.tailscale;
       specialArgs.unstable = nixpkgs.legacyPackages.${system};
+      specialArgs.guests = { inherit (self.nixosConfigurations) media cliproxy; };
       modules = [
         # No exact MSI Raider GE66 12UGS profile exists upstream.
         nixos-hardware.nixosModules.common-cpu-intel-cpu-only
@@ -49,5 +56,7 @@
         ./hosts/nixos-laptop/hardware-configuration.nix
       ];
     };
+    nixosConfigurations.media = guest "media";
+    nixosConfigurations.cliproxy = guest "cliproxy";
   };
 }
