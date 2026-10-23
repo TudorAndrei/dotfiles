@@ -38,7 +38,21 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 30d";
+    options = "--delete-older-than 7d";
+  };
+  systemd.user.services.bun-cache-clean = {
+    description = "Remove the Bun package cache";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.coreutils}/bin/rm -rf %h/.bun/install/cache";
+    };
+  };
+  systemd.user.timers.bun-cache-clean = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "weekly";
+      Persistent = true;
+    };
   };
 
   users.users.tudor = {
