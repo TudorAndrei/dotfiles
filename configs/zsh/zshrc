@@ -33,6 +33,9 @@ killmedia() {
 if [[ "$OSTYPE" == darwin* ]]; then
   export ANDROID_HOME=$HOME/Library/Android/sdk
   export ANDROID_NDK=$HOME/Library/Android/sdk/ndk-bundle
+  if [[ -z "$JAVA_HOME" && -d "/Applications/Android Studio.app/Contents/jbr/Contents/Home" ]]; then
+    export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+  fi
 fi
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
