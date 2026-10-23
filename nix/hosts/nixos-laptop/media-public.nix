@@ -10,7 +10,18 @@
       listenAddresses = [ "192.168.0.244" ];
       # The URL carries the access key; do not log request URLs.
       logFormat = null;
-      extraConfig = "reverse_proxy 127.0.0.1:8082";
+      extraConfig = ''
+        handle /llm/v1/* {
+          uri strip_prefix /llm
+          reverse_proxy 127.0.0.1:8318
+        }
+        handle /llm/* {
+          respond 404
+        }
+        handle {
+          reverse_proxy 127.0.0.1:8082
+        }
+      '';
     };
   };
 }

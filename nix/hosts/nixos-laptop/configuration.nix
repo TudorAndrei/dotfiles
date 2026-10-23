@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, tailscalePackage, ... }:
 {
-  imports = [ ./nvidia.nix ./power.nix ./media-public.nix ./immich.nix ];
+  imports = [ ./nvidia.nix ./power.nix ./media-public.nix ./immich.nix ./homepage.nix ./desktop.nix ./agents.nix ./terminal.nix ./android.nix ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 10;
@@ -60,6 +60,7 @@
   };
   services.tailscale = {
     enable = true;
+    package = tailscalePackage;
     openFirewall = true;
     # Keep host Internet DNS on NetworkManager's router resolver. Tailscale
     # still supplies private routing; client devices can use MagicDNS.
