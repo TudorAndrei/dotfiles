@@ -76,7 +76,7 @@ AppleMenuBarVisibleInFullscreen = true
 "~/.config/herdr/config.toml" = { source = "configs/herdr/config.toml", mode = "symlink" }
 "~/.config/herdr/plugins/config/herdr-navigator/config.toml" = { source = "configs/herdr/plugins/herdr-navigator.toml", mode = "symlink" }
 "~/.config/herdr-automatic-rename/config.sh" = { source = "configs/herdr/plugins/herdr-automatic-rename.sh", mode = "symlink" }
-"~/.config/vicinae/settings.json" = { source = "configs/vicinae/settings.json", mode = "symlink" }
+"~/.config/vicinae" = { source = "configs/vicinae", mode = "symlink" }
 "~/.gitconfig" = { source = "gitconfig/gitconfig", mode = "symlink" }
 "~/.gitignore_global" = { source = "gitconfig/gitignore_global", mode = "symlink" }
 "~/.gitconfig-pythia" = { source = "gitconfig/gitconfig-pythia", mode = "symlink" }

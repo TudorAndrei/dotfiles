@@ -12,13 +12,18 @@
    "$schema": "https://vicinae.com/schemas/config.json",
    "theme": {
       "dark": {
-         "name": "vicinae-dark"
+         "name": "dracula"
       }
    },
    "global_shortcuts": {
       "toggle": "control+space"
    },
    "providers": {
+      "@marcjulian/store.raycast.obsidian": {
+         "preferences": {
+            "configFileName": ".obsidian"
+         }
+      },
       "applications": {
          "entrypoints": {
             "Alacritty": {
