@@ -30,4 +30,7 @@ in
     ANDROID_SDK_ROOT = sdkRoot;
     JAVA_HOME = "${pkgs.jdk17}/lib/openjdk";
   };
+  systemd.user.extraConfig = ''
+    DefaultEnvironment="ANDROID_HOME=${sdkRoot}" "ANDROID_SDK_ROOT=${sdkRoot}" "JAVA_HOME=${pkgs.jdk17}/lib/openjdk"
+  '';
 }
