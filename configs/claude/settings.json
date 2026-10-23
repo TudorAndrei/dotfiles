@@ -22,10 +22,10 @@
   "extraKnownMarketplaces": {},
   "effortLevel": "high",
   "tui": "fullscreen",
+  "skipWorkflowUsageWarning": true,
   "theme": "dark-ansi",
   "verbose": true,
   "autoCompactEnabled": true,
   "terminalProgressBarEnabled": false,
-  "agentPushNotifEnabled": false,
-  "skipWorkflowUsageWarning": true
+  "agentPushNotifEnabled": false
 }
