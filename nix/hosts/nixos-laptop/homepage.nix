@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 let
-  tailnetHost = "nixos-laptop.tail582219.ts.net";
+  tailnetHost = "100.121.29.45";
   poolMetricsPort = 8186;
 in
 {
@@ -8,7 +8,7 @@ in
     enable = true;
     listenPort = 8083;
     openFirewall = false;
-    allowedHosts = "${tailnetHost}:8446,localhost:8083,127.0.0.1:8083";
+    allowedHosts = "${tailnetHost}:8083,localhost:8083,127.0.0.1:8083";
     settings = {
       title = "NixOS laptop";
       theme = "dark";
@@ -44,7 +44,7 @@ in
           {
             Immich = {
               icon = "immich.png";
-              href = "http://100.121.29.45:2283/";
+              href = "http://${tailnetHost}:2283/";
               siteMonitor = "http://127.0.0.1:2283/";
             };
           }
@@ -55,21 +55,21 @@ in
           {
             Seedstrem = {
               icon = "mdi-play-circle";
-              href = "https://${tailnetHost}:9443/";
+              href = "http://${tailnetHost}:8081/";
               siteMonitor = "http://127.0.0.1:8081/";
             };
           }
           {
             Prowlarr = {
               icon = "prowlarr.png";
-              href = "https://${tailnetHost}:8443/";
+              href = "http://${tailnetHost}:9696/";
               siteMonitor = "http://127.0.0.1:9696/";
             };
           }
           {
             qBittorrent = {
               icon = "qbittorrent.png";
-              href = "https://${tailnetHost}:8444/";
+              href = "http://${tailnetHost}:8080/";
               siteMonitor = "http://127.0.0.1:8080/";
             };
           }
@@ -80,14 +80,14 @@ in
           {
             CLIProxyAPI = {
               icon = "mdi-api";
-              href = "https://${tailnetHost}:8445/management.html";
+              href = "http://${tailnetHost}:8318/management.html";
               siteMonitor = "http://127.0.0.1:8318/management.html";
             };
           }
           {
             "T3 Code" = {
               icon = "mdi-robot";
-              href = "https://${tailnetHost}:8447/";
+              href = "http://${tailnetHost}:3773/";
               siteMonitor = "http://127.0.0.1:3773/";
             };
           }
@@ -96,8 +96,8 @@ in
     ];
   };
 
-  # Serve can reach this loopback listener. The public Caddy site has no route.
-  systemd.services.homepage-dashboard.environment.HOSTNAME = "127.0.0.1";
+  # The firewall opens this listener only on tailscale0. The public Caddy site has no route.
+  systemd.services.homepage-dashboard.environment.HOSTNAME = "0.0.0.0";
 
   # Only Homepage can query this loopback endpoint. It runs lvs without a shell.
   systemd.services.homepage-pool-metrics = {

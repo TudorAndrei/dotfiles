@@ -38,10 +38,12 @@ done
 ip=$(tailscale ip -4)
 printf 'http://%s:8081\n' "$ip" > /var/lib/dotfiles-media/external-url
 incus file push /var/lib/dotfiles-media/external-url media/opt/media/external-url
-for mapping in 'seedstrem 8081 8081 0.0.0.0' 'qbittorrent 8080 8080 127.0.0.1' 'prowlarr 9696 9696 127.0.0.1'; do
-    read -r name port target address <<< "$mapping"
+for mapping in 'seedstrem 8081 8081' 'qbittorrent 8080 8080' 'prowlarr 9696 9696'; do
+    read -r name port target <<< "$mapping"
     if ! incus config device get media "$name" listen >/dev/null 2>&1; then
-        incus config device add media "$name" proxy listen="tcp:$address:$port" connect="tcp:127.0.0.1:$target"
+        incus config device add media "$name" proxy listen="tcp:0.0.0.0:$port" connect="tcp:127.0.0.1:$target"
+    elif [[ "$(incus config device get media "$name" listen)" != "tcp:0.0.0.0:$port" ]]; then
+        incus config device set media "$name" listen="tcp:0.0.0.0:$port"
     fi
 done
 incus exec media -- bash /opt/media/bootstrap.sh < /dev/null

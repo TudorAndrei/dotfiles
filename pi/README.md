@@ -48,7 +48,7 @@ chmod 600 ~/.pi/agent/cliproxyapi.json
 ```
 
 Then start Pi and run `/login cliproxyapi`. Enter
-`https://nixos-laptop.tail582219.ts.net:8445` as the base URL. Enter the
+`http://100.121.29.45:8318` as the base URL. Enter the
 client key from `access.api-keys` in the guest's `/srv/cliproxy/config.yaml`.
 Pi saves both values in the local file. It also saves the credential in its
 local `auth.json` file. Select a `cliproxyapi` model with `/model`.

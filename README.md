@@ -207,18 +207,12 @@ pool is shared with Incus, so monitor its physical use with
 ### Laptop dashboard
 
 Homepage runs as a NixOS service on `nixos-laptop`. Open
-`https://nixos-laptop.tail582219.ts.net:8446/` from a Tailscale device.
+`http://100.121.29.45:8083/` from a Tailscale device.
 The page has links and availability checks for Immich, Seedstrem, Prowlarr,
 qBittorrent and CLIProxyAPI. Its header shows host CPU, RAM, uptime, root
 disk and Immich disk use. A system card shows Incus thin pool use. The pool
 value comes from a read-only endpoint on host loopback. Homepage and that
 endpoint do not use the public Caddy site.
-
-After the NixOS deployment, add the private HTTPS route once:
-
-```bash
-ssh nixos-laptop 'sudo tailscale serve --bg --https=8446 http://127.0.0.1:8083'
-```
 
 Homepage configuration lives in `nix/hosts/nixos-laptop/homepage.nix`. Its
 service checks use host loopback addresses, so they do not need API keys or
@@ -429,27 +423,18 @@ Service state, SQLite databases and credentials live under the guest's
 `media-data`. These persistent files are not mise-managed symlinks. Back
 up this volume/config independently of the Git checkout.
 
-Enable Tailscale **Serve** once in the account, then run
-`bash scripts/media/https.sh`.
 Stremio devices must connect to your tailnet for this private route.
 Public access is described below:
 
-- Seedstrem: `https://nixos-laptop.tail582219.ts.net:9443/`
-- Stremio manifest: `https://nixos-laptop.tail582219.ts.net:9443/stremio/manifest.json`
-- Prowlarr: `https://nixos-laptop.tail582219.ts.net:8443/`
-- qBittorrent: `https://nixos-laptop.tail582219.ts.net:8444/`
+- Seedstrem: `http://100.121.29.45:8081/`
+- Stremio manifest: `http://100.121.29.45:8081/stremio/manifest.json`
+- Prowlarr: `http://100.121.29.45:9696/`
+- qBittorrent: `http://100.121.29.45:8080/`
 
-Until Serve is enabled, native clients on Tailscale can use
-`http://100.121.29.45:8081/stremio/manifest.json`. The host firewall leaves
-8081 closed to ordinary LAN/public access while allowing its existing
-trusted Tailscale interface. Admin backends bind host localhost; access
-them over SSH if HTTPS is not configured:
+These listeners bind `0.0.0.0` on the host. The host firewall opens them
+only on the trusted Tailscale interface, not on LAN or public interfaces.
 
-```bash
-ssh -N -L 8081:127.0.0.1:8081 -L 9696:127.0.0.1:9696 -L 8080:127.0.0.1:8080 nixos-laptop
-```
-
-Open `http://localhost:9696`, add the **FileList** indexer, enter your
+Open `http://100.121.29.45:9696`, add the **FileList** indexer, enter your
 FileList username and passkey, then Test and Save. Prowlarr requires a
 passkey, not your normal account password. Enter it in the private UI;
 never put it in this public repository. With FileList as the only enabled
@@ -501,7 +486,7 @@ ssh nixos-laptop 'sudo incus exec cliproxy -- cat /srv/cliproxy/config.yaml'
 ```
 
 From a device on the tailnet, open
-`https://nixos-laptop.tail582219.ts.net:8445/management.html`. Read the
+`http://100.121.29.45:8318/management.html`. Read the
 management key and enter it in the dashboard:
 
 ```bash
@@ -509,8 +494,8 @@ ssh nixos-laptop 'sudo incus exec cliproxy -- cat /srv/cliproxy/management.key'
 ```
 
 The dashboard can change proxy settings and OAuth files. The public
-`/llm` route does not serve it. Tailscale Serve restricts access to the
-tailnet, and the dashboard still requires its management key.
+`/llm` route does not serve it. The host firewall opens port 8318 only on
+the tailnet, and the dashboard still requires its management key.
 
 To add a Codex account, open a laptop SSH session and run the login tool
 in the guest. Keep that session open until login is complete:
@@ -635,20 +620,18 @@ curl -fsSL https://claude.ai/install.sh | bash
 npm install -g --prefix ~/.local @openai/codex
 ```
 
-Run T3 Code as a user service and serve it on the tailnet. The firewall
+Run T3 Code as a user service on the tailnet. The firewall
 trusts only `tailscale0`, so port 3773 is not open on the LAN:
 
 ```bash
 printf 'T3CODE_HOST=0.0.0.0\nT3CODE_PORT=3773\n' > ~/.t3/service.env
 chmod 600 ~/.t3/service.env
 t3 service install
-sudo tailscale serve --bg --https=8447 http://127.0.0.1:3773
 ```
 
 Run `t3 pair` on the laptop to get a one-time token for each new device.
 In the T3 Code desktop app, use Add environment with
-`http://100.121.29.45:3773` and the token. Devices that resolve the tailnet
-name can use `https://nixos-laptop.tail582219.ts.net:8447/` instead. In
+`http://100.121.29.45:3773` and the token.
 The default Claude provider uses the proxy. In Settings > Providers, add a
 Codex instance with `CODEX_HOME` `/home/tudor/.codex-cliproxy`.
 
