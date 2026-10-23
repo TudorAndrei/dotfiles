@@ -240,6 +240,7 @@ variants = [{ os = "linux" }]
 "brew-cask:utm" = { os = "macos" }
 "brew-cask:vicinae" = { os = "macos" }
 "brew-cask:visual-studio-code" = { os = "macos" }
+"brew-cask:vorssaint" = { os = "macos" }
 "brew-cask:vscodium" = { os = "macos" }
 "brew-cask:zed" = { os = "macos" }
 "brew-cask:zen" = { os = "macos" }
