@@ -4,6 +4,7 @@
   pkgs.codex
   pkgs.herdr
   pkgs.gh
+  pkgs.forgejo-cli
   pkgs.nh
   pkgs.just
   # Runtime dependencies of the plugins in configs/herdr/plugins.txt.

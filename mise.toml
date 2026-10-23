@@ -163,6 +163,7 @@ variants = [{ os = "linux" }]
 "brew:cocoapods" = { os = "macos" }
 "brew:duti" = { os = "macos" }
 "brew:ffmpeg" = { os = "macos" }
+"brew:forgejo-cli" = { os = "macos" }
 "brew:ghostscript" = { os = "macos" }
 "brew:gnupg" = { os = "macos" }
 "brew:googleworkspace-cli" = { os = "macos" }
@@ -264,6 +265,7 @@ variants = [{ os = "linux" }]
 "pacman:fastfetch" = "latest"
 "pacman:firefox" = "latest"
 "pacman:fnm" = "latest"
+"pacman:forgejo-cli" = "latest"
 "pacman:fzf" = "latest"
 "pacman:gamescope" = "latest"
 "pacman:gnome-keyring" = "latest"

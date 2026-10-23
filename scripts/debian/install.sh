@@ -34,6 +34,12 @@ if [ ! -x "$HOME/.local/bin/wt-herdr" ]; then
         -o "$HOME/.local/bin/wt-herdr" && chmod +x "$HOME/.local/bin/wt-herdr"
 fi
 
+if ! command -v fj >/dev/null 2>&1; then
+    echo ""
+    echo "==> Installing forgejo-cli..."
+    mise use -g forgejo:forgejo-contrib/forgejo-cli@latest
+fi
+
 ZSH_BIN="$(command -v zsh || true)"
 if [ -n "$ZSH_BIN" ] && [ "$SHELL" != "$ZSH_BIN" ]; then
     echo ""
