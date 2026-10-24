@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
+    nixpkgs-immich.url = "github:NixOS/nixpkgs/master";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     nixos-hardware.inputs.nixpkgs.follows = "nixpkgs-stable";
     home-manager.url = "github:nix-community/home-manager";
@@ -12,7 +13,7 @@
     home-manager-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, nixos-hardware, home-manager, home-manager-stable, ... }: let
+  outputs = { self, nixpkgs, nixpkgs-stable, nixpkgs-immich, nixos-hardware, home-manager, home-manager-stable, ... }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs { inherit system; };
     desktopHome = home-manager.lib.homeManagerConfiguration {
@@ -41,7 +42,7 @@
     };
     nixosConfigurations.nixos-laptop = nixpkgs-stable.lib.nixosSystem {
       inherit system;
-      specialArgs.immichPackage = nixpkgs.legacyPackages.${system}.immich;
+      specialArgs.immichPackage = nixpkgs-immich.legacyPackages.${system}.immich;
       specialArgs.tailscalePackage = nixpkgs.legacyPackages.${system}.tailscale;
       specialArgs.unstable = nixpkgs.legacyPackages.${system};
       specialArgs.guests = { inherit (self.nixosConfigurations) media cliproxy; };
