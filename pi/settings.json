@@ -10,8 +10,8 @@
   "packages": [
     "npm:@router-for-me/pi-cliproxyapi-provider",
     "npm:@narumitw/pi-goal",
-    "npm:@plannotator/pi-extension",
-    "npm:@ff-labs/pi-fff"
+    "npm:@ff-labs/pi-fff",
+    "npm:@plannotator/pi-extension"
   ],
   "theme": "dark"
 }
