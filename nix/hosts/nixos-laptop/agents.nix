@@ -47,7 +47,7 @@ in
   environment.localBinInPath = true;
 
   environment.systemPackages = with pkgs; [
-    nodejs_24 gh ripgrep fd jq curl unzip cliproxyKey libsecret
+    nodejs_24 gh ripgrep fd jq curl unzip lsof dnsutils cliproxyKey libsecret
   ];
 
   services.gnome.gnome-keyring.enable = true;
