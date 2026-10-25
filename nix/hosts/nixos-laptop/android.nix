@@ -30,7 +30,11 @@ let
   '';
 in
 {
-  users.users.tudor.extraGroups = [ "kvm" ];
+  users.groups.adbusers = { };
+  users.users.tudor.extraGroups = [ "kvm" "adbusers" ];
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ENV{ID_USB_INTERFACES}=="*:ff420[13]:*", MODE="0660", GROUP="adbusers"
+  '';
 
   environment.systemPackages = [ sdk pkgs.jdk17 ];
   environment.sessionVariables = {
