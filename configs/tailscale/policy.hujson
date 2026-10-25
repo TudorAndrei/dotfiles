@@ -1,0 +1,84 @@
+{
+	"tagOwners": {
+		"tag:home-server": ["autogroup:admin"],
+	},
+
+	"hosts": {
+		"nixos-laptop": "100.121.29.45",
+		"piticu":       "100.70.0.11",
+		"parnaie":      "100.70.0.10",
+		"phone":        "100.67.212.111",
+	},
+
+	"grants": [
+		{"src": ["autogroup:member"], "dst": ["autogroup:self"], "ip": ["*"]},
+		{
+			"src": ["autogroup:member"],
+			"dst": ["nixos-laptop"],
+			"ip": [
+				"tcp:22",
+				"tcp:2283",
+				"tcp:3389",
+				"tcp:3773",
+				"tcp:8080",
+				"tcp:8081",
+				"tcp:8083",
+				"tcp:8318",
+				"tcp:9696",
+			],
+		},
+	],
+
+	"ssh": [
+		{
+			"action": "check",
+			"src":    ["autogroup:member"],
+			"dst":    ["autogroup:self"],
+			"users":  ["autogroup:nonroot", "root"],
+		},
+	],
+
+	"nodeAttrs": [
+		{
+			"target": ["autogroup:member"],
+			"ipPool": ["100.64.0.0/12"],
+		},
+	],
+
+	"tests": [
+		{
+			"src": "tudorandrei.dumitrascu@gmail.com",
+			"accept": [
+				"nixos-laptop:22",
+				"nixos-laptop:2283",
+				"nixos-laptop:3389",
+				"nixos-laptop:3773",
+				"nixos-laptop:8080",
+				"nixos-laptop:8081",
+				"nixos-laptop:8083",
+				"nixos-laptop:8318",
+				"nixos-laptop:9696",
+				"piticu:22",
+				"parnaie:3389",
+				"phone:443",
+			],
+			"deny": [
+				"nixos-laptop:80",
+				"nixos-laptop:443",
+				"nixos-laptop:5432",
+				"nixos-laptop:35445",
+			],
+		},
+		{
+			"src": "tag:home-server",
+			"deny": [
+				"piticu:22",
+				"piticu:3773",
+				"parnaie:3389",
+				"parnaie:445",
+				"phone:443",
+				"phone:5555",
+			],
+		},
+	],
+}
