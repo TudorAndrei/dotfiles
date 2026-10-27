@@ -2,6 +2,7 @@
 bitwarden = "latest"
 "github:simulot/immich-go" = "latest"
 just = "latest"
+"aqua:anomalyco/opencode" = "latest"
 "npm:ctx7" = "latest"
 
 [bootstrap.hooks]

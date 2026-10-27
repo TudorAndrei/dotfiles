@@ -87,7 +87,6 @@ typst = "latest"
 "github:TudorAndrei/muzik" = { version = "latest", matching = "muzik-cli" }
 "npm:@alchemy/cli" = "0.22.0"
 "github:Ovyerus/bandsnatch" = "latest"
-"npm:@opencode/cli" = { version = "2", allow_builds = ["@opencode/cli"] }
 "npm:likec4" = "latest"
 tokei = "latest"
 rclone = "latest"
