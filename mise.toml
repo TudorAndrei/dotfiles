@@ -214,6 +214,7 @@ variants = [{ os = "linux" }]
 "brew-cask:font-hack-nerd-font" = { os = "macos" }
 "brew-cask:font-ioskeley-mono" = { os = "macos" }
 "brew-cask:font-jetbrains-mono-nerd-font" = { os = "macos" }
+"brew-cask:font-open-sans" = { os = "macos" }
 "brew-cask:font-symbols-only-nerd-font" = { os = "macos" }
 "brew-cask:ghostty" = { os = "macos" }
 "brew-cask:google-chrome" = { os = "macos" }
