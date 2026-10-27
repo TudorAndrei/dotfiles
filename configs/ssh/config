@@ -22,3 +22,33 @@ Host *
   ControlMaster auto
   ControlPath ~/.ssh/cm/%C
   ControlPersist 10m
+
+Host eurocash-bastion
+  HostName 20.82.129.155
+  User azureuser
+  IdentityFile ~/.ssh/microsites.pem
+
+
+Host eurocash-dataplane
+  HostName 10.0.0.7
+  User azureuser
+  ProxyJump eurocash-bastion
+  IdentityFile ~/.ssh/eurocash/Eurocash-Footprints-AI-Pipeline-Orchestration-Vm_key.pem
+
+Host eurocash-analytics
+  HostName 10.0.0.6
+  User azureuser
+  ProxyJump eurocash-bastion
+  IdentityFile ~/.ssh/eurocash/Eurocash-FootprintsAI-Sales-Analytics-VM_key.pem
+
+Host eurocash-database
+  HostName 10.0.0.5
+  User mongouser
+  ProxyJump eurocash-bastion
+  IdentityFile ~/.ssh/eurocash/Eurocash-Footprints-AI-Database-VM_key.pem
+
+Host eurocash-core
+  HostName 10.0.0.4
+  User azureuser
+  ProxyJump eurocash-bastion
+  IdentityFile ~/.ssh/eurocash/Eurocash-FootprintsAI-CoreVM_key.pem
