@@ -15,7 +15,6 @@ fd = "latest"
 fzf = "latest"
 git-lfs = "latest"
 github-cli = "latest"
-"github:alltuner/mise-completions-sync" = "latest"
 "github:anthropics/claude-code" = "latest"
 "github:boyter/scc" = "latest"
 "github:lucasgelfond/zerobrew" = { version = "latest", matching = "zb-", rename_exe = "zb" }

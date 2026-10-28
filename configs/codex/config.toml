@@ -342,6 +342,24 @@ trust_level = "trusted"
 [projects."/Users/tudor/.t3/worktrees/aether/t3-32828b0c"]
 trust_level = "trusted"
 
+[projects."/Users/tudor/.t3/worktrees/certsud-crm/t3-abbe74a9"]
+trust_level = "trusted"
+
+[projects."/Users/tudor/.t3/worktrees/certsud-crm/t3-b85a9826"]
+trust_level = "trusted"
+
+[projects."/Users/tudor/.t3/worktrees/certsud-crm/t3-f434a5bf"]
+trust_level = "trusted"
+
+[projects."/Users/tudor/.t3/worktrees/flowcopilot-app/t3-8a7de9fa"]
+trust_level = "trusted"
+
+[projects."/Users/tudor/.t3/worktrees/flowcopilot-app/t3-d3b7f467"]
+trust_level = "trusted"
+
+[projects."/Users/tudor/.t3/worktrees/flowcopilot-app/t3-9b70c1ba"]
+trust_level = "trusted"
+
 [plugins."linear@openai-curated"]
 enabled = false
 

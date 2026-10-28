@@ -43,7 +43,6 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 # Completion - cache for 24 hours
-fpath=(${XDG_DATA_HOME:-$HOME/.local/share}/mise-completions/zsh $fpath)
 autoload -Uz compinit
 dump_file="${ZDOTDIR:-$HOME}/.zcompdump"
 # stat: -c %Y on GNU/Linux, -f %m on macOS/BSD
