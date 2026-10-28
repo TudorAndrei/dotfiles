@@ -15,6 +15,9 @@
          "name": "dracula"
       }
    },
+   "telemetry": {
+      "system_info": false
+   },
    "global_shortcuts": {
       "toggle": "control+space"
    },
