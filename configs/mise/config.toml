@@ -109,6 +109,3 @@ minimum_release_age = "0s"
 
 [settings.cargo]
 binstall = true
-
-[hooks]
-postinstall = "misecompsync --shell zsh"
