@@ -453,7 +453,7 @@ Sources: [Seedstrem](https://github.com/kipsilabs/seedstrem),
 
 The `cliproxy` Incus guest runs NixOS. `nix/guests/cliproxy.nix` runs the
 Nixpkgs CLIProxyAPI package as a systemd service. Caddy sends
-`https://casapuiu.home.ro/llm/v1/*` to the guest. The service listens on
+`https://casapuiu.home.ro/llm/v1/*` and `/llm/backend-api/*` to the guest. The service listens on
 guest loopback, and Incus forwards host port 8318 to it. Its state is on the
 `cliproxy-data` volume at `/srv/cliproxy`: `config.yaml` holds the client
 key, `management.key` holds the dashboard key, and `auths/` holds the OAuth

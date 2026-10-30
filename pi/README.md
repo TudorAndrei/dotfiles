@@ -48,14 +48,15 @@ chmod 600 ~/.pi/agent/cliproxyapi.json
 ```
 
 Then start Pi and run `/login cliproxyapi`. Enter
-`http://100.121.29.45:8318` as the base URL. Enter the
+`https://casapuiu.home.ro/llm` as the base URL. On the tailnet,
+`http://100.121.29.45:8318` also works. Enter the
 client key from `access.api-keys` in the guest's `/srv/cliproxy/config.yaml`.
 Pi saves both values in the local file. It also saves the credential in its
 local `auth.json` file. Select a `cliproxyapi` model with `/model`.
 
-The package needs the proxy's `/backend-api` path for inference. The laptop's
-public `https://casapuiu.home.ro/llm/v1` route does not provide this path, so
-use the Tailscale URL above. Run `/cliproxyapi-refresh` after you add models
+The package gets models from `/v1/models` and sends prompts to
+`/backend-api`. The public Caddy site forwards both `/llm/v1/*` and
+`/llm/backend-api/*`. Run `/cliproxyapi-refresh` after you add models
 to the proxy.
 
 ## Packages
