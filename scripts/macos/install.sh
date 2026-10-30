@@ -30,6 +30,11 @@ if [ "$(defaults read com.apple.dock expose-group-apps 2>/dev/null)" != "1" ]; t
 fi
 
 echo ""
+echo "==> Disabling Rex animations..."
+defaults write com.superlogical.rex Workspace.animationStyle -string off
+defaults write com.superlogical.rex Workspace.activePaneBorderTransition -string off
+
+echo ""
 echo "==> Setting default applications..."
 if command -v duti >/dev/null 2>&1; then
     duti "$DOTFILES_DIR/configs/macos/duti"
