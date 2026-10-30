@@ -1,7 +1,7 @@
 Include ~/.orbstack/ssh/config
 Include ~/.ssh/config.local
 
-Match originalhost nixos-laptop localnetwork 192.168.0.0/24
+Match originalhost nixos-laptop localnetwork 192.168.0.0/24 exec "nc -z -w 1 192.168.0.244 22 >/dev/null 2>&1"
   HostName 192.168.0.244
 
 Host nixos-laptop
