@@ -75,6 +75,7 @@ AppleMenuBarVisibleInFullscreen = true
 "~/.config/starship.toml" = { source = "configs/starship/starship.toml", mode = "symlink" }
 "~/.config/mise/config.toml" = { source = "configs/mise/config.toml", mode = "symlink" }
 "~/.config/herdr/config.toml" = { source = "configs/herdr/config.toml", mode = "symlink" }
+"~/.config/rex" = { source = "configs/rex", mode = "symlink" }
 "~/.config/herdr/plugins/config/herdr-navigator/config.toml" = { source = "configs/herdr/plugins/herdr-navigator.toml", mode = "symlink" }
 "~/.config/herdr-automatic-rename/config.sh" = { source = "configs/herdr/plugins/herdr-automatic-rename.sh", mode = "symlink" }
 "~/.config/vicinae" = { source = "configs/vicinae", mode = "symlink" }

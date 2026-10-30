@@ -13,6 +13,7 @@ This is a dotfiles repository containing configuration files for various tools:
 - **Zsh** - `configs/zsh/`
 - **Tmux** - `.tmux.conf` and `configs/tmux/`
 - **Herdr** - `configs/herdr/` (agent multiplexer, mirrors the tmux keymap)
+- **Rex** - `configs/rex/` (multiplexer, mirrors the herdr keymap)
 - **Hyprland** - `configs/hypr/`
 - **Alacritty** - `configs/alacritty/`
 - **Starship** - `configs/starship/`
@@ -75,6 +76,7 @@ bash -n scripts/bootstrap.sh
 | `configs/herdr/plugins/<id>.toml` | Per-plugin config, linked to `~/.config/herdr/plugins/config/<id>/config.toml` |
 | `configs/herdr/install-plugins.sh` | Installs everything in `plugins.txt` (`just herdr-plugins`) |
 | `configs/herdr/tmux-resurrect-import.py` | Converts a tmux-resurrect save into a herdr-resurrect snapshot |
+| `configs/rex/init.lua` | Rex configuration, linked as `~/.config/rex`; reload with `rex config reload` |
 | `configs/claude/settings.json` | Claude Code settings, linked to `~/.claude/settings.json` |
 | `configs/codex/config.toml` | Codex config, linked to `~/.codex/config.toml` |
 | `pi/extensions/` | Pi extensions, linked to `~/.pi/agent/extensions` |
