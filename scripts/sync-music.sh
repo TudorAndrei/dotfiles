@@ -4,6 +4,7 @@ set -e
 SRC="${MUSIC_SRC:-$HOME/Music}"
 HOST="${MUSIC_HOST:-nixos-laptop}"
 DEST="${MUSIC_DEST:-/srv/music}"
+RETRIES="${MUSIC_RETRIES:-5}"
 
 usage() {
   echo "Usage: $(basename "$0") [--dry-run] [--delete]"
@@ -32,12 +33,21 @@ if ! ssh "$HOST" "mountpoint -q '$DEST'"; then
   exit 1
 fi
 
-rsync "${args[@]}" \
-  --exclude='.DS_Store' \
-  --exclude='._*' \
-  --exclude='.localized' \
-  --exclude='.library.db*' \
-  --exclude='.thumbnails' \
-  "$SRC/" "$HOST:$DEST/"
-
-exit 0
+attempt=1
+while true; do
+  status=0
+  rsync "${args[@]}" \
+    -e "ssh -o ControlMaster=no -o ControlPath=none" \
+    --exclude='.DS_Store' \
+    --exclude='._*' \
+    --exclude='.localized' \
+    --exclude='.library.db*' \
+    --exclude='.thumbnails' \
+    "$SRC/" "$HOST:$DEST/" || status=$?
+  if [ "$status" -ne 255 ] || [ "$attempt" -ge "$RETRIES" ]; then
+    exit "$status"
+  fi
+  attempt=$((attempt + 1))
+  echo "==> Connection lost, retry $attempt of $RETRIES in 10s" >&2
+  sleep 10
+done
