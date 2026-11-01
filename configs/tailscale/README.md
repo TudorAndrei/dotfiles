@@ -10,7 +10,7 @@ If a tailnet connection fails, check this policy before you debug the server.
 | Source | Destination | Ports |
 |---|---|---|
 | My devices (untagged) | My devices (untagged) | all |
-| My devices (untagged) | `tag:home-server` (nixos-laptop, `100.121.29.45`) | TCP 22, 2283, 3389, 3773, 8080, 8081, 8083, 8318, 9696 |
+| My devices (untagged) | `tag:home-server` (nixos-laptop, `100.121.29.45`) | TCP 22, 2283, 3389, 3773, 4533, 8080, 8081, 8083, 8318, 9696 |
 | `tag:home-server` | any tailnet device | none |
 
 The grant uses the host IP, not the tag. A new port on nixos-laptop needs a
