@@ -15,6 +15,8 @@ let
         enabled = true;
         options = {
           name = "Torrentio";
+          timeout = 10000;
+          useMultipleInstances = false;
           services = [ ];
         };
       }
@@ -24,6 +26,7 @@ let
         enabled = true;
         options = {
           name = "Seedstrem";
+          timeout = 10000;
           manifestUrl = "http://127.0.0.1:8081/stremio/manifest.json";
         };
       }
