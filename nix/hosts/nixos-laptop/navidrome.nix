@@ -47,5 +47,6 @@ in
     after = [ "tailscaled.service" ];
     unitConfig.RequiresMountsFor = music;
     unitConfig.AssertPathIsMountPoint = music;
+    serviceConfig.EnvironmentFile = [ "-/etc/navidrome/lastfm.env" ];
   };
 }
