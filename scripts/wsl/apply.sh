@@ -13,7 +13,7 @@ if [[ "${1:-}" == --system ]]; then
     if [[ ! -e /etc/nix/nix.custom.conf.before-dotfiles-wsl ]]; then
         cp -a /etc/nix/nix.custom.conf /etc/nix/nix.custom.conf.before-dotfiles-wsl
     fi
-    install -m 644 "$repo/nix/nix.custom.conf" /etc/nix/nix.custom.conf
+    install -m 644 "$repo/configs/wsl/nix.custom.conf" /etc/nix/nix.custom.conf
     install -d /etc/systemd/system/nix-daemon.service.d
     install -m 644 "$repo/configs/wsl/nix-daemon.conf" /etc/systemd/system/nix-daemon.service.d/20-dotfiles.conf
     systemctl daemon-reload

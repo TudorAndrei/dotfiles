@@ -103,7 +103,7 @@ Lix allows two concurrent builds with eight threads each, instead of twenty
 builds each requesting twenty threads. Its daemon has lower CPU and I/O
 weight under contention. Unrooted store paths can be collected when free
 space falls below 2 GiB, targeting 8 GiB free; rooted generations remain.
-The client and daemon both load `nix/nix.custom.conf` (the daemon receives
+The client and daemon both load `configs/wsl/nix.custom.conf` (the daemon receives
 a root-owned copy). Reapply with `just wsl-optimize` after changing it.
 
 WSL retains a 32 GiB memory ceiling, all 20 CPUs and 8 GiB swap. Gradual
