@@ -32,7 +32,8 @@ let
       }
     ];
     excludedQualities = [ "CAM" "TS" "TC" "SCR" ];
-    preferredResolutions = [ "2160p" "1440p" "1080p" "720p" "576p" "480p" "360p" "240p" "144p" "Unknown" ];
+    excludedResolutions = [ "576p" "480p" "360p" "240p" "144p" ];
+    preferredResolutions = [ "2160p" "1440p" "1080p" "720p" "Unknown" ];
     preferredQualities = [ "BluRay REMUX" "BluRay" "WEB-DL" "WEBRip" "HDRip" "HC HD-Rip" "DVD REMUX" "DVDRip" "HDTV" "Unknown" ];
     formatter.id = "torrentio";
     sortCriteria.global = [
