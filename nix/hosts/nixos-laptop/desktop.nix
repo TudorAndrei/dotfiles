@@ -1,12 +1,15 @@
-{ ... }:
+_:
 {
-  services.xserver.enable = true;
-  services.xserver.desktopManager.xfce.enable = true;
-  services.xserver.displayManager.lightdm.enable = false;
-  services.speechd.enable = false;
-
-  services.xrdp = {
-    enable = true;
-    defaultWindowManager = "xfce4-session";
+  services = {
+    xserver = {
+      enable = true;
+      desktopManager.xfce.enable = true;
+      displayManager.lightdm.enable = false;
+    };
+    speechd.enable = false;
+    xrdp = {
+      enable = true;
+      defaultWindowManager = "xfce4-session";
+    };
   };
 }

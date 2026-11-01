@@ -3,23 +3,6 @@ let
   music = "/srv/music";
 in
 {
-  systemd.services.music-storage = {
-    description = "Create the music thin volume";
-    wantedBy = [ "srv-music.mount" ];
-    before = [ "srv-music.mount" ];
-    unitConfig.DefaultDependencies = false;
-    path = [ pkgs.lvm2 pkgs.e2fsprogs ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-    script = ''
-      if ! lvs default/music-data >/dev/null 2>&1; then
-        lvcreate --virtualsize 150G --thinpool default/IncusThinPool --name music-data
-        mkfs.ext4 -L music-data /dev/default/music-data
-      fi
-    '';
-  };
   fileSystems.${music} = {
     device = "/dev/default/music-data";
     fsType = "ext4";
@@ -40,17 +23,39 @@ in
     };
   };
 
-  systemd.tmpfiles.settings.navidromeDirs.${music}.d = lib.mkForce {
-    mode = "0755";
-    user = "tudor";
-    group = "users";
-  };
-
-  systemd.services.navidrome = {
-    wants = [ "tailscaled.service" ];
-    after = [ "tailscaled.service" ];
-    unitConfig.RequiresMountsFor = music;
-    unitConfig.AssertPathIsMountPoint = music;
-    serviceConfig.EnvironmentFile = [ "-/etc/navidrome/lastfm.env" ];
+  systemd = {
+    services = {
+      music-storage = {
+        description = "Create the music thin volume";
+        wantedBy = [ "srv-music.mount" ];
+        before = [ "srv-music.mount" ];
+        unitConfig.DefaultDependencies = false;
+        path = [ pkgs.lvm2 pkgs.e2fsprogs ];
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+        };
+        script = ''
+          if ! lvs default/music-data >/dev/null 2>&1; then
+            lvcreate --virtualsize 150G --thinpool default/IncusThinPool --name music-data
+            mkfs.ext4 -L music-data /dev/default/music-data
+          fi
+        '';
+      };
+      navidrome = {
+        wants = [ "tailscaled.service" ];
+        after = [ "tailscaled.service" ];
+        unitConfig = {
+          RequiresMountsFor = music;
+          AssertPathIsMountPoint = music;
+        };
+        serviceConfig.EnvironmentFile = [ "-/etc/navidrome/lastfm.env" ];
+      };
+    };
+    tmpfiles.settings.navidromeDirs.${music}.d = lib.mkForce {
+      mode = "0755";
+      user = "tudor";
+      group = "users";
+    };
   };
 }

@@ -1,4 +1,4 @@
-{ lib, applyPatches, buildGoModule, buildNpmPackage, fetchFromGitHub }:
+{ applyPatches, buildGoModule, buildNpmPackage, fetchFromGitHub }:
 let
   rev = "dd04439e1b3ce0731168feb2b92a2bb66ca94718";
   version = "0-unstable-${builtins.substring 0 7 rev}";

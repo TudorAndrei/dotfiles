@@ -1,4 +1,4 @@
-{ ... }:
+_:
 {
   # Digi DDNS tracks the home connection. The router must forward TCP 80/443
   # to this reserved laptop LAN address. Only the keyed streaming gateway

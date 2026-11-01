@@ -1,13 +1,6 @@
 { pkgs, unstable, ... }:
 let
-  androidPkgs = import unstable.path {
-    inherit (pkgs.stdenv.hostPlatform) system;
-    config = {
-      allowUnfree = true;
-      android_sdk.accept_license = true;
-    };
-    overlays = [ (final: _: { jdk_headless = final.jdk17; }) ];
-  };
+  androidPkgs = unstable.extend (final: _: { jdk_headless = final.jdk17; });
   jdk = androidPkgs.jdk17;
   android = androidPkgs.androidenv.composeAndroidPackages {
     platformVersions = [ "37.0" ];

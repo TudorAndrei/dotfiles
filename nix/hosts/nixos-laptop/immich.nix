@@ -1,4 +1,4 @@
-{ immichPackage, pkgs, ... }:
+{ unstable, pkgs, ... }:
 {
   # Keep the photo library on its own 200 GiB thin volume. The existing
   # media-data volume belongs to the Incus media container.
@@ -27,7 +27,7 @@
 
   services.immich = {
     enable = true;
-    package = immichPackage;
+    package = unstable.immich;
     host = "0.0.0.0";
     openFirewall = false;
   };
