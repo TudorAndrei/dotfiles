@@ -53,6 +53,7 @@ in
         description = "Render AIOStreams secrets and public base URL";
         before = [ "podman-aiostreams.service" ];
         requiredBy = [ "podman-aiostreams.service" ];
+        partOf = [ "podman-aiostreams.service" ];
         unitConfig.RequiresMountsFor = [ state ];
         path = [ pkgs.jq pkgs.openssl ];
         serviceConfig = {
