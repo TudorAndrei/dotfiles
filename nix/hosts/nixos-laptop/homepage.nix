@@ -18,6 +18,7 @@ in
       { resources = { label = "Laptop"; cpu = true; memory = true; uptime = true; }; }
       { resources = { label = "Root disk"; disk = "/"; }; }
       { resources = { label = "Immich disk"; disk = "/var/lib/immich"; }; }
+      { resources = { label = "Music disk"; disk = "/srv/music"; }; }
     ];
     services = [
       {
@@ -52,6 +53,13 @@ in
       }
       {
         Media = [
+          {
+            Navidrome = {
+              icon = "navidrome.png";
+              href = "http://${tailnetHost}:4533/";
+              siteMonitor = "http://127.0.0.1:4533/";
+            };
+          }
           {
             Seedstrem = {
               icon = "mdi-play-circle";
