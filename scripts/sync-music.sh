@@ -12,7 +12,7 @@ usage() {
   echo "  --delete   remove files on $HOST that are not in $SRC"
 }
 
-args=(-a --partial --progress --stats --chmod=D755,F644)
+args=(-a --partial --progress --stats --chmod=u=rwX,go=rX)
 for arg in "$@"; do
   case "$arg" in
     -n|--dry-run) args+=(--dry-run) ;;
