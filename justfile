@@ -104,6 +104,10 @@ herdr-plugins:
     export PATH="${XDG_DATA_HOME:-$HOME/.local/share}/mise/shims:$PATH"
     bash "{{dotfiles}}/configs/herdr/install-plugins.sh"
 
+# Copy ~/Music to Navidrome on nixos-laptop
+music-sync *args:
+    bash "{{scripts}}/sync-music.sh" {{args}}
+
 # Install nvim plugins at the versions in lazy-lock.json
 nvim-plugins:
     #!/usr/bin/env bash
