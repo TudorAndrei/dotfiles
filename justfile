@@ -108,6 +108,10 @@ herdr-plugins:
 music-sync *args:
     bash "{{scripts}}/sync-music.sh" {{args}}
 
+# Copy the Last.fm API key from Bitwarden to Navidrome on nixos-laptop
+navidrome-lastfm:
+    bash "{{scripts}}/navidrome-lastfm.sh"
+
 # Install nvim plugins at the versions in lazy-lock.json
 nvim-plugins:
     #!/usr/bin/env bash
