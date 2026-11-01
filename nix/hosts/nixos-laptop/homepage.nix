@@ -68,6 +68,13 @@ in
             };
           }
           {
+            AIOStreams = {
+              icon = "mdi-layers-triple";
+              href = "http://${tailnetHost}:3000/";
+              siteMonitor = "http://127.0.0.1:3000/";
+            };
+          }
+          {
             Prowlarr = {
               icon = "prowlarr.png";
               href = "http://${tailnetHost}:9696/";

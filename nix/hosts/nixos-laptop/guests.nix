@@ -47,7 +47,7 @@ in
     profiles = [
       {
         name = "media";
-        description = "qBittorrent, Prowlarr, Seedstrem and the public gateway";
+        description = "qBittorrent, Prowlarr, Seedstrem, AIOStreams and the public gateway";
         config = {
           "limits.cpu" = "4";
           "limits.memory" = "4GiB";
@@ -57,6 +57,7 @@ in
           data = { type = "disk"; pool = "default"; source = "media-data"; path = "/srv/media"; };
           qbittorrent = forward "0.0.0.0" 8080;
           seedstrem = forward "0.0.0.0" 8081;
+          aiostreams = forward "0.0.0.0" 3000;
           prowlarr = forward "0.0.0.0" 9696;
           public-gateway = forward "127.0.0.1" 8082;
         };

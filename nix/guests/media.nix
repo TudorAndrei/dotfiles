@@ -7,6 +7,8 @@ let
   qbittorrentHome = "${state}/qbittorrent";
 in
 {
+  imports = [ ./aiostreams.nix ];
+
   networking.hostName = "media";
   networking.hosts."127.0.0.1" = [ "qbittorrent" "prowlarr" ];
   environment.etc."mime.types".source = "${pkgs.mailcap}/etc/mime.types";
