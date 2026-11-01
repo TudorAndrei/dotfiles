@@ -45,6 +45,7 @@ while true; do
     --exclude='.thumbnails' \
     "$SRC/" "$HOST:$DEST/" || status=$?
   if [ "$status" -ne 255 ] || [ "$attempt" -ge "$RETRIES" ]; then
+    ssh "$HOST" "chmod 755 '$DEST'"
     exit "$status"
   fi
   attempt=$((attempt + 1))
