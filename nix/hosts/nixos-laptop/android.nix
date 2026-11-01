@@ -6,10 +6,13 @@ let
       allowUnfree = true;
       android_sdk.accept_license = true;
     };
+    overlays = [ (final: _: { jdk_headless = final.jdk17; }) ];
   };
+  jdk = androidPkgs.jdk17;
   android = androidPkgs.androidenv.composeAndroidPackages {
-    platformVersions = [ "36" "37.0" ];
-    buildToolsVersions = [ "36.0.0" "37.0.0" ];
+    platformVersions = [ "37.0" ];
+    buildToolsVersions = [ "37.0.0" ];
+    toolsVersion = null;
     includeNDK = true;
     ndkVersions = [ "27.1.12297006" ];
     cmakeVersions = [ "3.22.1" ];
@@ -36,11 +39,11 @@ in
     SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ENV{ID_USB_INTERFACES}=="*:ff420[13]:*", MODE="0660", GROUP="adbusers"
   '';
 
-  environment.systemPackages = [ sdk pkgs.jdk17 ];
+  environment.systemPackages = [ sdk jdk ];
   environment.sessionVariables = {
     ANDROID_HOME = sdkRoot;
     ANDROID_SDK_ROOT = sdkRoot;
-    JAVA_HOME = "${pkgs.jdk17}/lib/openjdk";
+    JAVA_HOME = "${jdk}/lib/openjdk";
   };
   home-manager.users.tudor.home.file.".gradle/gradle.properties".text = ''
     org.gradle.jvmargs=-Xmx3g -XX:MaxMetaspaceSize=768m
@@ -49,6 +52,6 @@ in
     kotlin.daemon.jvmargs=-Xmx1g
   '';
   systemd.user.extraConfig = ''
-    DefaultEnvironment="ANDROID_HOME=${sdkRoot}" "ANDROID_SDK_ROOT=${sdkRoot}" "JAVA_HOME=${pkgs.jdk17}/lib/openjdk"
+    DefaultEnvironment="ANDROID_HOME=${sdkRoot}" "ANDROID_SDK_ROOT=${sdkRoot}" "JAVA_HOME=${jdk}/lib/openjdk"
   '';
 }
