@@ -33,6 +33,10 @@ in
       Address = "0.0.0.0";
       Port = 4533;
       MusicFolder = music;
+      ImageCacheSize = "1GB";
+      TranscodingCacheSize = "2GB";
+      Transcoding.MaxConcurrent = 4;
+      Scanner.PurgeMissing = "full";
     };
   };
 
