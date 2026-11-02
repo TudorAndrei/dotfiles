@@ -3,7 +3,6 @@ antigravity-cli = "latest"
 "github:aubepkg/aube" = "latest"
 bun = "latest"
 cargo-binstall = "latest"
-"cargo:ast-grep" = "latest"
 cursor-agent = "latest"
 "cargo:du-dust" = { version = "latest", default-features = false }
 "cargo:jinja-lsp" = "latest"
