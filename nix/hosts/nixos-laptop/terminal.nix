@@ -6,6 +6,7 @@
   environment.sessionVariables = {
     AGENT_BROWSER_EXECUTABLE_PATH = "${unstable.chromium}/bin/chromium";
     PKG_CONFIG_PATH = "${unstable.openssl.dev}/lib/pkgconfig";
+    MISE_RUBY_COMPILE = "false";
   };
 
   systemd.tmpfiles.rules = [
@@ -60,7 +61,6 @@
           "mise/config.toml".text = ''
             [settings]
             all_compile = false
-            ruby.compile = false
             disable_tools = ["erlang", "elixir"]
           '';
         };
