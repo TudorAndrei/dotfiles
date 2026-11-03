@@ -34,6 +34,13 @@
           ".zshenv".source = link "configs/zsh/zshenv";
           ".tmux.conf".source = link "configs/tmux/tmux.conf";
           ".gitignore_global".source = link "gitconfig/gitignore_global";
+          ".gitconfig".source = link "gitconfig/gitconfig";
+          ".gitconfig-pythia".source = link "gitconfig/gitconfig-pythia";
+          ".gitconfig-cave".source = link "gitconfig/gitconfig-cave";
+          ".gitconfig.local".text = ''
+            [commit]
+            	gpgsign = false
+          '';
           ".local/share/zsh-defer".source = "${unstable.zsh-defer}/share/zsh-defer";
           ".local/share/zsh-syntax-highlighting".source =
             "${unstable.zsh-syntax-highlighting}/share/zsh-syntax-highlighting";
