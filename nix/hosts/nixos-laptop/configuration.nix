@@ -8,6 +8,7 @@
     };
     efi.canTouchEfiVariables = true;
   };
+  boot.tmp.useTmpfs = true;
   hardware.enableRedistributableFirmware = true;
 
   networking = {
