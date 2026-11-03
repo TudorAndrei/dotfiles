@@ -3,6 +3,7 @@
   programs.zsh.enable = true;
   programs.zsh.enableGlobalCompInit = false;
   users.users.tudor.shell = pkgs.zsh;
+  environment.sessionVariables.AGENT_BROWSER_EXECUTABLE_PATH = "${unstable.chromium}/bin/chromium";
 
   systemd.tmpfiles.rules = [
     "d /home/tudor/.local/state/zsh 0700 tudor users -"
@@ -28,6 +29,7 @@
           shfmt stylua taplo yamlfmt uv ruff go bun pnpm pandoc typst
           yt-dlp rclone gnumake unzip
           beam.packages.erlang_29.erlang beam.packages.erlang_29.elixir_1_20
+          agent-browser chromium
         ];
         home.file = {
           ".zshrc".source = link "configs/zsh/zshrc";
