@@ -20,6 +20,10 @@
     fsType = "vfat";
     options = [ "fmask=0077" "dmask=0077" ];
   };
+  fileSystems."/home" = {
+    device = "/dev/default/home-data";
+    fsType = "ext4";
+  };
   # Incus owns the remaining raw NVMe partition as an LVM thin pool.
   swapDevices = [ ];
 }
