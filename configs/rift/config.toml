@@ -79,10 +79,6 @@ ax_subrole = "AXDialog"
 floating = true
 
 [[virtual_workspaces.app_rules]]
-app_id = "com.linear"
-workspace = 6
-
-[[virtual_workspaces.app_rules]]
 app_id = "rocks.spotifast.Spotifast"
 workspace = 7
 
