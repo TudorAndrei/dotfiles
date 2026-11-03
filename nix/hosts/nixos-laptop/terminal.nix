@@ -27,6 +27,7 @@
           fastfetch dust scc tokei ast-grep difftastic git-lfs tree-sitter
           shfmt stylua taplo yamlfmt uv ruff go bun pnpm pandoc typst
           yt-dlp rclone gnumake unzip
+          beam.packages.erlang_29.erlang beam.packages.erlang_29.elixir_1_20
         ];
         home.file = {
           ".zshrc".source = link "configs/zsh/zshrc";
@@ -47,6 +48,7 @@
           "mise/config.toml".text = ''
             [settings]
             all_compile = false
+            disable_tools = ["erlang", "elixir"]
           '';
         };
       };
