@@ -105,7 +105,6 @@ postinstall = 'ln -sfn main.ts "$MISE_TOOL_INSTALL_PATH/bend2/bend"'
 [settings]
 auto_update = true
 npm.package_manager = "aube"
-ruby.compile = false
 experimental = true
 minimum_release_age = "0s"
 
