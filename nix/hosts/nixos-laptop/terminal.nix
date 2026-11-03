@@ -60,6 +60,7 @@
           "mise/config.toml".text = ''
             [settings]
             all_compile = false
+            ruby.compile = false
             disable_tools = ["erlang", "elixir"]
           '';
         };
