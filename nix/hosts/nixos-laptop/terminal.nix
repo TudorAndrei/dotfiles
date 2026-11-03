@@ -3,7 +3,10 @@
   programs.zsh.enable = true;
   programs.zsh.enableGlobalCompInit = false;
   users.users.tudor.shell = pkgs.zsh;
-  environment.sessionVariables.AGENT_BROWSER_EXECUTABLE_PATH = "${unstable.chromium}/bin/chromium";
+  environment.sessionVariables = {
+    AGENT_BROWSER_EXECUTABLE_PATH = "${unstable.chromium}/bin/chromium";
+    PKG_CONFIG_PATH = "${unstable.openssl.dev}/lib/pkgconfig";
+  };
 
   systemd.tmpfiles.rules = [
     "d /home/tudor/.local/state/zsh 0700 tudor users -"
