@@ -19,13 +19,55 @@ prefix("shift+d", "session.close")
 prefix("shift+]", "session.next")
 prefix("shift+[", "session.previous")
 
+local current_window, last_window = {}, {}
+
+local function note_window(sid)
+  local view = rex.session.view{ session_id = sid }
+  if not view or not view.active_window_id then
+    return nil
+  end
+  local active = view.active_window_id
+  if current_window[sid] and current_window[sid] ~= active then
+    last_window[sid] = current_window[sid]
+  end
+  current_window[sid] = active
+  return view
+end
+
+local function switch_window(fn)
+  return function(ctx)
+    local view = note_window(ctx.session_id)
+    if view then
+      fn(ctx, view)
+      note_window(ctx.session_id)
+    end
+    return true
+  end
+end
+
 prefix("c", "client.tab.new")
 prefix("n", "client.tab.rename")
-prefix("p", "client.tab.previous")
+prefix("p", switch_window(function(ctx)
+  rex.session.focus_previous_window{ session_id = ctx.session_id }
+end))
 prefix("shift+x", "client.tab.close")
 for i = 1, 9 do
-  prefix(tostring(i), "client.tab.goto", { index = i })
+  prefix(tostring(i), switch_window(function(ctx, view)
+    local win = view.windows and view.windows[i]
+    if win then
+      rex.session.focus_window{ session_id = ctx.session_id, window_id = win.window_id }
+    end
+  end))
 end
+prefix("tab", switch_window(function(ctx, view)
+  local target = last_window[ctx.session_id]
+  for _, win in ipairs(view.windows or {}) do
+    if win.window_id == target and target ~= view.active_window_id then
+      rex.session.focus_window{ session_id = ctx.session_id, window_id = target }
+      return
+    end
+  end
+end))
 
 prefix("v", "pane.split", { direction = "right" })
 prefix("h", "pane.split", { direction = "down" })
