@@ -64,3 +64,5 @@ for key, dir in pairs({ h = "left", j = "down", k = "up", l = "right" }) do
     return true
   end)
 end
+
+rex.host{ label = "nixos-laptop", endpoint = "http://100.121.29.45:7297" }
