@@ -30,6 +30,7 @@
         services.rex = {
           enable = true;
           extraListen = [ "tailnet://:7297" ];
+          extraArgs = [ "--tailnet-allow-identified" ];
         };
         manual.manpages.enable = false;
         home.packages = with unstable; [
