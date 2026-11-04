@@ -1,4 +1,4 @@
-{ pkgs, unstable, ... }:
+{ pkgs, unstable, inputs, ... }:
 {
   programs.zsh.enable = true;
   programs.zsh.enableGlobalCompInit = false;
@@ -25,7 +25,12 @@
           "${config.home.homeDirectory}/dotfiles/${path}";
       in
       {
-        imports = [ ../../home.nix ];
+        imports = [ ../../home.nix inputs.rex.homeManagerModules.default ];
+        programs.rex.sshGuard = false;
+        services.rex = {
+          enable = true;
+          extraListen = [ "tailnet://:7297" ];
+        };
         manual.manpages.enable = false;
         home.packages = with unstable; [
           mise starship eza zoxide fd ripgrep lazygit lazydocker tmux
@@ -58,6 +63,7 @@
           "starship.toml".source = link "configs/starship/starship.toml";
           "tmux".source = link "configs/tmux";
           "nvim".source = link "nvim";
+          "rex".source = link "configs/rex";
           "mise/config.toml".text = ''
             [settings]
             all_compile = false

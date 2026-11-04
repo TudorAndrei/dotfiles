@@ -10,6 +10,8 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager-stable.url = "github:nix-community/home-manager/release-26.05";
     home-manager-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
+    rex.url = "https://pkgs.superlogical.com/rex/nix/snapshot.tar.gz";
+    rex.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, nixpkgs-stable, nixos-hardware, home-manager, home-manager-stable, ... }@inputs: let
