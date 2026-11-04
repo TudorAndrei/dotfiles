@@ -22,7 +22,7 @@ prefix("shift+[", "session.previous")
 local current_window, last_window = {}, {}
 
 local function note_window(sid)
-  local view = rex.session.view{ session_id = sid }
+  local view = rex.session.view{}
   if not view or not view.active_window_id then
     return nil
   end
@@ -34,40 +34,50 @@ local function note_window(sid)
   return view
 end
 
-local function switch_window(fn)
-  return function(ctx)
-    local view = note_window(ctx.session_id)
-    if view then
-      fn(ctx, view)
-      note_window(ctx.session_id)
-    end
-    return true
-  end
+local function tab_action(name, title, args, fn)
+  rex.action{
+    name = name,
+    title = title,
+    args = args,
+    run = function(ctx, a)
+      local view = note_window(ctx.session_id)
+      if view then
+        fn(view, a)
+        note_window(ctx.session_id)
+      end
+    end,
+  }
 end
 
-prefix("c", "client.tab.new")
-prefix("n", "client.tab.rename")
-prefix("p", switch_window(function(ctx)
-  rex.session.focus_previous_window{ session_id = ctx.session_id }
-end))
-prefix("shift+x", "client.tab.close")
-for i = 1, 9 do
-  prefix(tostring(i), switch_window(function(ctx, view)
-    local win = view.windows and view.windows[i]
-    if win then
-      rex.session.focus_window{ session_id = ctx.session_id, window_id = win.window_id }
-    end
-  end))
-end
-prefix("tab", switch_window(function(ctx, view)
-  local target = last_window[ctx.session_id]
+tab_action("tab_goto_tracked", "Go to Tab", { index = "integer" }, function(view, a)
+  local win = view.windows and view.windows[a.index]
+  if win then
+    rex.session.focus_window{ window_id = win.window_id }
+  end
+end)
+
+tab_action("tab_previous_tracked", "Show Previous Tab", nil, function()
+  rex.session.focus_previous_window{}
+end)
+
+tab_action("tab_last", "Show Last Active Tab", nil, function(view)
+  local target = last_window[view.session_id]
   for _, win in ipairs(view.windows or {}) do
     if win.window_id == target and target ~= view.active_window_id then
-      rex.session.focus_window{ session_id = ctx.session_id, window_id = target }
+      rex.session.focus_window{ window_id = target }
       return
     end
   end
-end))
+end)
+
+prefix("c", "client.tab.new")
+prefix("n", "client.tab.rename")
+prefix("p", "tab_previous_tracked")
+prefix("shift+x", "client.tab.close")
+for i = 1, 9 do
+  prefix(tostring(i), "tab_goto_tracked", { index = i })
+end
+prefix("tab", "tab_last")
 
 prefix("v", "pane.split", { direction = "right" })
 prefix("h", "pane.split", { direction = "down" })
