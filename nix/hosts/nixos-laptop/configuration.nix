@@ -19,6 +19,7 @@
       # The Wi-Fi credential lives in /etc/NetworkManager/system-connections,
       # outside this flake and the publicly readable Nix store.
       unmanaged = [ "interface-name:incusbr*" "interface-name:veth*" ];
+      wifi.powersave = false;
     };
     nftables.enable = true;
     firewall = {
