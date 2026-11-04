@@ -52,12 +52,6 @@
           ".gitconfig.local".text = ''
             [commit]
             	gpgsign = false
-            [credential "https://github.com"]
-            	helper =
-            	helper = !gh auth git-credential
-            [credential "https://gist.github.com"]
-            	helper =
-            	helper = !gh auth git-credential
           '';
           ".local/share/zsh-defer".source = "${unstable.zsh-defer}/share/zsh-defer";
           ".local/share/zsh-syntax-highlighting".source =
