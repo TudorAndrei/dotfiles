@@ -26,7 +26,7 @@ Host *
 Host eurocash-bastion
   HostName 20.82.129.155
   User azureuser
-  IdentityFile ~/.ssh/microsites.pem
+  IdentityFile ~/.ssh/eurocash/microsites.pem
 
 
 Host eurocash-dataplane
