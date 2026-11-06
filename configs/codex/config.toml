@@ -539,7 +539,7 @@ trusted_hash = "sha256:be9ea469391fef0ce53c9be8c3b77518c7d4f02ae6cc1050b1e78eb78
 trusted_hash = "sha256:b0ea80c0bb960789c9a79d4d85ec8c6842a3b9e28ddda71fc5ea49cd0b1564e5"
 
 [hooks.state."/Users/tudor/.codex/hooks.json:session_start:1:0"]
-trusted_hash = "sha256:e9feb3273216f957b5919f0fd6c6f4f7935444f25a553463f2b6890409aeb4bc"
+trusted_hash = "sha256:7ac16f27c7b29bec5952047d0a2193dc7595d731faca5a12c3c476194bd2d532"
 
 [hooks.state."/Users/tudor/.codex/hooks.json:pre_tool_use:1:0"]
 trusted_hash = "sha256:e8f45b6a52fb00c89368da42e782d4ffe43851db7df46d172a8ba8f69533edef"
@@ -578,6 +578,33 @@ trusted_hash = "sha256:d2db4ad7c1bd63eb821fdad605b828c5abc66c9b955b7dd2b7ebec076
 trusted_hash = "sha256:67a7cfe9a4ac6a308d01ff74ebe488e826b3deedc575b7cc4be93aa561a16d9b"
 
 [hooks.state."/Users/tudor/cave/openflow/.codex/hooks.json:stop:1:0"]
+trusted_hash = "sha256:b08e49701cd647b27729d9d4815970406734e3baab1ee439151bff1371437d44"
+
+[hooks.state."/Users/tudor/cave/flowcopilot-app/.codex/hooks.json:post_tool_use:0:0"]
+trusted_hash = "sha256:3da08c6b5c68e5466a0498c95c5366dd54e77338ed22f8ffaeaef5b8175691b2"
+
+[hooks.state."/Users/tudor/cave/flowcopilot-app/.codex/hooks.json:post_tool_use:1:0"]
+trusted_hash = "sha256:ccccf9d60693f4f5b627748999bcaa50c7cbfa0cc8e955b4f0947c5fd77d5fcc"
+
+[hooks.state."/Users/tudor/cave/flowcopilot-app/.codex/hooks.json:session_start:0:0"]
+trusted_hash = "sha256:ab104b80f9aede14066a7906dbade0efb4e29fc745c443b71d4f2b5d0c7f70cb"
+
+[hooks.state."/Users/tudor/cave/flowcopilot-app/.codex/hooks.json:session_end:0:0"]
+trusted_hash = "sha256:73e5f02f6b9f9c16beac302d40eccaa01ad755102f8b8760d16d6d8e0ec92967"
+
+[hooks.state."/Users/tudor/cave/flowcopilot-app/.codex/hooks.json:user_prompt_submit:0:0"]
+trusted_hash = "sha256:2759d15170b986aa7d17c3fff2db61a5533b03dd5fe23f944a32b863af5458da"
+
+[hooks.state."/Users/tudor/cave/flowcopilot-app/.codex/hooks.json:subagent_start:0:0"]
+trusted_hash = "sha256:d2db4ad7c1bd63eb821fdad605b828c5abc66c9b955b7dd2b7ebec0767a6b6ad"
+
+[hooks.state."/Users/tudor/cave/flowcopilot-app/.codex/hooks.json:subagent_stop:0:0"]
+trusted_hash = "sha256:67a7cfe9a4ac6a308d01ff74ebe488e826b3deedc575b7cc4be93aa561a16d9b"
+
+[hooks.state."/Users/tudor/cave/flowcopilot-app/.codex/hooks.json:stop:0:0"]
+trusted_hash = "sha256:b667168b4504bb7b99c5afea6af0dbb0f45898bf61c6dabdee686a00e6dae992"
+
+[hooks.state."/Users/tudor/cave/flowcopilot-app/.codex/hooks.json:stop:1:0"]
 trusted_hash = "sha256:b08e49701cd647b27729d9d4815970406734e3baab1ee439151bff1371437d44"
 
 [marketplaces.openai-bundled]
