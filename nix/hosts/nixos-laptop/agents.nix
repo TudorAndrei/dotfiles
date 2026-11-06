@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, options, ... }:
 let
   cliproxyUrl = "http://127.0.0.1:8318";
   cliproxyKey = pkgs.writeShellApplication {
@@ -42,6 +42,10 @@ let
 in
 {
   programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = options.programs.nix-ld.libraries.default ++ (with pkgs; [
+    glib nspr nss at-spi2-core dbus expat systemd alsa-lib libgbm libxkbcommon
+    libx11 libxcb libxcomposite libxdamage libxext libxfixes libxrandr
+  ]);
   services.envfs.enable = true;
   users.users.tudor.linger = true;
   environment.localBinInPath = true;
