@@ -25,5 +25,4 @@
     fsType = "ext4";
   };
   # Incus owns the remaining raw NVMe partition as an LVM thin pool.
-  swapDevices = [ ];
 }

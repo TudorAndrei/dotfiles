@@ -147,6 +147,11 @@
     smartd.enable = true;
   };
   zramSwap.enable = true;
+  swapDevices = [{
+    device = "/var/lib/swapfile";
+    size = 16 * 1024;
+    priority = 1;
+  }];
 
   virtualisation.incus = {
     enable = true;
