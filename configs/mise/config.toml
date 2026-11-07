@@ -80,7 +80,7 @@ typst = "latest"
 "github:TudorAndrei/ste-cli" = "latest"
 "npm:markdownlint-cli" = "0.49.1"
 "npm:tokenburnmarket" = "latest"
-"github:TudorAndrei/criv" = "0.12.2"
+"github:TudorAndrei/criv" = "latest"
 "github:TudorAndrei/muzik" = { version = "latest", matching = "muzik-cli" }
 "npm:@alchemy/cli" = "0.22.0"
 "github:Ovyerus/bandsnatch" = "latest"
