@@ -37,14 +37,16 @@ in
     ANDROID_HOME = sdkRoot;
     ANDROID_SDK_ROOT = sdkRoot;
     JAVA_HOME = "${jdk}/lib/openjdk";
+    JAVA_TOOL_OPTIONS = "-XX:MaxRAMPercentage=25";
   };
   home-manager.users.tudor.home.file.".gradle/gradle.properties".text = ''
-    org.gradle.jvmargs=-Xmx3g -XX:MaxMetaspaceSize=768m
-    org.gradle.workers.max=4
-    org.gradle.daemon.idletimeout=900000
-    kotlin.daemon.jvmargs=-Xmx1g
+    org.gradle.jvmargs=-Xmx2g -XX:MaxMetaspaceSize=512m -XX:+UseParallelGC
+    org.gradle.workers.max=2
+    org.gradle.daemon.idletimeout=600000
+    kotlin.daemon.jvmargs=-Xmx1g -XX:MaxMetaspaceSize=384m
+    android.lint.jvmargs=-Xmx1g
   '';
   systemd.user.extraConfig = ''
-    DefaultEnvironment="ANDROID_HOME=${sdkRoot}" "ANDROID_SDK_ROOT=${sdkRoot}" "JAVA_HOME=${jdk}/lib/openjdk"
+    DefaultEnvironment="ANDROID_HOME=${sdkRoot}" "ANDROID_SDK_ROOT=${sdkRoot}" "JAVA_HOME=${jdk}/lib/openjdk" "JAVA_TOOL_OPTIONS=-XX:MaxRAMPercentage=25"
   '';
 }

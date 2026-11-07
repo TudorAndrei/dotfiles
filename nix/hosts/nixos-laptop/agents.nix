@@ -54,6 +54,28 @@ in
     nodejs_24 gh ripgrep fd jq curl unzip lsof dnsutils imagemagick cliproxyKey libsecret
   ];
 
+  systemd.oomd.enableUserSlices = true;
+
+  systemd.user.slices.app-t3code = {
+    description = "T3 Code agents";
+    sliceConfig = {
+      MemoryHigh = "7G";
+      MemoryMax = "8G";
+      MemorySwapMax = "1G";
+      ManagedOOMMemoryPressure = "kill";
+      ManagedOOMMemoryPressureLimit = "50%";
+    };
+  };
+
+  systemd.user.services.t3code = {
+    overrideStrategy = "asDropin";
+    serviceConfig = {
+      MemoryHigh = "1500M";
+      MemoryMax = "2G";
+      MemorySwapMax = "512M";
+    };
+  };
+
   services.gnome.gnome-keyring.enable = true;
   systemd.user.services.keyring-unlock = {
     description = "Start the passwordless login keyring";
