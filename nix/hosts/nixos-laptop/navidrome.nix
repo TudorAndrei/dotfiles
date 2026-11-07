@@ -48,8 +48,14 @@ in
         unitConfig = {
           RequiresMountsFor = music;
           AssertPathIsMountPoint = music;
+          StartLimitIntervalSec = 300;
+          StartLimitBurst = 10;
         };
-        serviceConfig.EnvironmentFile = [ "-/etc/navidrome/lastfm.env" ];
+        serviceConfig = {
+          EnvironmentFile = [ "-/etc/navidrome/lastfm.env" ];
+          Restart = lib.mkForce "always";
+          RestartSec = "5s";
+        };
       };
     };
     tmpfiles.settings.navidromeDirs.${music}.d = lib.mkForce {
