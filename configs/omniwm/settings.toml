@@ -1177,7 +1177,7 @@ binding = "Unassigned"
 id = "closeFocusedWindow"
 
 [[hotkeys]]
-binding = "Control+Option+M"
+binding = "Option+M"
 id = "openMenuAnywhere"
 
 [[hotkeys]]
