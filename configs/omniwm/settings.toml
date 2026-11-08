@@ -213,13 +213,13 @@ autoHide = false
 autoHideHideDelayMilliseconds = 0.0
 autoHideRevealDelayMilliseconds = 0.0
 backgroundOpacity = 0.1
-deduplicateAppIcons = false
+deduplicateAppIcons = true
 enabled = true
 excludedBundleIDs = []
 fullWidth = false
 fullWidthNotchMode = "rightOfNotch"
 height = 24.0
-hideEmptyWorkspaces = false
+hideEmptyWorkspaces = true
 hideInNativeFullscreen = false
 hoverPreviewsEnabled = true
 notchActiveZoneWidth = 180.0
@@ -1231,10 +1231,6 @@ id = "toggleShellWidget.hidden-bar"
 [[hotkeys]]
 binding = "Unassigned"
 id = "toggleShellWidget.media"
-
-[[hotkeys]]
-binding = "Unassigned"
-id = "toggleShellWidget.notifications"
 
 [[hotkeys]]
 binding = "Unassigned"

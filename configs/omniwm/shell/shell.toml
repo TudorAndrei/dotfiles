@@ -1,0 +1,7 @@
+[profiles]
+
+[profiles.default]
+theme = "dracula"
+leading = ["apple-menu", "omniwm", "workspaces"]
+center = []
+trailing = ["media", "volume", "wifi", "battery-details", "control-center", "clock"]
