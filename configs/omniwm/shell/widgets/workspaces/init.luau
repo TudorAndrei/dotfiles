@@ -385,13 +385,25 @@ local function hiddenBadge()
         ui.box{ w = 3, h = 1 } }
 end
 
+local function onlyHidden(workspace: BarWorkspace): boolean
+    if workspace.focused or #workspace.windows == 0 then
+        return false
+    end
+    for _, item in ipairs(workspace.windows) do
+        if not appHidden(item) then
+            return false
+        end
+    end
+    return true
+end
+
 function render(ctx: Context)
     local bar = ctx.data.bar
     local m = metrics(ctx, bar.style, ctx.data.settings or {})
     local pills = { gap = if m.indicator ~= "pills" then 2 else 6 }
     local cells = {}
     for _, workspace in ipairs(bar.workspaces) do
-        if bar.island ~= "secondary" then
+        if bar.island ~= "secondary" and not onlyHidden(workspace) then
             local node, cell = workspacePill(ctx, workspace, bar, m)
             pills[#pills + 1] = node
             cells[#cells + 1] = cell
