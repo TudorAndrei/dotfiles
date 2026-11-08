@@ -69,7 +69,6 @@ AppleMenuBarVisibleInFullscreen = true
 "~/.config/zsh" = { source = "configs/zsh", mode = "symlink" }
 "~/.config/ghostty" = { source = "configs/ghostty", mode = "symlink" }
 "~/.config/tmux" = { source = "configs/tmux", mode = "symlink" }
-"~/.config/barrs" = { source = "configs/barrs", mode = "symlink" }
 "~/.config/uv" = { source = "configs/uv", mode = "symlink" }
 "~/.config/nvim" = { source = "nvim", mode = "symlink" }
 "~/.config/starship.toml" = { source = "configs/starship/starship.toml", mode = "symlink" }
@@ -95,11 +94,6 @@ AppleMenuBarVisibleInFullscreen = true
 "~/.claude/settings.json" = { source = "configs/claude/settings.json", mode = "symlink" }
 "~/.claude/CLAUDE.md" = { source = "configs/claude/CLAUDE.md.tera", mode = "template" }
 "~/.codex/AGENTS.md" = { source = "configs/codex/AGENTS.md.tera", mode = "template" }
-
-[dotfiles."~/.config/rift"]
-source = "configs/rift"
-mode = "symlink"
-variants = [{ os = "macos" }]
 
 [dotfiles."~/.config/omniwm/settings.toml"]
 source = "configs/omniwm/settings.toml"
@@ -166,10 +160,6 @@ source = "configs/environment.d"
 mode = "symlink-each"
 variants = [{ os = "linux" }]
 
-[bootstrap.brew.taps]
-"acsandmann/tap" = "https://github.com/acsandmann/homebrew-tap.git"
-"tudorandrei/barrs" = "https://github.com/TudorAndrei/barrs.git"
-
 [bootstrap.packages]
 "brew:borgbackup" = { os = "macos" }
 "brew:cocoapods" = { os = "macos" }
@@ -194,7 +184,6 @@ variants = [{ os = "linux" }]
 "brew:pinentry-mac" = { os = "macos" }
 "brew:postgresql@17" = { os = "macos" }
 "brew:qemu" = { os = "macos" }
-"brew:acsandmann/tap/rift" = { os = "macos" }
 "brew:sevenzip" = { os = "macos" }
 "brew:smartmontools" = { os = "macos" }
 "brew:sox" = { os = "macos" }
@@ -203,7 +192,6 @@ variants = [{ os = "linux" }]
 "brew:television" = { os = "macos" }
 "brew:tig" = { os = "macos" }
 "brew:tpm" = { os = "macos" }
-"brew:tudorandrei/barrs/barrs" = { os = "macos" }
 "brew:unar" = { os = "macos" }
 "brew:watchman" = { os = "macos" }
 "brew:wget" = { os = "macos" }
