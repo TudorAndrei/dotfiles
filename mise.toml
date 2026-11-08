@@ -105,6 +105,11 @@ source = "configs/omniwm/shell/shell.toml"
 mode = "symlink"
 variants = [{ os = "macos" }]
 
+[dotfiles."~/.config/omniwm/shell/widgets"]
+source = "configs/omniwm/shell/widgets"
+mode = "symlink"
+variants = [{ os = "macos" }]
+
 [dotfiles."~/Library/LaunchAgents/com.tudor.ghostty-config-reload.plist"]
 source = "configs/macos/launchagents/com.tudor.ghostty-config-reload.plist"
 mode = "symlink"
