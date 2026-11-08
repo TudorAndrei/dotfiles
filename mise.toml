@@ -101,6 +101,11 @@ source = "configs/rift"
 mode = "symlink"
 variants = [{ os = "macos" }]
 
+[dotfiles."~/.config/omniwm/settings.toml"]
+source = "configs/omniwm/settings.toml"
+mode = "symlink"
+variants = [{ os = "macos" }]
+
 [dotfiles."~/.config/menuanywhere"]
 source = "configs/macos/menuanywhere"
 mode = "symlink"
@@ -226,6 +231,7 @@ variants = [{ os = "linux" }]
 "brew-cask:mactex-no-gui" = { os = "macos" }
 "brew-cask:obs" = { os = "macos" }
 "brew-cask:obsidian" = { os = "macos" }
+"brew-cask:omniwm" = { os = "macos" }
 "brew-cask:orbstack" = { os = "macos" }
 "brew-cask:orion" = { os = "macos" }
 "brew-cask:petrichor" = { os = "macos" }
