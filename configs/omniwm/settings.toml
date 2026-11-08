@@ -223,7 +223,7 @@ hideEmptyWorkspaces = true
 hideInNativeFullscreen = false
 hoverPreviewsEnabled = true
 notchActiveZoneWidth = 180.0
-notchMode = "moveBelowMenuBar"
+notchMode = "splitActiveLeft"
 notificationBadgeRefreshIntervalSeconds = 5.0
 notificationBadges = "off"
 position = "overlappingMenuBar"
@@ -237,7 +237,7 @@ showLabels = true
 solidBlackBackground = false
 systemStatsButton = false
 transparentBackground = false
-windowLevel = "popup"
+windowLevel = "floating"
 xOffset = 0.0
 yOffset = 0.0
 
@@ -1222,10 +1222,6 @@ id = "toggleShellWidget.clock"
 
 [[hotkeys]]
 binding = "Unassigned"
-id = "toggleShellWidget.control-center"
-
-[[hotkeys]]
-binding = "Unassigned"
 id = "toggleShellWidget.hidden-bar"
 
 [[hotkeys]]
@@ -1239,10 +1235,6 @@ id = "toggleShellWidget.system-stats"
 [[hotkeys]]
 binding = "Unassigned"
 id = "toggleShellWidget.volume"
-
-[[hotkeys]]
-binding = "Unassigned"
-id = "toggleShellWidget.wifi"
 
 [[hotkeys]]
 binding = "Unassigned"

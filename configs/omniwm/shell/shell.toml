@@ -4,4 +4,10 @@
 theme = "dracula"
 leading = ["apple-menu", "workspaces"]
 center = []
-trailing = ["media", "volume", "wifi", "battery-details", "control-center", "clock"]
+trailing = ["media", "volume", "battery-details", "clock"]
+
+[profiles.default.workspaceBar]
+fullWidth = false
+
+[profiles.default.widgets.clock]
+date = false

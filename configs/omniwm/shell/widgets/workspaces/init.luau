@@ -391,7 +391,7 @@ function render(ctx: Context)
     local pills = { gap = if m.indicator ~= "pills" then 2 else 6 }
     local cells = {}
     for _, workspace in ipairs(bar.workspaces) do
-        if bar.island == "all" or workspace.focused == (bar.island == "active") then
+        if bar.island ~= "secondary" then
             local node, cell = workspacePill(ctx, workspace, bar, m)
             pills[#pills + 1] = node
             cells[#cells + 1] = cell
