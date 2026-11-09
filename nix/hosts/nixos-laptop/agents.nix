@@ -59,19 +59,18 @@ in
   systemd.user.slices.app-t3code = {
     description = "T3 Code agents";
     sliceConfig = {
-      MemoryHigh = "7G";
       MemoryMax = "8G";
       MemorySwapMax = "1G";
       ManagedOOMMemoryPressure = "kill";
-      ManagedOOMMemoryPressureLimit = "50%";
+      ManagedOOMMemoryPressureLimit = "80%";
     };
   };
 
   systemd.user.services.t3code = {
     overrideStrategy = "asDropin";
     serviceConfig = {
-      MemoryHigh = "1500M";
-      MemoryMax = "2G";
+      MemoryHigh = "2500M";
+      MemoryMax = "3G";
       MemorySwapMax = "512M";
     };
   };
