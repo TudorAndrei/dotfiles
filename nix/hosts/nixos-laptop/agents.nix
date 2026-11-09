@@ -66,8 +66,18 @@ in
     };
   };
 
+  systemd.user.units."t3code-.scope" = {
+    overrideStrategy = "asDropin";
+    text = ''
+      [Scope]
+      MemoryMax=4G
+      MemorySwapMax=512M
+    '';
+  };
+
   systemd.user.services.t3code = {
     overrideStrategy = "asDropin";
+    environment.AGENT_BROWSER_IDLE_TIMEOUT_MS = "600000";
     serviceConfig = {
       MemoryHigh = "2500M";
       MemoryMax = "3G";
