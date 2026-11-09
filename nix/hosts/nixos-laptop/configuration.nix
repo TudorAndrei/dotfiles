@@ -8,7 +8,8 @@
     };
     efi.canTouchEfiVariables = true;
   };
-  boot.tmp.useTmpfs = true;
+  boot.tmp.useTmpfs = false;
+  boot.tmp.cleanOnBoot = true;
   hardware.enableRedistributableFirmware = true;
 
   networking = {
