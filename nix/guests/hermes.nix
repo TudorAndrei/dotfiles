@@ -24,8 +24,8 @@ in
       base_url = "http://127.0.0.1:8318";
       key_env = "CLIPROXY_API_KEY";
       groups = {
-        claude.models = [ ];
-        xai.models = [ ];
+        claude.models = [ "none" ];
+        xai.models = [ "none" ];
       };
     };
     settings.moa.enabled = false;
