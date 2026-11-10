@@ -36,6 +36,16 @@ defaults write com.superlogical.rex Workspace.activePaneBorderTransition -string
 defaults write com.superlogical.rex Workspace.terminalPaddingColor -string background
 
 echo ""
+echo "==> Starting noTunes at login..."
+if [ -d /Applications/noTunes.app ]; then
+    if ! osascript -e 'tell application "System Events" to get the name of every login item' | grep -q noTunes; then
+        osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/noTunes.app", hidden:true}' >/dev/null
+    fi
+else
+    echo "    noTunes not found, skipping"
+fi
+
+echo ""
 echo "==> Setting default applications..."
 if command -v duti >/dev/null 2>&1; then
     duti "$DOTFILES_DIR/configs/macos/duti"
