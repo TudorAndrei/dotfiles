@@ -25,6 +25,8 @@ in
     };
   };
 
+  systemd.tmpfiles.rules = [ "L+ /opt/data - - - - ${state}/.hermes" ];
+
   systemd.services = {
     hermes-agent.unitConfig.RequiresMountsFor = [ state ];
     hermes-backend.unitConfig.RequiresMountsFor = [ state ];
