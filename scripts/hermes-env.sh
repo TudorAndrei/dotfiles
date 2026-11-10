@@ -27,7 +27,7 @@ if [ -z "$key" ] || [ "$key" = "null" ]; then
 fi
 
 printf '%s\nCLIPROXY_API_KEY=%s\n' "$env" "$key" |
-  ssh "$HOST" "incus exec hermes -- $GUEST_BIN/install -m 600 -o root -g root /dev/stdin $TARGET &&
+  ssh "$HOST" "incus file push - hermes$TARGET --mode 0600 --uid 0 --gid 0 &&
     incus exec hermes -- /run/current-system/activate >/dev/null &&
     incus exec hermes -- $GUEST_BIN/systemctl restart hermes-agent hermes-backend"
 
