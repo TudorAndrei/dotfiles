@@ -111,9 +111,6 @@ trust_level = "trusted"
 [projects."/Users/tudor/cave/xhoard"]
 trust_level = "trusted"
 
-[projects."/Users/tudor/cave/barrs"]
-trust_level = "trusted"
-
 [projects."/Users/tudor/.ssh"]
 trust_level = "trusted"
 
