@@ -1,6 +1,7 @@
 { inputs, lib, pkgs, ... }:
 let
   state = "/var/lib/hermes";
+  hermesVersion = lib.removePrefix "v" (lib.importJSON ../flake.lock).nodes.hermes-agent.original.ref;
   cliproxyapiProvider = pkgs.fetchFromGitHub {
     owner = "duu261";
     repo = "hermes-cliproxyapi-provider";
@@ -17,7 +18,7 @@ in
   services.hermes-agent = {
     enable = true;
     package = inputs.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
-      version = "0.23.1";
+      version = hermesVersion;
     };
     stateDir = state;
     environmentFiles = [ "${state}/secrets.env" ];
