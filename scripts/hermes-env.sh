@@ -28,8 +28,21 @@ fi
 
 printf '%s\nCLIPROXY_API_KEY=%s\n' "$env" "$key" |
   ssh "$HOST" "incus file push - hermes$TARGET --mode 0600 --uid 0 --gid 0 &&
-    incus exec hermes -- /run/current-system/activate >/dev/null &&
-    incus exec hermes -- $GUEST_BIN/systemctl restart hermes-agent hermes-backend"
+    incus exec hermes -- /run/current-system/activate >/dev/null"
+
+ssh "$HOST" "incus exec hermes -- $GUEST_BIN/sh -s" <<EOF
+set -e
+export PATH=$GUEST_BIN
+line=\$(grep '^CLIPROXY_API_KEY=' $TARGET)
+for env in /var/lib/hermes/.hermes/profiles/*/.env; do
+  [ -e "\$env" ] || continue
+  sed -i '/^CLIPROXY_API_KEY=/d' "\$env"
+  printf '%s\n' "\$line" >> "\$env"
+  chown hermes:hermes "\$env"
+  chmod 600 "\$env"
+done
+systemctl restart hermes-agent hermes-backend
+EOF
 
 echo "==> Wrote hermes:$TARGET on $HOST and restarted Hermes"
 exit 0
