@@ -12,13 +12,17 @@
     home-manager-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
     rex.url = "https://pkgs.superlogical.com/rex/nix/snapshot.tar.gz";
     rex.inputs.nixpkgs.follows = "nixpkgs";
-    hermes-agent.url = "github:NousResearch/hermes-agent/v0.22.5";
+    hermes-agent.url = "github:NousResearch/hermes-agent/v0.23.1";
+    nixpkgs-codex.url = "github:NixOS/nixpkgs/1c89083e451e891152365b799595cf7790a43325";
   };
 
   outputs = { self, nixpkgs, nixpkgs-stable, nixos-hardware, home-manager, home-manager-stable, ... }@inputs: let
     system = "x86_64-linux";
     unstable = import nixpkgs {
       inherit system;
+      overlays = [
+        (_: _: { inherit (import inputs.nixpkgs-codex { inherit system; config.allowUnfree = true; }) codex; })
+      ];
       config = {
         allowUnfree = true;
         android_sdk.accept_license = true;
