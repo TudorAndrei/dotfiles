@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, pkgs, ... }:
 let
   state = "/var/lib/hermes";
 in
@@ -11,6 +11,7 @@ in
     enable = true;
     stateDir = state;
     environmentFiles = [ "${state}/secrets.env" ];
+    extraPackages = with pkgs; [ ffmpeg nodejs ripgrep ];
     settings.moa.enabled = false;
     settings.model = {
       provider = "custom";
