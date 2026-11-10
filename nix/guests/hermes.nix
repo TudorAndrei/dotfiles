@@ -23,13 +23,17 @@ in
     settings.cliproxyapi.instances.home = {
       base_url = "http://127.0.0.1:8318";
       key_env = "CLIPROXY_API_KEY";
+      groups = {
+        claude.models = [ ];
+        xai.models = [ ];
+      };
     };
     settings.moa.enabled = false;
     settings.model = {
-      provider = "custom";
-      base_url = "http://127.0.0.1:8318/v1";
-      key_env = "CLIPROXY_API_KEY";
-      api_mode = "codex_responses";
+      provider = "cpa-home-codex";
+      base_url = null;
+      key_env = null;
+      api_mode = null;
       default = "gpt-6.1-terra";
     };
     backend = {
