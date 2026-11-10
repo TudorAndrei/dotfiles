@@ -207,6 +207,7 @@ variants = [{ os = "linux" }]
 "brew-cask:localsend" = { os = "macos" }
 "brew-cask:love" = { os = "macos" }
 "brew-cask:mactex-no-gui" = { os = "macos" }
+"brew-cask:notunes" = { os = "macos" }
 "brew-cask:obs" = { os = "macos" }
 "brew-cask:obsidian" = { os = "macos" }
 "brew-cask:omniwm" = { os = "macos" }
