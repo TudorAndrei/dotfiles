@@ -22,16 +22,6 @@ case "$(uname -s)" in
     ;;
 esac
 '''
-post-dotfiles = '''
-if [ "$(uname -s)" = "Darwin" ]; then
-  agent="com.tudor.ghostty-config-reload"
-  plist="$HOME/Library/LaunchAgents/$agent.plist"
-  if [ -e "$plist" ]; then
-    launchctl bootout "gui/$(id -u)/$agent" 2>/dev/null || true
-    launchctl bootstrap "gui/$(id -u)" "$plist"
-  fi
-fi
-'''
 
 [bootstrap.macos.dock]
 autohide = true
@@ -107,11 +97,6 @@ variants = [{ os = "macos" }]
 
 [dotfiles."~/.config/omniwm/shell/widgets"]
 source = "configs/omniwm/shell/widgets"
-mode = "symlink"
-variants = [{ os = "macos" }]
-
-[dotfiles."~/Library/LaunchAgents/com.tudor.ghostty-config-reload.plist"]
-source = "configs/macos/launchagents/com.tudor.ghostty-config-reload.plist"
 mode = "symlink"
 variants = [{ os = "macos" }]
 
