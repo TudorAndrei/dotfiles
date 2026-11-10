@@ -12,6 +12,7 @@
     home-manager-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
     rex.url = "https://pkgs.superlogical.com/rex/nix/snapshot.tar.gz";
     rex.inputs.nixpkgs.follows = "nixpkgs";
+    hermes-agent.url = "github:NousResearch/hermes-agent/v0.22.5";
   };
 
   outputs = { self, nixpkgs, nixpkgs-stable, nixos-hardware, home-manager, home-manager-stable, ... }@inputs: let
@@ -30,7 +31,7 @@
     };
     guest = name: nixpkgs-stable.lib.nixosSystem {
       inherit system;
-      specialArgs = { inherit unstable; };
+      specialArgs = { inherit unstable inputs; };
       modules = [ ./guests/common.nix (./guests + "/${name}.nix") ];
     };
   in {
@@ -59,7 +60,7 @@
     nixosConfigurations = {
       nixos-laptop =nixpkgs-stable.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit unstable inputs; guests = { inherit (self.nixosConfigurations) media cliproxy; }; };
+        specialArgs = { inherit unstable inputs; guests = { inherit (self.nixosConfigurations) media cliproxy hermes; }; };
         modules = [
           # No exact MSI Raider GE66 12UGS profile exists upstream.
           nixos-hardware.nixosModules.common-cpu-intel-cpu-only
@@ -73,6 +74,7 @@
       };
       media = guest "media";
       cliproxy = guest "cliproxy";
+      hermes = guest "hermes";
     };
   };
 }

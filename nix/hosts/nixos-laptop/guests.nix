@@ -43,6 +43,7 @@ in
     storage_volumes = [
       { name = "media-data"; pool = "default"; config.size = "200GiB"; }
       { name = "cliproxy-data"; pool = "default"; config.size = "1GiB"; }
+      { name = "hermes-data"; pool = "default"; config.size = "10GiB"; }
     ];
     profiles = [
       {
@@ -75,6 +76,20 @@ in
           api = proxy "tcp:0.0.0.0:8318" "tcp:127.0.0.1:8317";
         } // lib.listToAttrs (map (port: lib.nameValuePair "oauth-${toString port}" (forward "127.0.0.1" port))
           [ 8085 1455 54545 51121 11451 ]);
+      }
+      {
+        name = "hermes";
+        description = "Hermes Agent with its web dashboard";
+        config = {
+          "limits.cpu" = "2";
+          "limits.memory" = "3GiB";
+          "security.nesting" = "true";
+        };
+        devices = {
+          data = { type = "disk"; pool = "default"; source = "hermes-data"; path = "/var/lib/hermes"; };
+          dashboard = forward "0.0.0.0" 9119;
+          cliproxy = proxy "tcp:127.0.0.1:8318" "tcp:127.0.0.1:8318" // { bind = "instance"; };
+        };
       }
     ];
   };
