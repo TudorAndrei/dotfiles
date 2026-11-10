@@ -16,6 +16,9 @@ in
 
   services.hermes-agent = {
     enable = true;
+    package = inputs.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+      version = "0.23.1";
+    };
     stateDir = state;
     environmentFiles = [ "${state}/secrets.env" ];
     extraPackages = with pkgs; [ ffmpeg nodejs ripgrep ];
