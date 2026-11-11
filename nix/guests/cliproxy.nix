@@ -1,10 +1,11 @@
-{ unstable, lib, ... }:
+{ inputs, pkgs, lib, ... }:
 let
   state = "/srv/cliproxy";
+  cliproxyapi = inputs.cliproxyapi.packages.${pkgs.stdenv.hostPlatform.system}.cliproxyapi;
 in
 {
   networking.hostName = "cliproxy";
-  environment.systemPackages = [ unstable.cliproxyapi ];
+  environment.systemPackages = [ cliproxyapi ];
 
   systemd.services.cliproxyapi = {
     description = "CLIProxyAPI";
@@ -13,7 +14,7 @@ in
     wantedBy = [ "multi-user.target" ];
     unitConfig.RequiresMountsFor = [ state ];
     serviceConfig = {
-      ExecStart = "${lib.getExe unstable.cliproxyapi} -config ${state}/config.yaml";
+      ExecStart = "${lib.getExe cliproxyapi} -config ${state}/config.yaml";
       WorkingDirectory = state;
       Restart = "always";
       NoNewPrivileges = true;
