@@ -66,3 +66,4 @@ for key, dir in pairs({ h = "left", j = "down", k = "up", l = "right" }) do
 end
 
 rex.host{ label = "nixos-laptop", endpoint = "http://100.121.29.45:7297" }
+rex.host{ label = "andrei-pc", endpoint = "http://100.108.67.58:7297" }
