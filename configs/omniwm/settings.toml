@@ -63,7 +63,7 @@ updateChecksEnabled = true
 workspaceAutoBackAndForth = true
 
 [gestures]
-adoptNativeMoveAcrossDisplays = false
+adoptNativeMoveAcrossDisplays = true
 adoptNativeResize = false
 dwindleGroupDragAcrossDisplays = "group"
 fingerCount = 4
@@ -1311,3 +1311,11 @@ name = "9"
 
 [workspaces.monitorAssignment]
 type = "main"
+
+[[workspaces]]
+id = "4F2C2CC7-5ECA-4B23-A6C7-1FC540DB15DB"
+layoutType = "dwindle"
+name = "10"
+
+[workspaces.monitorAssignment]
+type = "secondary"
