@@ -38,5 +38,6 @@
   "autoCompactEnabled": true,
   "terminalProgressBarEnabled": false,
   "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": false
+  "agentPushNotifEnabled": false,
+  "remoteControlAtStartup": true
 }
