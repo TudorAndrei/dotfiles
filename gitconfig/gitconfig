@@ -1,16 +1,12 @@
 [user]
     name = TudorAndrei
     email = tudorandrei.dumitrascu@gmail.com
-	signingkey = 942B3E71D73EADFB
 
 [includeIf "gitdir:~/pythia/"]
     path = ~/.gitconfig-pythia
 
 [includeIf "gitdir:~/cave/"]
     path = ~/.gitconfig-cave
-
-[includeIf "gitdir:~/cave/footprints/"]
-    path = ~/.gitconfig-footprints
 
 [includeIf "gitdir:~/work/"]
     path = ~/.gitconfig-work
@@ -30,7 +26,5 @@
 	untrackedCache = true
 [gpg]
 	program = gpg
-[commit]
-	gpgsign = true
 [include]
 	path = ~/.gitconfig.local
