@@ -40,6 +40,27 @@ if ! command -v fj >/dev/null 2>&1; then
     mise use -g forgejo:forgejo-contrib/forgejo-cli@latest
 fi
 
+if ! rex version >/dev/null 2>&1; then
+    echo ""
+    echo "==> Installing Rex..."
+    curl -fsSL https://pkgs.superlogical.com/rex/install.sh | sh -s -- --channel snapshot
+fi
+
+if [ -d /etc/apt/apt.conf.d ] && [ ! -f /etc/apt/apt.conf.d/51unattended-upgrades-rex ]; then
+    echo ""
+    echo "==> Keeping unattended-upgrades away from the rex package..."
+    echo 'Unattended-Upgrade::Package-Blacklist { "^rex$"; };' |
+        $SUDO tee /etc/apt/apt.conf.d/51unattended-upgrades-rex >/dev/null
+fi
+
+if command -v systemctl >/dev/null 2>&1 && [ -f "$HOME/.config/systemd/user/rex.service" ]; then
+    echo ""
+    echo "==> Enabling the Rex user service..."
+    loginctl enable-linger "$(id -un)" 2>/dev/null || true
+    systemctl --user daemon-reload
+    systemctl --user enable --now rex.service || echo "  WARNING: could not start rex.service"
+fi
+
 ZSH_BIN="$(command -v zsh || true)"
 if [ -n "$ZSH_BIN" ] && [ "$SHELL" != "$ZSH_BIN" ]; then
     echo ""
