@@ -334,6 +334,7 @@ variants = [{ os = "linux" }]
 "apt:imagemagick" = "latest"
 "apt:libasound2-dev" = "latest"
 "apt:libatomic1" = "latest"
+"apt:libclang-dev" = "latest"
 "apt:libncurses-dev" = "latest"
 "apt:libreadline-dev" = "latest"
 "apt:libssl-dev" = "latest"
