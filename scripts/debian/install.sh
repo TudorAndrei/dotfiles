@@ -53,7 +53,7 @@ if [ -d /etc/apt/apt.conf.d ] && [ ! -f /etc/apt/apt.conf.d/51unattended-upgrade
         $SUDO tee /etc/apt/apt.conf.d/51unattended-upgrades-rex >/dev/null
 fi
 
-if command -v systemctl >/dev/null 2>&1 && [ -f "$HOME/.config/systemd/user/rex.service" ]; then
+if command -v systemctl >/dev/null 2>&1 && systemctl --user cat rex.service >/dev/null 2>&1; then
     echo ""
     echo "==> Enabling the Rex user service..."
     loginctl enable-linger "$(id -un)" 2>/dev/null || true
