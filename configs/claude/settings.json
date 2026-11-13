@@ -37,7 +37,7 @@
   "verbose": true,
   "autoCompactEnabled": true,
   "terminalProgressBarEnabled": false,
+  "remoteControlAtStartup": true,
   "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": false,
-  "remoteControlAtStartup": true
+  "agentPushNotifEnabled": false
 }
