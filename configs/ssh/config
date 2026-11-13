@@ -14,6 +14,18 @@ Host rpi
   User user
   IdentityFile ~/.ssh/rpi
 
+Host pc-win
+  HostName 100.70.0.10
+  User bralu
+  IdentityFile ~/.ssh/parnaie
+
+Host pc-wsl
+  HostName 100.70.0.10
+  User bralu
+  IdentityFile ~/.ssh/parnaie
+  RequestTTY yes
+  RemoteCommand wsl.exe --cd ~
+
 Host *
   IdentityAgent none
   IdentitiesOnly yes
