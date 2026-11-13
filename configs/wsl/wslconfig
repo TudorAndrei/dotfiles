@@ -3,6 +3,11 @@
 memory=32GB
 processors=20
 swap=8GB
+networkingMode=mirrored
+vmIdleTimeout=-1
+
+[general]
+instanceIdleTimeout=-1
 
 [experimental]
 # Return idle cache gradually while retaining useful build cache longer.
