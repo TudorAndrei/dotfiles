@@ -33,7 +33,21 @@
     desktopHome = home-manager.lib.homeManagerConfiguration {
       pkgs = unstable;
       extraSpecialArgs = { inherit unstable; };
-      modules = [ ./home.nix ];
+      modules = [
+        ./home.nix
+        inputs.rex.homeManagerModules.default
+        ({ config, ... }: {
+          programs.rex.sshGuard = false;
+          services.rex = {
+            enable = true;
+            extraListen = [ "http://100.70.0.10:7297" ];
+            allowAnonymous = true;
+          };
+          xdg.configFile."rex".source =
+            config.lib.file.mkOutOfStoreSymlink
+              "${config.home.homeDirectory}/dotfiles/configs/rex";
+        })
+      ];
     };
     guest = name: nixpkgs-stable.lib.nixosSystem {
       inherit system;
