@@ -112,6 +112,13 @@ build caches. Lix changes take effect immediately; Windows WSL changes
 require saving work, running `wsl --shutdown` in Windows, and reopening
 Ubuntu. This terminates every WSL session, including Herdr.
 
+WSL mirrors the Windows network, so it has the tailnet address of the host,
+and it does not stop when idle. `just wsl-optimize` also enables lingering
+for the Ubuntu user and runs `scripts/wsl/windows.ps1`, which installs Rex
+Server on Windows with winget and adds the `rex-wsl` Hyper-V firewall rule.
+That rule admits TCP 7297 only from `piticu` and `nixos-laptop`. The script
+needs an elevated session, such as SSH into Windows as an administrator.
+
 Keep build trees and `/nix` on the Linux filesystem, as this checkout
 already does. GPU access uses the Windows NVIDIA driver through WSL:
 `/usr/lib/wsl/lib/nvidia-smi` works, and a CUDA driver API kernel test on

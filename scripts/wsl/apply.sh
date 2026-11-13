@@ -22,7 +22,7 @@ if [[ "${1:-}" == --system ]]; then
 fi
 
 # Resolve the Windows profile instead of hard-coding a Windows username.
-profile="$(powershell.exe -NoProfile -NonInteractive -Command '[Console]::Write($env:USERPROFILE)' | tr -d '\r')"
+profile="$(powershell.exe -NoProfile -NonInteractive -Command '[Console]::Write($env:USERPROFILE)' </dev/null | tr -d '\r')"
 target="$(wslpath "$profile")/.wslconfig"
 if [[ -e "$target" ]] && ! cmp -s "$repo/configs/wsl/wslconfig" "$target"; then
     backup="${target}.before-dotfiles-$(date +%Y%m%d-%H%M%S)"
@@ -30,5 +30,7 @@ if [[ -e "$target" ]] && ! cmp -s "$repo/configs/wsl/wslconfig" "$target"; then
     echo "Previous Windows configuration saved to $backup"
 fi
 cp "$repo/configs/wsl/wslconfig" "$target"
-wsl.exe -d "${WSL_DISTRO_NAME:?Run this script inside WSL}" -u root -- bash "$repo/scripts/wsl/apply.sh" --system
+wsl.exe -d "${WSL_DISTRO_NAME:?Run this script inside WSL}" -u root -- bash "$repo/scripts/wsl/apply.sh" --system </dev/null
+loginctl enable-linger "$(id -un)"
+powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "$(wslpath -w "$repo/scripts/wsl/windows.ps1")" </dev/null
 echo "Lix settings applied. After saving your work, run wsl --shutdown in Windows and reopen Ubuntu to apply .wslconfig."
