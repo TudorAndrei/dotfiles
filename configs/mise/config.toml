@@ -90,7 +90,7 @@ tokei = "latest"
 rclone = "latest"
 "cargo:pq-parquet" = "latest"
 "cargo:leaf-reader" = "latest"
-"forgejo:forgejo-contrib/forgejo-cli" = "latest"
+"forgejo:forgejo-contrib/forgejo-cli" = { version = "latest", os = ["linux"] }
 
 [tools."github:Wilfred/difftastic"]
 version = "latest"

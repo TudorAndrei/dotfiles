@@ -37,7 +37,7 @@ fi
 if ! command -v fj >/dev/null 2>&1; then
     echo ""
     echo "==> Installing forgejo-cli..."
-    mise use -g forgejo:forgejo-contrib/forgejo-cli@latest
+    mise install forgejo:forgejo-contrib/forgejo-cli
 fi
 
 if ! rex version >/dev/null 2>&1; then
