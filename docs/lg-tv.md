@@ -17,10 +17,10 @@ The TV is in Developer Mode. It is not rooted.
 | App | ID | Source |
 | --- | --- | --- |
 | Homebrew Channel | `org.webosbrew.hbchannel` | [webosbrew/webos-homebrew-channel](https://github.com/webosbrew/webos-homebrew-channel) |
-| Stremio Origin | `tv.stremioorigin.app` | [stremio-origin/webos](https://github.com/stremio-origin/webos) |
+| Origin (Better Stremio fork) | `tv.stremioorigin.app` | [betterstremio/origin](https://github.com/betterstremio/origin) |
 
-Homebrew Channel repository for Stremio Origin:
-`https://stremio-origin.github.io/webos/apps.json`.
+Homebrew Channel repository for Origin:
+`https://betterstremio.github.io/webos/apps.json`.
 Add it in Homebrew Channel at **Settings → Add repository**.
 
 ## Developer Mode session
