@@ -9,7 +9,7 @@ in
     Unit.Description = "ComfyUI";
     Service = {
       Environment = [ "LD_LIBRARY_PATH=/usr/lib/wsl/lib" ];
-      ExecStart = "${lib.getExe comfyui} --listen 127.0.0.1 --port 8188 --enable-manager";
+      ExecStart = "${lib.getExe comfyui} --listen 0.0.0.0 --port 8188 --enable-manager";
       Restart = "on-failure";
     };
     Install.WantedBy = [ "default.target" ];

@@ -142,9 +142,9 @@ run `just wsl-optimize` before `just nix-home` on a new install, or Lix
 builds PyTorch from source.
 
 The service sets `LD_LIBRARY_PATH=/usr/lib/wsl/lib` to load the Windows
-NVIDIA driver bridge. It listens on `127.0.0.1:8188` only. From another
-machine, open a tunnel with `ssh -N -L 8188:localhost:8188 pc-win` and use
-`http://localhost:8188`. Models, custom nodes, inputs and outputs are in
+NVIDIA driver bridge. It listens on `0.0.0.0:8188` and has no
+authentication. Open `http://100.70.0.10:8188/` from a Tailscale device.
+No Hyper-V firewall rule limits the source addresses for this port. Models, custom nodes, inputs and outputs are in
 `~/.local/share/comfyui`. Custom nodes that install Python packages with pip
 cannot write to the Nix store; add those packages to `extraPackages` in
 `nix/comfyui.nix`.
