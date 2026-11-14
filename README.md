@@ -131,6 +131,29 @@ Sources: [Microsoft WSL configuration](https://learn.microsoft.com/en-us/windows
 [Lix build concurrency](https://docs.lix.systems/manual/lix/stable/advanced-topics/cores-vs-jobs.html),
 [NVIDIA CUDA on WSL](https://docs.nvidia.com/cuda/wsl-user-guide/index.html).
 
+### ComfyUI on the WSL desktop
+
+`nix/comfyui.nix` runs the Nixpkgs `comfyui` package as the `comfyui`
+systemd user service, with ComfyUI-Manager enabled. The package comes from a
+second Nixpkgs instance with `cudaSupport = true`. `configs/wsl/nix.custom.conf`
+adds the `cache.nixos-cuda.org` substituter, so PyTorch with CUDA is
+downloaded and not compiled. The daemon reads a root-owned copy of that file:
+run `just wsl-optimize` before `just nix-home` on a new install, or Lix
+builds PyTorch from source.
+
+The service sets `LD_LIBRARY_PATH=/usr/lib/wsl/lib` to load the Windows
+NVIDIA driver bridge. It listens on `127.0.0.1:8188` only. From another
+machine, open a tunnel with `ssh -N -L 8188:localhost:8188 pc-win` and use
+`http://localhost:8188`. Models, custom nodes, inputs and outputs are in
+`~/.local/share/comfyui`. Custom nodes that install Python packages with pip
+cannot write to the Nix store; add those packages to `extraPackages` in
+`nix/comfyui.nix`.
+
+```bash
+systemctl --user status comfyui
+journalctl --user -u comfyui -f
+```
+
 Home Manager links `~/.config/herdr/config.toml` to
 `~/dotfiles/configs/herdr/config.toml` with `mkOutOfStoreSymlink`. Edit the
 repository file directly, then run `herdr server reload-config` to apply

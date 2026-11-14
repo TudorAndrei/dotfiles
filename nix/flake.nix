@@ -30,11 +30,19 @@
         android_sdk.accept_license = true;
       };
     };
+    cuda = import nixpkgs {
+      inherit system;
+      config = {
+        allowUnfree = true;
+        cudaSupport = true;
+      };
+    };
     desktopHome = home-manager.lib.homeManagerConfiguration {
       pkgs = unstable;
-      extraSpecialArgs = { inherit unstable; };
+      extraSpecialArgs = { inherit unstable cuda; };
       modules = [
         ./home.nix
+        ./comfyui.nix
         inputs.rex.homeManagerModules.default
         ({ config, ... }: {
           programs.rex.sshGuard = false;
