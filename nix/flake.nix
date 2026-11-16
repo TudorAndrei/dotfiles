@@ -43,6 +43,7 @@
       modules = [
         ./home.nix
         ./comfyui.nix
+        ./wsl-switches.nix
         inputs.rex.homeManagerModules.default
         ({ config, ... }: {
           programs.rex.sshGuard = false;
