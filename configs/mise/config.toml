@@ -90,11 +90,8 @@ tokei = "latest"
 rclone = "latest"
 "cargo:pq-parquet" = "latest"
 "cargo:leaf-reader" = "latest"
+"github:jdx/mr-boxington" = "latest"
 "forgejo:forgejo-contrib/forgejo-cli" = { version = "latest", os = ["linux"] }
-
-[tools."github:Wilfred/difftastic"]
-version = "latest"
-asset_pattern = 'difft-{{ version }}-{{ arch(x64="x86_64", arm64="aarch64") }}-{{ os(macos="apple-darwin", linux="unknown-linux-gnu") }}.tar.gz'
 
 [tools."http:bend"]
 version = "2.0.5"

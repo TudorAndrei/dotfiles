@@ -181,7 +181,6 @@ variants = [{ os = "linux" }]
 "brew:watchman" = { os = "macos" }
 "brew:wget" = { os = "macos" }
 
-"brew-cask:anki" = { os = "macos" }
 "brew-cask:antigravity" = { os = "macos" }
 "brew-cask:antigravity-cli" = { os = "macos" }
 "brew-cask:antigravity-ide" = { os = "macos" }
@@ -221,7 +220,6 @@ variants = [{ os = "linux" }]
 "brew-cask:stremio" = { os = "macos" }
 "brew-cask:syncthing-app" = { os = "macos" }
 "brew-cask:tailscale-app" = { os = "macos" }
-"brew-cask:telegram" = { os = "macos" }
 "brew-cask:terminal-browser" = { os = "macos" }
 "brew-cask:twingate" = { os = "macos" }
 "brew-cask:utm" = { os = "macos" }

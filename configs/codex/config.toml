@@ -369,6 +369,18 @@ trust_level = "trusted"
 [projects."/Users/tudor/cave/audioflow"]
 trust_level = "trusted"
 
+[projects."/Users/tudor/cave/rolaw"]
+trust_level = "trusted"
+
+[projects."/Users/tudor/cave/games/cardtower"]
+trust_level = "trusted"
+
+[projects."/Users/tudor/cave/ste-cli"]
+trust_level = "trusted"
+
+[projects."/Users/tudor/cave/barrs"]
+trust_level = "trusted"
+
 [plugins."linear@openai-curated"]
 enabled = false
 
@@ -400,10 +412,10 @@ enabled = false
 enabled = true
 
 [plugins."unified-computer-use@openai-bundled"]
-enabled = true
+enabled = false
 
 [plugins."computer-use@openai-bundled"]
-enabled = true
+enabled = false
 
 [mcp_servers.deepwiki]
 url = "https://mcp.deepwiki.com/mcp"
@@ -420,6 +432,7 @@ approval_mode = "approve"
 [mcp_servers.node_repl]
 command = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl"
 startup_timeout_sec = 120.0
+enabled = false
 
 [mcp_servers.node_repl.env]
 BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
@@ -539,7 +552,7 @@ trusted_hash = "sha256:be9ea469391fef0ce53c9be8c3b77518c7d4f02ae6cc1050b1e78eb78
 trusted_hash = "sha256:b0ea80c0bb960789c9a79d4d85ec8c6842a3b9e28ddda71fc5ea49cd0b1564e5"
 
 [hooks.state."/Users/tudor/.codex/hooks.json:session_start:1:0"]
-trusted_hash = "sha256:7ac16f27c7b29bec5952047d0a2193dc7595d731faca5a12c3c476194bd2d532"
+trusted_hash = "sha256:3da181f6a6d78fa2e4446bb51881bea0b4d69562eb909961fa616df84970d643"
 
 [hooks.state."/Users/tudor/.codex/hooks.json:pre_tool_use:1:0"]
 trusted_hash = "sha256:e8f45b6a52fb00c89368da42e782d4ffe43851db7df46d172a8ba8f69533edef"
@@ -581,7 +594,7 @@ trusted_hash = "sha256:67a7cfe9a4ac6a308d01ff74ebe488e826b3deedc575b7cc4be93aa56
 trusted_hash = "sha256:b08e49701cd647b27729d9d4815970406734e3baab1ee439151bff1371437d44"
 
 [hooks.state."/Users/tudor/cave/flowcopilot-app/.codex/hooks.json:post_tool_use:0:0"]
-trusted_hash = "sha256:3da08c6b5c68e5466a0498c95c5366dd54e77338ed22f8ffaeaef5b8175691b2"
+trusted_hash = "sha256:ccccf9d60693f4f5b627748999bcaa50c7cbfa0cc8e955b4f0947c5fd77d5fcc"
 
 [hooks.state."/Users/tudor/cave/flowcopilot-app/.codex/hooks.json:post_tool_use:1:0"]
 trusted_hash = "sha256:ccccf9d60693f4f5b627748999bcaa50c7cbfa0cc8e955b4f0947c5fd77d5fcc"
@@ -602,7 +615,7 @@ trusted_hash = "sha256:d2db4ad7c1bd63eb821fdad605b828c5abc66c9b955b7dd2b7ebec076
 trusted_hash = "sha256:67a7cfe9a4ac6a308d01ff74ebe488e826b3deedc575b7cc4be93aa561a16d9b"
 
 [hooks.state."/Users/tudor/cave/flowcopilot-app/.codex/hooks.json:stop:0:0"]
-trusted_hash = "sha256:b667168b4504bb7b99c5afea6af0dbb0f45898bf61c6dabdee686a00e6dae992"
+trusted_hash = "sha256:b08e49701cd647b27729d9d4815970406734e3baab1ee439151bff1371437d44"
 
 [hooks.state."/Users/tudor/cave/flowcopilot-app/.codex/hooks.json:stop:1:0"]
 trusted_hash = "sha256:b08e49701cd647b27729d9d4815970406734e3baab1ee439151bff1371437d44"
