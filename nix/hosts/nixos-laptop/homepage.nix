@@ -1,6 +1,7 @@
 { pkgs, lib, ... }:
 let
   tailnetHost = "100.121.29.45";
+  pcHost = "100.70.0.10";
   poolMetricsPort = 8186;
 in
 {
@@ -35,6 +36,23 @@ in
                   { field = "data_percent"; label = "Data"; format = "percent"; }
                   { field = "metadata_percent"; label = "Metadata"; format = "percent"; }
                 ];
+              };
+            };
+          }
+        ];
+      }
+      {
+        PC = [
+          {
+            ComfyUI = {
+              icon = "comfyui.png";
+              description = "Runs on the PC in WSL";
+              href = "http://${pcHost}:8188/";
+              widget = {
+                type = "iframe";
+                name = "pc-switches";
+                src = "http://${pcHost}:8187/";
+                classes = "h-24";
               };
             };
           }
