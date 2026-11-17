@@ -4,6 +4,9 @@ Include ~/.ssh/config.local
 Match originalhost nixos-laptop localnetwork 192.168.0.0/24 exec "nc -z -w 1 192.168.0.244 22 >/dev/null 2>&1"
   HostName 192.168.0.244
 
+Match originalhost pc-win,pc-wsl localnetwork 192.168.0.0/24 exec "nc -z -w 1 192.168.0.86 22 >/dev/null 2>&1"
+  HostName 192.168.0.86
+
 Host nixos-laptop
   HostName 100.121.29.45
   User tudor
