@@ -212,6 +212,7 @@ variants = [{ os = "linux" }]
 "brew-cask:omniwm" = { os = "macos" }
 "brew-cask:orbstack" = { os = "macos" }
 "brew-cask:orion" = { os = "macos" }
+"brew-cask:pangolin" = { os = "macos" }
 "brew-cask:petrichor" = { os = "macos" }
 "brew-cask:protonvpn" = { os = "macos" }
 "brew-cask:sf-symbols" = { os = "macos" }
