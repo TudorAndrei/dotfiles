@@ -142,7 +142,7 @@ mise:
     echo "==> Updating git repos..."
     mise bootstrap repos update --yes
 
-# Update system packages and herdr plugins (distro-aware)
+# Update system packages (distro-aware)
 packages:
     #!/usr/bin/env bash
     case "{{distro}}" in
@@ -184,10 +184,6 @@ packages:
         echo "==> Unknown distro: {{distro}}, skipping system packages"
         ;;
     esac
-    if command -v herdr >/dev/null 2>&1; then
-      echo "==> Updating herdr plugins..."
-      bash "{{dotfiles}}/configs/herdr/install-plugins.sh" --update
-    fi
 
 # Update pi extensions
 pi:
