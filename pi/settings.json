@@ -2,9 +2,6 @@
   "defaultModel": "gpt-5.6-terra",
   "defaultProvider": "openai-codex",
   "defaultThinkingLevel": "medium",
-  "extensions": [
-    "-extensions/subagents/index.ts"
-  ],
   "hideThinkingBlock": true,
   "lastChangelogVersion": "1.4.0",
   "packages": [

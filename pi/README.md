@@ -20,16 +20,6 @@ The links come from the `[dotfiles]` section of the dotfiles repository's
 just symlink
 ```
 
-## Extensions
-
-| Extension | Function |
-|-----------|----------|
-| `herdr-agent-state.ts` | Reports the agent state to the herdr socket |
-
-`herdr-agent-state.ts` is written by its installer. An update of the herdr
-integration writes through the symlink into this repo, which then shows the new
-version as a git change.
-
 ## Home CLIProxyAPI
 
 The `@router-for-me/pi-cliproxyapi-provider` package in `settings.json` connects
