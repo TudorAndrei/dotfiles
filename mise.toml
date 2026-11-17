@@ -4,6 +4,7 @@ bitwarden = "latest"
 just = "latest"
 "aqua:anomalyco/opencode" = "latest"
 "npm:ctx7" = "latest"
+"github:fosrl/cli" = { version = "latest", bin = "pangolin" }
 
 [bootstrap.hooks]
 post-defaults = "killall Dock || true"
