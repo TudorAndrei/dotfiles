@@ -197,3 +197,22 @@ if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)
 
 # Hide Homebrew environment hints
 export HOMEBREW_NO_ENV_HINTS=1
+
+# Cloudflare CLI: load credentials per call, so they stay out of the shell environment.
+# macOS reads the Keychain; other systems read ~/.config/cloudflare/env (mode 600).
+cf() {
+  (
+    if [[ "$OSTYPE" == darwin* ]]; then
+      local name value
+      for name in CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID CLOUDFLARE_ZONE_ID; do
+        value="$(security find-generic-password -a "$USER" -s "$name" -w 2>/dev/null)"
+        [[ -n "$value" ]] && export "$name=$value"
+      done
+    elif [[ -r "$HOME/.config/cloudflare/env" ]]; then
+      set -a
+      source "$HOME/.config/cloudflare/env"
+      set +a
+    fi
+    command cf "$@"
+  )
+}
