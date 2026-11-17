@@ -12,7 +12,7 @@ in
       zsh mise starship eza zoxide fd ripgrep lazygit lazydocker tmux
       fastfetch dust scc tokei ast-grep difftastic git-lfs tree-sitter
       shfmt stylua taplo yamlfmt uv ruff go bun pnpm pandoc typst
-      yt-dlp rclone gnumake unzip
+      yt-dlp rclone gnumake unzip btop htop
       beam.packages.erlang_29.erlang beam.packages.erlang_29.elixir_1_20
       agent-browser chromium
     ]);
