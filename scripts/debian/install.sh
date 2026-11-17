@@ -26,14 +26,6 @@ else
     git -C "$HOME/.tmux/plugins/tpm" pull --ff-only 2>/dev/null || true
 fi
 
-if [ ! -x "$HOME/.local/bin/wt-herdr" ]; then
-    echo ""
-    echo "==> Installing wt-herdr (worktrunk <-> herdr bridge)..."
-    mkdir -p "$HOME/.local/bin"
-    curl -fsSL https://raw.githubusercontent.com/mattarau/wt-herdr/main/wt-herdr \
-        -o "$HOME/.local/bin/wt-herdr" && chmod +x "$HOME/.local/bin/wt-herdr"
-fi
-
 if ! command -v fj >/dev/null 2>&1; then
     echo ""
     echo "==> Installing forgejo-cli..."

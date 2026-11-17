@@ -94,7 +94,6 @@ alias cfab='claude --model fable'
 alias cson='claude --model sonnet'
 alias wget='curl -LO'
 alias tns='tmux new -s $(basename $PWD)'
-alias hns='herdr workspace create --cwd "$PWD" --label "$(basename $PWD)" --focus'
 alias ltmux='tmux -L lazytmux -f /Users/tudor/cave/LazyTmux/lazytmux.tmux new-session -A -s lazytmux'
 
 # GPU
@@ -140,7 +139,7 @@ export VISUAL=nvim
 export TERMINAL="${TERMINAL:-ghostty}"
 
 # Keep terminal shells from inheriting a stale working directory.
-if [[ "${TERM_PROGRAM:-}" =~ ^(ghostty|alacritty)$ && -z "${TMUX:-}" && -z "${HERDR_PANE_ID:-}" && "$PWD" != "$HOME" ]]; then
+if [[ "${TERM_PROGRAM:-}" =~ ^(ghostty|alacritty)$ && -z "${TMUX:-}" && "$PWD" != "$HOME" ]]; then
     cd "$HOME"
 fi
 
@@ -195,13 +194,6 @@ if command -v gh >/dev/null 2>&1; then
 fi
 
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
-
-if [ -n "$HERDR_PANE_ID" ]; then
-  for _f in ${HOME}/.config/herdr/plugins/github/herdr-automatic-rename-*/shell/hook.zsh(N); do
-    source $_f
-    break
-  done
-fi
 
 # Hide Homebrew environment hints
 export HOMEBREW_NO_ENV_HINTS=1
