@@ -76,6 +76,7 @@ pandoc = "latest"
 "pipx:git-filter-repo" = "latest"
 typst = "latest"
 "aqua:cloudflare/cloudflared" = "latest"
+cloudflare-cf = "latest"
 "github:fosrl/cli" = { version = "latest", bin = "pangolin" }
 "github:TudorAndrei/ste-cli" = "latest"
 "npm:markdownlint-cli" = "0.49.1"
