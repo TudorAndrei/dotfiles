@@ -12,8 +12,7 @@ This is a dotfiles repository containing configuration files for various tools:
 - **Pi coding agent** - `pi/` directory (extensions and global settings)
 - **Zsh** - `configs/zsh/`
 - **Tmux** - `.tmux.conf` and `configs/tmux/`
-- **Herdr** - `configs/herdr/` (agent multiplexer, mirrors the tmux keymap)
-- **Rex** - `configs/rex/` (multiplexer, mirrors the herdr keymap)
+- **Rex** - `configs/rex/` (multiplexer, mirrors the tmux keymap)
 - **Hyprland** - `configs/hypr/`
 - **Alacritty** - `configs/alacritty/`
 - **Starship** - `configs/starship/`
@@ -71,11 +70,6 @@ bash -n scripts/bootstrap.sh
 | `configs/zsh/` | Zsh configuration |
 | `configs/hypr/` | Hyprland window manager config |
 | `configs/tmux/` | Tmux configuration |
-| `configs/herdr/config.toml` | Herdr configuration (linked as a single file; the config dir holds runtime sockets) |
-| `configs/herdr/plugins.txt` | Herdr plugin list, one `owner/repo` per line |
-| `configs/herdr/plugins/<id>.toml` | Per-plugin config, linked to `~/.config/herdr/plugins/config/<id>/config.toml` |
-| `configs/herdr/install-plugins.sh` | Installs everything in `plugins.txt` (`just herdr-plugins`) |
-| `configs/herdr/tmux-resurrect-import.py` | Converts a tmux-resurrect save into a herdr-resurrect snapshot |
 | `configs/rex/init.lua` | Rex configuration, linked as `~/.config/rex`; reload with `rex config reload` |
 | `configs/claude/settings.json` | Claude Code settings, linked to `~/.claude/settings.json` |
 | `configs/codex/config.toml` | Codex config, linked to `~/.codex/config.toml` |

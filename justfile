@@ -98,12 +98,6 @@ services:
         ;;
     esac
 
-# Install herdr plugins listed in configs/herdr/plugins.txt
-herdr-plugins:
-    #!/usr/bin/env bash
-    export PATH="${XDG_DATA_HOME:-$HOME/.local/share}/mise/shims:$PATH"
-    bash "{{dotfiles}}/configs/herdr/install-plugins.sh"
-
 # Copy ~/Music to Navidrome on nixos-laptop
 music-sync *args:
     bash "{{scripts}}/sync-music.sh" {{args}}
@@ -126,8 +120,8 @@ nvim-plugins:
     echo "==> Installing treesitter parsers..."
     "$NVIM" --headless "+lua local p = require('lazy.core.config').plugins['nvim-treesitter']; local o = require('lazy.core.plugin').values(p, 'opts', false); require('nvim-treesitter').install(o.ensure_installed or {}):wait(600000)" +qa
 
-# Run full bootstrap (submodules + symlink + install + defaults + services + plugins)
-bootstrap: submodules symlink install macos-defaults services nvim-plugins herdr-plugins
+# Run full bootstrap (submodules + symlink + install + defaults + services + nvim plugins)
+bootstrap: submodules symlink install macos-defaults services nvim-plugins
 
 # Update submodules, mise tools, system packages and pi extensions
 update: submodules mise packages pi

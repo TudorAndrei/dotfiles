@@ -28,8 +28,8 @@ bash ~/dotfiles/scripts/bootstrap.sh
 ```
 
 `scripts/bootstrap.sh` installs mise and just, then runs `just bootstrap`:
-submodules, symlinks, packages, macOS defaults, services, nvim plugins and
-herdr plugins.
+submodules, symlinks, packages, macOS defaults, services and nvim
+plugins.
 
 ### Machine-local files
 
@@ -110,7 +110,7 @@ WSL retains a 32 GiB memory ceiling, all 20 CPUs and 8 GiB swap. Gradual
 idle cache reclamation balances Windows memory recovery with warm Linux
 build caches. Lix changes take effect immediately; Windows WSL changes
 require saving work, running `wsl --shutdown` in Windows, and reopening
-Ubuntu. This terminates every WSL session, including Herdr.
+Ubuntu. This terminates every WSL session.
 
 WSL mirrors the Windows network, so it has the tailnet address of the host,
 and it does not stop when idle. `just wsl-optimize` also enables lingering
@@ -153,20 +153,6 @@ cannot write to the Nix store; add those packages to `extraPackages` in
 systemctl --user status comfyui
 journalctl --user -u comfyui -f
 ```
-
-Home Manager links `~/.config/herdr/config.toml` to
-`~/dotfiles/configs/herdr/config.toml` with `mkOutOfStoreSymlink`. Edit the
-repository file directly, then run `herdr server reload-config` to apply
-changes to a running session. Herdr's runtime files remain in its config
-directory.
-
-The same Home Manager activation installs the plugins listed in
-`configs/herdr/plugins.txt` and links the Navigator and automatic-rename
-settings from `configs/herdr/plugins/`. `just herdr-plugins` installs missing
-plugins; `bash configs/herdr/install-plugins.sh --update` updates existing
-plugin versions too. Nix provides the Rust build tools and plugin runtime
-dependencies; plugin checkouts and compiled binaries stay in Herdr's runtime
-directory.
 
 Push changes to `main`, then deploy the laptop from GitHub:
 
@@ -605,7 +591,7 @@ Sources: [CLIProxyAPI configuration](https://github.com/router-for-me/CLIProxyAP
 
 `nix/hosts/nixos-laptop/terminal.nix` makes zsh the login shell and runs
 home-manager for `tudor`. It imports `nix/home.nix` and installs the terminal
-tools from nixpkgs-unstable. The zsh, starship, tmux, nvim and herdr configs
+tools from nixpkgs-unstable. The zsh, starship, tmux and nvim configs
 are `mkOutOfStoreSymlink` links into `~/dotfiles` on the laptop, so edits in
 that clone apply without a rebuild. The laptop does not run `mise bootstrap`.
 
