@@ -211,7 +211,6 @@ variants = [{ os = "linux" }]
 "brew-cask:obsidian" = { os = "macos" }
 "brew-cask:omniwm" = { os = "macos" }
 "brew-cask:orbstack" = { os = "macos" }
-"brew-cask:orion" = { os = "macos" }
 "brew-cask:pangolin" = { os = "macos" }
 "brew-cask:petrichor" = { os = "macos" }
 "brew-cask:protonvpn" = { os = "macos" }
@@ -223,7 +222,6 @@ variants = [{ os = "linux" }]
 "brew-cask:tailscale-app" = { os = "macos" }
 "brew-cask:terminal-browser" = { os = "macos" }
 "brew-cask:twingate" = { os = "macos" }
-"brew-cask:utm" = { os = "macos" }
 "brew-cask:vicinae" = { os = "macos" }
 "brew-cask:visual-studio-code" = { os = "macos" }
 "brew-cask:vorssaint" = { os = "macos" }
