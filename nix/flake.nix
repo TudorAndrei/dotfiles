@@ -50,6 +50,10 @@
           services.rex = {
             enable = true;
             extraListen = [ "http://100.70.0.10:7297" ];
+            tailscale = {
+              enable = true;
+              hostname = "pc-wsl";
+            };
             allowAnonymous = true;
           };
         }
