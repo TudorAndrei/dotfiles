@@ -277,6 +277,7 @@ minWidth = 574.0
 assignToWorkspace = "1"
 bundleId = "app.zen-browser.zen"
 id = "1CF39647-F30D-4E76-9686-79B551F1B094"
+layout = "tile"
 minHeight = 495.0
 minWidth = 500.0
 
