@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794383789,
-        "narHash": "sha256-IIeuJJV81Rkix5E2Jp5NcBSw4scs2qxp0SDDuqjiZ6w=",
+        "lastModified": 1794970831,
+        "narHash": "sha256-8a8GiEdONu1cl/gcOxjnPbHXdWAgDn2vnRkP9oMI1vI=",
         "owner": "omarcresp",
         "repo": "cliproxyapi-flake",
-        "rev": "8ffd34bee4bd6e199919853a9995835f210d6c92",
+        "rev": "bc0c334a13fcf5d989e8fd49fc601999d08b3192",
         "type": "github"
       },
       "original": {
@@ -165,17 +165,17 @@
     },
     "nixpkgs-codex": {
       "locked": {
-        "lastModified": 1793341285,
-        "narHash": "sha256-Y1CiZ4SoBUjLQyQM/pY+rS2dXD3CHLPstF0lmOc73D4=",
+        "lastModified": 1794890597,
+        "narHash": "sha256-lME2lHoDHAaSHP3/okgiVoJ0icVEvsQH8LeU3We7tcc=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "1c89083e451e891152365b799595cf7790a43325",
+        "rev": "04906337b6d53e8bb0eaf0470ae9f070a4d4eb55",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
-        "rev": "1c89083e451e891152365b799595cf7790a43325",
         "type": "github"
       }
     },
