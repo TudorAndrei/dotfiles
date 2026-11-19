@@ -6,7 +6,6 @@
   environment.sessionVariables = {
     AGENT_BROWSER_EXECUTABLE_PATH = "${unstable.chromium}/bin/chromium";
     PKG_CONFIG_PATH = "${unstable.openssl.dev}/lib/pkgconfig";
-    MISE_RUBY_COMPILE = "false";
   };
 
   systemd.tmpfiles.rules = [
