@@ -144,7 +144,6 @@ variants = [{ os = "linux" }]
 
 [bootstrap.packages]
 "brew:borgbackup" = { os = "macos" }
-"brew:cocoapods" = { os = "macos" }
 "brew:duti" = { os = "macos" }
 "brew:ffmpeg" = { os = "macos" }
 "brew:forgejo-cli" = { os = "macos" }
