@@ -1,1 +1,1 @@
-export PATH="${XDG_DATA_HOME:-$HOME/.local/share}/mise/shims:$PATH"
+[[ -e /etc/NIXOS ]] || export PATH="${XDG_DATA_HOME:-$HOME/.local/share}/mise/shims:$PATH"
