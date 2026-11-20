@@ -49,10 +49,13 @@
       min-free = 2147483648;
       max-free = 8589934592;
     };
-    gc = {
-      automatic = true;
+  };
+  programs.nh = {
+    enable = true;
+    clean = {
+      enable = true;
       dates = "weekly";
-      options = "--delete-older-than 7d";
+      extraArgs = "--keep 3";
     };
   };
   system.extraDependencies = map (input: input.outPath) (lib.attrValues (removeAttrs inputs [ "self" ]));
