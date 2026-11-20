@@ -46,6 +46,7 @@
         ./wsl-switches.nix
         inputs.rex.homeManagerModules.default
         {
+          home.packages = [ unstable.nh ];
           programs.rex.sshGuard = false;
           services.rex = {
             enable = true;

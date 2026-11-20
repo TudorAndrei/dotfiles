@@ -4,7 +4,6 @@
   pkgs.codex
   pkgs.gh
   pkgs.forgejo-cli
-  pkgs.nh
   pkgs.just
   pkgs.nodejs
   pkgs.jq
