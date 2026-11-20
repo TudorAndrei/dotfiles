@@ -15,6 +15,7 @@ in
       yt-dlp rclone gnumake unzip btop htop
       beam.packages.erlang_29.erlang beam.packages.erlang_29.elixir_1_20
       agent-browser chromium cursor-cli
+      (writeShellScriptBin "agent" ''exec ${cursor-cli}/bin/cursor-agent "$@"'')
     ]);
     sessionVariables = {
       NH_HOME_FLAKE = "/home/tudor/dotfiles/nix";
