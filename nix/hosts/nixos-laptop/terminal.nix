@@ -1,4 +1,4 @@
-{ pkgs, unstable, inputs, ... }:
+{ lib, pkgs, unstable, inputs, ... }:
 {
   programs.zsh.enable = true;
   programs.zsh.enableGlobalCompInit = false;
@@ -27,6 +27,7 @@
         extraArgs = [ "--tailnet-allow-identified" ];
       };
       manual.manpages.enable = false;
+      xdg.configFile."mise/config.toml".text = lib.mkAfter "activate_shims = false";
     };
   };
 
