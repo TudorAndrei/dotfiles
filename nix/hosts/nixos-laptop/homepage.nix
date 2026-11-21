@@ -74,15 +74,16 @@ in
           {
             "Internet (Pi, cable)" = {
               icon = "mdi-speedometer";
+              description = "Mbit/s and ms, every 3 hours";
               href = "http://100.73.26.126:8090/";
               widget = {
                 type = "customapi";
                 url = "http://192.168.0.233:8090/latest.json";
                 refreshInterval = 300000;
                 mappings = [
-                  { field = "download.bandwidth"; label = "Down Mb/s"; format = "number"; scale = "8/1000000"; }
-                  { field = "upload.bandwidth"; label = "Up Mb/s"; format = "number"; scale = "8/1000000"; }
-                  { field = "ping.latency"; label = "Ping ms"; format = "number"; }
+                  { field = "download.bandwidth"; label = "Down"; format = "number"; scale = "8/1000000"; }
+                  { field = "upload.bandwidth"; label = "Up"; format = "number"; scale = "8/1000000"; }
+                  { field = "ping.latency"; label = "Ping"; format = "number"; }
                   { field = "timestamp"; label = "Tested"; format = "relativeDate"; style = "narrow"; numeric = "auto"; }
                 ];
               };
