@@ -88,7 +88,10 @@
       # Preserve existing NH invocations while naming the desktop explicitly.
       tudor = desktopHome;
       "user@rpi" = home-manager-stable.lib.homeManagerConfiguration {
-        pkgs = nixpkgs-stable.legacyPackages.aarch64-linux;
+        pkgs = import nixpkgs-stable {
+          system = "aarch64-linux";
+          config.allowUnfreePredicate = pkg: nixpkgs-stable.lib.getName pkg == "ookla-speedtest";
+        };
         modules = [ ./hosts/rpi/home.nix ];
       };
     };

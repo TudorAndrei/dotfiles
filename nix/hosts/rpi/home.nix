@@ -3,6 +3,8 @@ let
   jack = "alsa_output.platform-fe00b840.mailbox.stereo-fallback";
 in
 {
+  imports = [ ./speedtest.nix ];
+
   home = {
     username = "user";
     homeDirectory = "/home/user";
