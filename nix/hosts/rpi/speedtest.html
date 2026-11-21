@@ -7,29 +7,33 @@
 <style>
 :root {
   --bg: #f6f7f9; --card: #ffffff; --text: #1b1f24; --muted: #66707c; --grid: #e3e6ea;
-  --down: #2a7de1; --up: #d9822b; --ping: #2f9e6e; --bad: #d64545;
+  --cable: #2a7de1; --wifi: #d9822b;
 }
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #11151b; --card: #1a2029; --text: #e6e9ee; --muted: #8a94a3; --grid: #2a323d;
-    --down: #5aa2f5; --up: #f0a04b; --ping: #4cc493; --bad: #f07070;
+    --cable: #5aa2f5; --wifi: #f0a04b;
   }
 }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
 main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 48px; }
-header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
 h1 { margin: 0; font-size: 22px; font-weight: 650; }
-.sub { color: var(--muted); font-size: 13px; }
+.sub { color: var(--muted); font-size: 13px; display: flex; gap: 16px; flex-wrap: wrap; margin-top: 4px; }
 .ranges { display: flex; gap: 4px; background: var(--card); padding: 4px; border-radius: 10px; }
 .ranges button { border: 0; background: transparent; color: var(--muted); padding: 6px 12px; border-radius: 7px; font: inherit; font-size: 13px; cursor: pointer; }
 .ranges button[aria-pressed="true"] { background: var(--grid); color: var(--text); }
-.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 16px; }
 .tile { background: var(--card); border-radius: 12px; padding: 14px 16px; }
-.tile .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
-.tile .value { font-size: 26px; font-weight: 650; font-variant-numeric: tabular-nums; margin-top: 2px; }
-.tile .value small { font-size: 14px; font-weight: 500; color: var(--muted); margin-left: 3px; }
-.tile .note { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.tile .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 6px; }
+.row { display: grid; grid-template-columns: 64px auto 1fr; align-items: baseline; gap: 8px; }
+.row + .row { margin-top: 4px; }
+.row .who { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; }
+.row .who i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.row .value { font-size: 22px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.row .value small { font-size: 13px; font-weight: 500; color: var(--muted); margin-left: 3px; }
+.row .note { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; text-align: right; }
 .card { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
 .card h2 { margin: 0 0 8px; font-size: 14px; font-weight: 600; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
 .key { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-weight: 500; font-size: 13px; }
@@ -45,7 +49,7 @@ svg text { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nu
   <header>
     <div>
       <h1>Internet speed</h1>
-      <div class="sub" id="sub">Raspberry Pi over eth0</div>
+      <div class="sub" id="sub"></div>
     </div>
     <div class="ranges" role="group" aria-label="Time range">
       <button data-days="1">24 h</button>
@@ -55,19 +59,18 @@ svg text { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nu
     </div>
   </header>
   <section class="tiles" id="tiles"></section>
-  <section class="card">
-    <h2>Bandwidth, Mbit/s <span class="key"><i style="background:var(--down)"></i>Download</span><span class="key"><i style="background:var(--up)"></i>Upload</span></h2>
-    <div id="bw"></div>
-  </section>
-  <section class="card">
-    <h2>Latency, ms <span class="key"><i style="background:var(--ping)"></i>Ping</span></h2>
-    <div id="lat"></div>
-  </section>
+  <section class="card"><h2>Download, Mbit/s <span class="legend"></span></h2><div id="down"></div></section>
+  <section class="card"><h2>Upload, Mbit/s <span class="legend"></span></h2><div id="up"></div></section>
+  <section class="card"><h2>Ping, ms <span class="legend"></span></h2><div id="ping"></div></section>
 </main>
 <div class="tip" id="tip"></div>
 <script>
 const NS = "http://www.w3.org/2000/svg";
-let all = [];
+const LINKS = [
+  { id: "cable", name: "Cable", file: "history.jsonl", color: "var(--cable)", host: "Raspberry Pi, eth0" },
+  { id: "wifi", name: "Wi-Fi", file: "wifi.jsonl", color: "var(--wifi)", host: "nixos-laptop, wlo1" }
+];
+const data = { cable: [], wifi: [] };
 let days = 7;
 
 const mbps = b => b * 8 / 1e6;
@@ -88,15 +91,18 @@ function niceMax(v) {
   return 10 * p;
 }
 
-function chart(host, rows, series, unit, height) {
+function chart(host, series, key, unit, digits, height) {
   host.innerHTML = "";
-  if (rows.length === 0) { host.innerHTML = '<div class="empty">No results in this range yet.</div>'; return; }
+  const live = series.filter(s => s.rows.length);
+  if (!live.length) { host.innerHTML = '<div class="empty">No results in this range yet.</div>'; return; }
   const W = Math.max(host.clientWidth, 300), H = height, L = 44, R = 8, T = 8, B = 24;
   const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" }, host);
-  const t0 = rows[0].t.getTime(), t1 = rows[rows.length - 1].t.getTime();
+  const times = live.flatMap(s => s.rows.map(r => r.t.getTime()));
+  const t0 = Math.min(...times), t1 = Math.max(...times);
   const span = Math.max(t1 - t0, 1);
-  const ymax = niceMax(Math.max(...rows.flatMap(r => series.map(s => r[s.key]))) * 1.08);
-  const x = t => rows.length === 1 ? L + (W - L - R) / 2 : L + (t - t0) / span * (W - L - R);
+  const single = t1 === t0;
+  const ymax = niceMax(Math.max(...live.flatMap(s => s.rows.map(r => r[key]))) * 1.08);
+  const x = t => single ? L + (W - L - R) / 2 : L + (t - t0) / span * (W - L - R);
   const y = v => T + (1 - v / ymax) * (H - T - B);
 
   for (let i = 0; i <= 4; i++) {
@@ -105,35 +111,39 @@ function chart(host, rows, series, unit, height) {
     el("text", { x: L - 6, y: y(v) + 4, "text-anchor": "end" }, svg).textContent = fmt(v, ymax < 10 ? 1 : 0);
   }
 
-  const ticks = rows.length === 1 ? 0 : Math.min(6, Math.max(2, Math.floor((W - L) / 140)));
+  const ticks = single ? 0 : Math.min(6, Math.max(2, Math.floor((W - L) / 140)));
   for (let i = 0; i <= ticks; i++) {
-    const t = new Date(ticks === 0 ? t0 : t0 + span * i / ticks);
+    const t = new Date(single ? t0 : t0 + span * i / ticks);
     const label = span > 2 * 86400e3
       ? t.toLocaleDateString(undefined, { day: "numeric", month: "short" })
       : t.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
     el("text", { x: x(t.getTime()), y: H - 6, "text-anchor": ticks === 0 ? "middle" : i === 0 ? "start" : i === ticks ? "end" : "middle" }, svg).textContent = label;
   }
 
-  for (const s of series) {
-    const pts = rows.map(r => `${x(r.t.getTime()).toFixed(1)},${y(r[s.key]).toFixed(1)}`);
-    el("path", { d: `M${pts[0]} L${pts.join(" L")} L${x(t1)},${y(0)} L${x(t0)},${y(0)} Z`, fill: s.color, opacity: 0.08 }, svg);
-    el("path", { d: "M" + pts.join(" L"), fill: "none", stroke: s.color, "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }, svg);
-    if (rows.length <= 60) for (const r of rows) el("circle", { cx: x(r.t.getTime()), cy: y(r[s.key]), r: 2.5, fill: s.color }, svg);
+  for (const s of live) {
+    const pts = s.rows.map(r => `${x(r.t.getTime()).toFixed(1)},${y(r[key]).toFixed(1)}`);
+    if (pts.length > 1) el("path", { d: "M" + pts.join(" L"), fill: "none", stroke: s.color, "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }, svg);
+    if (s.rows.length <= 60) for (const r of s.rows) el("circle", { cx: x(r.t.getTime()), cy: y(r[key]), r: 2.5, fill: s.color }, svg);
   }
 
   const guide = el("line", { y1: T, y2: H - B, stroke: "var(--muted)", "stroke-width": 1, "stroke-dasharray": "3 3", opacity: 0 }, svg);
-  const dots = series.map(s => el("circle", { r: 4.5, fill: s.color, stroke: "var(--card)", "stroke-width": 2, opacity: 0 }, svg));
+  const dots = live.map(s => el("circle", { r: 4.5, fill: s.color, stroke: "var(--card)", "stroke-width": 2, opacity: 0 }, svg));
   const tip = document.getElementById("tip");
   const hit = el("rect", { x: L, y: T, width: W - L - R, height: H - T - B, fill: "transparent" }, svg);
+  const nearest = (rows, px) => {
+    let best = rows[0], bd = Infinity;
+    for (const r of rows) { const d = Math.abs(x(r.t.getTime()) - px); if (d < bd) { bd = d; best = r; } }
+    return best;
+  };
   const move = ev => {
     const box = svg.getBoundingClientRect();
     const px = (ev.clientX - box.left) * W / box.width;
-    let best = rows[0], bd = Infinity;
-    for (const r of rows) { const d = Math.abs(x(r.t.getTime()) - px); if (d < bd) { bd = d; best = r; } }
-    const bx = x(best.t.getTime());
-    guide.setAttribute("x1", bx); guide.setAttribute("x2", bx); guide.setAttribute("opacity", 0.6);
-    series.forEach((s, i) => { dots[i].setAttribute("cx", bx); dots[i].setAttribute("cy", y(best[s.key])); dots[i].setAttribute("opacity", 1); });
-    tip.innerHTML = `<b>${when(best.t)}</b><br>` + series.map(s => `${s.name}: ${fmt(best[s.key], s.digits)} ${unit}`).join("<br>");
+    const picks = live.map(s => nearest(s.rows, px));
+    let gx = x(picks[0].t.getTime());
+    picks.forEach(p => { if (Math.abs(x(p.t.getTime()) - px) < Math.abs(gx - px)) gx = x(p.t.getTime()); });
+    guide.setAttribute("x1", gx); guide.setAttribute("x2", gx); guide.setAttribute("opacity", 0.6);
+    picks.forEach((p, i) => { dots[i].setAttribute("cx", x(p.t.getTime())); dots[i].setAttribute("cy", y(p[key])); dots[i].setAttribute("opacity", 1); });
+    tip.innerHTML = live.map((s, i) => `<b>${s.name}</b> ${fmt(picks[i][key], digits)} ${unit} <span style="opacity:.7">· ${when(picks[i].t)}</span>`).join("<br>");
     tip.style.opacity = 1;
     const tx = Math.min(ev.clientX + 14, window.innerWidth - tip.offsetWidth - 8);
     tip.style.left = tx + "px"; tip.style.top = (ev.clientY + 14) + "px";
@@ -144,31 +154,41 @@ function chart(host, rows, series, unit, height) {
   hit.addEventListener("pointerleave", leave);
 }
 
-function tile(label, value, unit, note) {
-  return `<div class="tile"><div class="label">${label}</div><div class="value">${value}<small>${unit}</small></div><div class="note">${note}</div></div>`;
+function tile(label, key, unit, digits, series) {
+  const rows = series.map(s => {
+    const last = data[s.id][data[s.id].length - 1];
+    const avg = s.rows.length ? s.rows.reduce((a, r) => a + r[key], 0) / s.rows.length : null;
+    const value = last ? `${fmt(last[key], digits)}<small>${unit}</small>` : `<small>no data</small>`;
+    const note = avg === null ? "" : `avg ${fmt(avg, digits)}`;
+    return `<div class="row"><span class="who"><i style="background:${s.color}"></i>${s.name}</span><span class="value">${value}</span><span class="note">${note}</span></div>`;
+  }).join("");
+  return `<div class="tile"><div class="label">${label}</div>${rows}</div>`;
 }
 
 function render() {
   const since = days ? Date.now() - days * 86400e3 : 0;
-  const rows = all.filter(r => r.t.getTime() >= since);
-  const last = all[all.length - 1];
-  const avg = k => rows.length ? rows.reduce((a, r) => a + r[k], 0) / rows.length : 0;
-  const min = k => rows.length ? Math.min(...rows.map(r => r[k])) : 0;
-  const tiles = document.getElementById("tiles");
-  if (!last) { tiles.innerHTML = ""; }
-  else tiles.innerHTML =
-    tile("Download", fmt(last.down), "Mbit/s", `avg ${fmt(avg("down"))} · min ${fmt(min("down"))}`) +
-    tile("Upload", fmt(last.up), "Mbit/s", `avg ${fmt(avg("up"))} · min ${fmt(min("up"))}`) +
-    tile("Ping", fmt(last.ping, 1), "ms", `avg ${fmt(avg("ping"), 1)} · jitter ${fmt(last.jitter, 1)}`) +
-    tile("Tests", fmt(rows.length), "", last ? `last ${when(last.t)}` : "");
-  if (last) document.getElementById("sub").textContent = `Raspberry Pi over ${last.iface} · ${last.isp} · ${last.server}`;
-  chart(document.getElementById("bw"), rows, [
-    { key: "down", name: "Download", color: "var(--down)", digits: 0 },
-    { key: "up", name: "Upload", color: "var(--up)", digits: 0 }
-  ], "Mbit/s", 300);
-  chart(document.getElementById("lat"), rows, [
-    { key: "ping", name: "Ping", color: "var(--ping)", digits: 1 }
-  ], "ms", 160);
+  const series = LINKS.map(l => ({ ...l, rows: data[l.id].filter(r => r.t.getTime() >= since) }));
+  document.getElementById("tiles").innerHTML =
+    tile("Download", "down", "Mbit/s", 0, series) +
+    tile("Upload", "up", "Mbit/s", 0, series) +
+    tile("Ping", "ping", "ms", 1, series);
+  document.getElementById("sub").innerHTML = LINKS.map(l => {
+    const last = data[l.id][data[l.id].length - 1];
+    return `<span>${l.name}: ${l.host}${last ? " · last " + when(last.t) : ""}</span>`;
+  }).join("");
+  const legend = LINKS.map(l => `<span class="key"><i style="background:${l.color}"></i>${l.name}</span>`).join("");
+  document.querySelectorAll(".legend").forEach(e => { e.innerHTML = legend; e.style.display = "contents"; });
+  chart(document.getElementById("down"), series, "down", "Mbit/s", 0, 260);
+  chart(document.getElementById("up"), series, "up", "Mbit/s", 0, 260);
+  chart(document.getElementById("ping"), series, "ping", "ms", 1, 160);
+}
+
+function parse(text) {
+  return text.split("\n").filter(Boolean)
+    .map(l => { try { return JSON.parse(l); } catch (e) { return null; } })
+    .filter(j => j && j.type === "result")
+    .map(j => ({ t: new Date(j.timestamp), down: mbps(j.download.bandwidth), up: mbps(j.upload.bandwidth), ping: j.ping.latency }))
+    .sort((a, b) => a.t - b.t);
 }
 
 document.querySelectorAll(".ranges button").forEach(b => b.addEventListener("click", () => {
@@ -188,25 +208,12 @@ try {
 let resizeTimer;
 window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(render, 150); });
 
-fetch("history.jsonl", { cache: "no-store" })
-  .then(r => r.text())
-  .then(text => {
-    all = text.split("\n").filter(Boolean).map(l => { try { return JSON.parse(l); } catch (e) { return null; } })
-      .filter(j => j && j.type === "result")
-      .map(j => ({
-        t: new Date(j.timestamp),
-        down: mbps(j.download.bandwidth),
-        up: mbps(j.upload.bandwidth),
-        ping: j.ping.latency,
-        jitter: j.ping.jitter,
-        iface: j.interface.name,
-        isp: j.isp,
-        server: j.server.name + ", " + j.server.location
-      }))
-      .sort((a, b) => a.t - b.t);
-    render();
-  })
-  .catch(() => { document.getElementById("bw").innerHTML = '<div class="empty">Could not load history.jsonl.</div>'; });
+Promise.all(LINKS.map(l =>
+  fetch(l.file, { cache: "no-store" })
+    .then(r => r.ok ? r.text() : "")
+    .catch(() => "")
+    .then(text => { data[l.id] = parse(text); })
+)).then(render);
 </script>
 </body>
 </html>

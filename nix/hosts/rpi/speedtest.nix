@@ -9,6 +9,11 @@ let
     printf '%s\n' "$out" > ${dir}/latest.json.tmp
     mv ${dir}/latest.json.tmp ${dir}/latest.json
   '';
+  sync = pkgs.writeShellScript "speedtest-wifi-sync" ''
+    set -euo pipefail
+    ${pkgs.curl}/bin/curl -fsS --max-time 30 http://192.168.0.244:8091/history.jsonl -o ${dir}/wifi.jsonl.tmp
+    mv ${dir}/wifi.jsonl.tmp ${dir}/wifi.jsonl
+  '';
 in
 {
   home.file."speedtest/index.html".source = ./speedtest.html;
@@ -22,6 +27,13 @@ in
           ExecStart = "${run}";
         };
       };
+      speedtest-wifi-sync = {
+        Unit.Description = "Copy Wi-Fi speed test results from nixos-laptop";
+        Service = {
+          Type = "oneshot";
+          ExecStart = "${sync}";
+        };
+      };
       speedtest-http = {
         Unit.Description = "Serve speed test results";
         Service = {
@@ -32,6 +44,14 @@ in
         };
         Install.WantedBy = [ "default.target" ];
       };
+    };
+    timers.speedtest-wifi-sync = {
+      Unit.Description = "Copy Wi-Fi speed test results every 15 minutes";
+      Timer = {
+        OnCalendar = "*:0/15";
+        Persistent = true;
+      };
+      Install.WantedBy = [ "timers.target" ];
     };
     timers.speedtest = {
       Unit.Description = "Run an internet speed test every 3 hours";
