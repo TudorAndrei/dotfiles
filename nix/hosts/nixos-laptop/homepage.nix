@@ -70,6 +70,27 @@ in
         ];
       }
       {
+        Network = [
+          {
+            "Internet (Pi, cable)" = {
+              icon = "mdi-speedometer";
+              href = "http://100.73.26.126:8090/";
+              widget = {
+                type = "customapi";
+                url = "http://192.168.0.233:8090/latest.json";
+                refreshInterval = 300000;
+                mappings = [
+                  { field = "download.bandwidth"; label = "Down"; format = "bitrate"; scale = 8; }
+                  { field = "upload.bandwidth"; label = "Up"; format = "bitrate"; scale = 8; }
+                  { field = "ping.latency"; label = "Ping"; format = "float"; suffix = " ms"; }
+                  { field = "timestamp"; label = "Tested"; format = "relativeDate"; style = "short"; numeric = "auto"; }
+                ];
+              };
+            };
+          }
+        ];
+      }
+      {
         Media = [
           {
             Navidrome = {
