@@ -38,7 +38,7 @@ in
         Unit.Description = "Serve speed test results";
         Service = {
           ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p ${dir}";
-          ExecStart = "${pkgs.python3}/bin/python3 -m http.server 8090 --bind 0.0.0.0 --directory ${dir}";
+          ExecStart = "${pkgs.python3}/bin/python3 ${./speedtest-server.py} 8090 ${dir}";
           Restart = "always";
           RestartSec = 5;
         };
