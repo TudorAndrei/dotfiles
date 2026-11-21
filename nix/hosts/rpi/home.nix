@@ -22,7 +22,7 @@ in
       Wants = [ "pipewire-pulse.service" ];
     };
     Service = {
-      ExecStart = "${pkgs.squeezelite-pulse}/bin/squeezelite -n rpi -o ${jack}";
+      ExecStart = "${pkgs.squeezelite-pulse}/bin/squeezelite-pulse -n rpi -o ${jack}";
       Restart = "always";
       RestartSec = 5;
     };
