@@ -1,6 +1,8 @@
+{ unstable, ... }:
 {
   services.music-assistant = {
     enable = true;
+    package = unstable.music-assistant;
     providers = [ "opensubsonic" "squeezelite" ];
   };
 
