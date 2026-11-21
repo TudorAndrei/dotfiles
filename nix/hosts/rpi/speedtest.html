@@ -56,11 +56,11 @@ svg text { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nu
   </header>
   <section class="tiles" id="tiles"></section>
   <section class="card">
-    <h2>Bandwidth <span class="key"><i style="background:var(--down)"></i>Download</span><span class="key"><i style="background:var(--up)"></i>Upload</span></h2>
+    <h2>Bandwidth, Mbit/s <span class="key"><i style="background:var(--down)"></i>Download</span><span class="key"><i style="background:var(--up)"></i>Upload</span></h2>
     <div id="bw"></div>
   </section>
   <section class="card">
-    <h2>Latency <span class="key"><i style="background:var(--ping)"></i>Ping</span></h2>
+    <h2>Latency, ms <span class="key"><i style="background:var(--ping)"></i>Ping</span></h2>
     <div id="lat"></div>
   </section>
 </main>
@@ -104,15 +104,14 @@ function chart(host, rows, series, unit, height) {
     el("line", { x1: L, x2: W - R, y1: y(v), y2: y(v), stroke: "var(--grid)", "stroke-width": 1 }, svg);
     el("text", { x: L - 6, y: y(v) + 4, "text-anchor": "end" }, svg).textContent = fmt(v);
   }
-  el("text", { x: 0, y: T + 4 }, svg).textContent = unit;
 
-  const ticks = Math.min(6, Math.max(2, Math.floor((W - L) / 140)));
+  const ticks = rows.length === 1 ? 0 : Math.min(6, Math.max(2, Math.floor((W - L) / 140)));
   for (let i = 0; i <= ticks; i++) {
-    const t = new Date(t0 + span * i / ticks);
+    const t = new Date(ticks === 0 ? t0 : t0 + span * i / ticks);
     const label = span > 2 * 86400e3
       ? t.toLocaleDateString(undefined, { day: "numeric", month: "short" })
       : t.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
-    el("text", { x: x(t.getTime()), y: H - 6, "text-anchor": i === 0 ? "start" : i === ticks ? "end" : "middle" }, svg).textContent = label;
+    el("text", { x: x(t.getTime()), y: H - 6, "text-anchor": ticks === 0 ? "middle" : i === 0 ? "start" : i === ticks ? "end" : "middle" }, svg).textContent = label;
   }
 
   for (const s of series) {
