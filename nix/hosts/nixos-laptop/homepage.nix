@@ -79,6 +79,20 @@ in
             };
           }
           {
+            "Music Assistant" = {
+              icon = "music-assistant.png";
+              href = "http://${tailnetHost}:8095/";
+              siteMonitor = "http://127.0.0.1:8095/";
+            };
+          }
+          {
+            Syncthing = {
+              icon = "syncthing.png";
+              href = "http://${tailnetHost}:8384/";
+              siteMonitor = "http://127.0.0.1:8384/";
+            };
+          }
+          {
             Seedstrem = {
               icon = "mdi-play-circle";
               href = "http://${tailnetHost}:8081/";

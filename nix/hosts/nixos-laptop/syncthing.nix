@@ -6,6 +6,7 @@
     dataDir = "/home/tudor";
     configDir = "/home/tudor/.config/syncthing";
     openDefaultPorts = true;
+    guiAddress = "0.0.0.0:8384";
     overrideDevices = true;
     overrideFolders = true;
     settings = {
