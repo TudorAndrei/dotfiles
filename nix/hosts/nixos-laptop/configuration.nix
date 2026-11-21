@@ -1,6 +1,6 @@
 { lib, pkgs, unstable, inputs, ... }:
 {
-  imports = [ ./nvidia.nix ./power.nix ./media-public.nix ./immich.nix ./navidrome.nix ./syncthing.nix ./music-assistant.nix ./guests.nix ./homepage.nix ./desktop.nix ./agents.nix ./terminal.nix ./android.nix ];
+  imports = [ ./nvidia.nix ./power.nix ./media-public.nix ./immich.nix ./navidrome.nix ./syncthing.nix ./music-assistant.nix ./speedtest-wifi.nix ./guests.nix ./homepage.nix ./desktop.nix ./agents.nix ./terminal.nix ./android.nix ];
   boot.loader = {
     systemd-boot = {
       enable = true;
