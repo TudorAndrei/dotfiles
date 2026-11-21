@@ -7,7 +7,7 @@
   };
 
   networking.firewall.interfaces.wlo1 = {
-    allowedTCPPorts = [ 3483 8095 8097 ];
+    allowedTCPPorts = [ 3483 8095 8097 8384 ];
     allowedUDPPorts = [ 3483 ];
   };
 }

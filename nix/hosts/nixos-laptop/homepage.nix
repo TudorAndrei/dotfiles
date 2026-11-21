@@ -2,6 +2,7 @@
 let
   tailnetHost = "100.121.29.45";
   pcHost = "100.70.0.10";
+  lanHost = "192.168.0.244";
   poolMetricsPort = 8186;
 in
 {
@@ -81,14 +82,14 @@ in
           {
             "Music Assistant" = {
               icon = "music-assistant.png";
-              href = "http://${tailnetHost}:8095/";
+              href = "http://${lanHost}:8095/";
               siteMonitor = "http://127.0.0.1:8095/";
             };
           }
           {
             Syncthing = {
               icon = "syncthing.png";
-              href = "http://${tailnetHost}:8384/";
+              href = "http://${lanHost}:8384/";
               siteMonitor = "http://127.0.0.1:8384/";
             };
           }
