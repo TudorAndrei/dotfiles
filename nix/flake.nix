@@ -87,6 +87,10 @@
       "tudor@parnaie" = desktopHome;
       # Preserve existing NH invocations while naming the desktop explicitly.
       tudor = desktopHome;
+      "user@rpi" = home-manager-stable.lib.homeManagerConfiguration {
+        pkgs = nixpkgs-stable.legacyPackages.aarch64-linux;
+        modules = [ ./hosts/rpi/home.nix ];
+      };
     };
     nixosConfigurations = {
       nixos-laptop =nixpkgs-stable.lib.nixosSystem {
