@@ -102,7 +102,7 @@ function chart(host, rows, series, unit, height) {
   for (let i = 0; i <= 4; i++) {
     const v = ymax * i / 4;
     el("line", { x1: L, x2: W - R, y1: y(v), y2: y(v), stroke: "var(--grid)", "stroke-width": 1 }, svg);
-    el("text", { x: L - 6, y: y(v) + 4, "text-anchor": "end" }, svg).textContent = fmt(v);
+    el("text", { x: L - 6, y: y(v) + 4, "text-anchor": "end" }, svg).textContent = fmt(v, ymax < 10 ? 1 : 0);
   }
 
   const ticks = rows.length === 1 ? 0 : Math.min(6, Math.max(2, Math.floor((W - L) / 140)));
