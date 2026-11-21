@@ -89,6 +89,24 @@ in
               };
             };
           }
+          {
+            "Internet (laptop, Wi-Fi)" = {
+              icon = "mdi-wifi";
+              description = "Mbit/s and ms, every 3 hours";
+              href = "http://100.73.26.126:8090/";
+              widget = {
+                type = "customapi";
+                url = "http://127.0.0.1:8091/latest.json";
+                refreshInterval = 300000;
+                mappings = [
+                  { field = "download.bandwidth"; label = "Down"; format = "number"; scale = "8/1000000"; }
+                  { field = "upload.bandwidth"; label = "Up"; format = "number"; scale = "8/1000000"; }
+                  { field = "ping.latency"; label = "Ping"; format = "number"; }
+                  { field = "timestamp"; label = "Tested"; format = "relativeDate"; style = "narrow"; numeric = "auto"; }
+                ];
+              };
+            };
+          }
         ];
       }
       {
