@@ -13,7 +13,8 @@ Host nixos-laptop
   IdentityFile ~/.ssh/nixos-laptop
 
 Host rpi
-  HostName 192.168.0.233
+  HostName 100.73.26.126
+  HostKeyAlias 192.168.0.233
   User user
   IdentityFile ~/.ssh/rpi
 
