@@ -3,7 +3,7 @@
   services.music-assistant = {
     enable = true;
     package = unstable.music-assistant;
-    providers = [ "opensubsonic" "squeezelite" ];
+    providers = [ "opensubsonic" "sendspin" "squeezelite" ];
   };
 
   networking.firewall.interfaces.wlo1 = {
