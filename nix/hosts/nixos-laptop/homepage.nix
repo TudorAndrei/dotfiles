@@ -80,10 +80,10 @@ in
                 url = "http://192.168.0.233:8090/latest.json";
                 refreshInterval = 300000;
                 mappings = [
-                  { field = "download.bandwidth"; label = "Down"; format = "bitrate"; scale = 8; }
-                  { field = "upload.bandwidth"; label = "Up"; format = "bitrate"; scale = 8; }
-                  { field = "ping.latency"; label = "Ping"; format = "float"; suffix = " ms"; }
-                  { field = "timestamp"; label = "Tested"; format = "relativeDate"; style = "short"; numeric = "auto"; }
+                  { field = "download.bandwidth"; label = "Down Mb/s"; format = "number"; scale = "8/1000000"; }
+                  { field = "upload.bandwidth"; label = "Up Mb/s"; format = "number"; scale = "8/1000000"; }
+                  { field = "ping.latency"; label = "Ping ms"; format = "number"; }
+                  { field = "timestamp"; label = "Tested"; format = "relativeDate"; style = "narrow"; numeric = "auto"; }
                 ];
               };
             };
