@@ -82,6 +82,7 @@ in
           {
             "Music Assistant" = {
               icon = "music-assistant.png";
+              description = "192.168.0.244:8095";
               href = "http://${lanHost}:8095/";
               siteMonitor = "http://127.0.0.1:8095/";
             };
@@ -89,6 +90,7 @@ in
           {
             Syncthing = {
               icon = "syncthing.png";
+              description = "192.168.0.244:8384";
               href = "http://${lanHost}:8384/";
               siteMonitor = "http://127.0.0.1:8384/";
             };
