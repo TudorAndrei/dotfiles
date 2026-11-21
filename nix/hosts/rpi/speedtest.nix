@@ -11,6 +11,8 @@ let
   '';
 in
 {
+  home.file."speedtest/index.html".source = ./speedtest.html;
+
   systemd.user = {
     services = {
       speedtest = {

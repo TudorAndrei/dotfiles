@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Internet Speed</title>
+<style>
+:root {
+  --bg: #f6f7f9; --card: #ffffff; --text: #1b1f24; --muted: #66707c; --grid: #e3e6ea;
+  --down: #2a7de1; --up: #d9822b; --ping: #2f9e6e; --bad: #d64545;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #11151b; --card: #1a2029; --text: #e6e9ee; --muted: #8a94a3; --grid: #2a323d;
+    --down: #5aa2f5; --up: #f0a04b; --ping: #4cc493; --bad: #f07070;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 48px; }
+header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+h1 { margin: 0; font-size: 22px; font-weight: 650; }
+.sub { color: var(--muted); font-size: 13px; }
+.ranges { display: flex; gap: 4px; background: var(--card); padding: 4px; border-radius: 10px; }
+.ranges button { border: 0; background: transparent; color: var(--muted); padding: 6px 12px; border-radius: 7px; font: inherit; font-size: 13px; cursor: pointer; }
+.ranges button[aria-pressed="true"] { background: var(--grid); color: var(--text); }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.tile { background: var(--card); border-radius: 12px; padding: 14px 16px; }
+.tile .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+.tile .value { font-size: 26px; font-weight: 650; font-variant-numeric: tabular-nums; margin-top: 2px; }
+.tile .value small { font-size: 14px; font-weight: 500; color: var(--muted); margin-left: 3px; }
+.tile .note { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.card { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+.card h2 { margin: 0 0 8px; font-size: 14px; font-weight: 600; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.key { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-weight: 500; font-size: 13px; }
+.key i { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+svg { display: block; width: 100%; height: auto; overflow: visible; }
+svg text { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.tip { position: fixed; pointer-events: none; background: var(--text); color: var(--bg); padding: 8px 10px; border-radius: 8px; font-size: 12px; line-height: 1.5; font-variant-numeric: tabular-nums; opacity: 0; transition: opacity .1s; white-space: nowrap; }
+.empty { color: var(--muted); padding: 40px 0; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>Internet speed</h1>
+      <div class="sub" id="sub">Raspberry Pi over eth0</div>
+    </div>
+    <div class="ranges" role="group" aria-label="Time range">
+      <button data-days="1">24 h</button>
+      <button data-days="7" aria-pressed="true">7 d</button>
+      <button data-days="30">30 d</button>
+      <button data-days="0">All</button>
+    </div>
+  </header>
+  <section class="tiles" id="tiles"></section>
+  <section class="card">
+    <h2>Bandwidth <span class="key"><i style="background:var(--down)"></i>Download</span><span class="key"><i style="background:var(--up)"></i>Upload</span></h2>
+    <div id="bw"></div>
+  </section>
+  <section class="card">
+    <h2>Latency <span class="key"><i style="background:var(--ping)"></i>Ping</span></h2>
+    <div id="lat"></div>
+  </section>
+</main>
+<div class="tip" id="tip"></div>
+<script>
+const NS = "http://www.w3.org/2000/svg";
+let all = [];
+let days = 7;
+
+const mbps = b => b * 8 / 1e6;
+const fmt = (v, d = 0) => v.toLocaleString(undefined, { maximumFractionDigits: d, minimumFractionDigits: d });
+const when = t => t.toLocaleString(undefined, { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+
+function el(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+
+function niceMax(v) {
+  if (v <= 0) return 1;
+  const p = Math.pow(10, Math.floor(Math.log10(v)));
+  for (const m of [1, 2, 2.5, 5, 10]) if (m * p >= v) return m * p;
+  return 10 * p;
+}
+
+function chart(host, rows, series, unit, height) {
+  host.innerHTML = "";
+  if (rows.length === 0) { host.innerHTML = '<div class="empty">No results in this range yet.</div>'; return; }
+  const W = Math.max(host.clientWidth, 300), H = height, L = 44, R = 8, T = 8, B = 24;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" }, host);
+  const t0 = rows[0].t.getTime(), t1 = rows[rows.length - 1].t.getTime();
+  const span = Math.max(t1 - t0, 1);
+  const ymax = niceMax(Math.max(...rows.flatMap(r => series.map(s => r[s.key]))) * 1.08);
+  const x = t => rows.length === 1 ? L + (W - L - R) / 2 : L + (t - t0) / span * (W - L - R);
+  const y = v => T + (1 - v / ymax) * (H - T - B);
+
+  for (let i = 0; i <= 4; i++) {
+    const v = ymax * i / 4;
+    el("line", { x1: L, x2: W - R, y1: y(v), y2: y(v), stroke: "var(--grid)", "stroke-width": 1 }, svg);
+    el("text", { x: L - 6, y: y(v) + 4, "text-anchor": "end" }, svg).textContent = fmt(v);
+  }
+  el("text", { x: 0, y: T + 4 }, svg).textContent = unit;
+
+  const ticks = Math.min(6, Math.max(2, Math.floor((W - L) / 140)));
+  for (let i = 0; i <= ticks; i++) {
+    const t = new Date(t0 + span * i / ticks);
+    const label = span > 2 * 86400e3
+      ? t.toLocaleDateString(undefined, { day: "numeric", month: "short" })
+      : t.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+    el("text", { x: x(t.getTime()), y: H - 6, "text-anchor": i === 0 ? "start" : i === ticks ? "end" : "middle" }, svg).textContent = label;
+  }
+
+  for (const s of series) {
+    const pts = rows.map(r => `${x(r.t.getTime()).toFixed(1)},${y(r[s.key]).toFixed(1)}`);
+    el("path", { d: `M${pts[0]} L${pts.join(" L")} L${x(t1)},${y(0)} L${x(t0)},${y(0)} Z`, fill: s.color, opacity: 0.08 }, svg);
+    el("path", { d: "M" + pts.join(" L"), fill: "none", stroke: s.color, "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }, svg);
+    if (rows.length <= 60) for (const r of rows) el("circle", { cx: x(r.t.getTime()), cy: y(r[s.key]), r: 2.5, fill: s.color }, svg);
+  }
+
+  const guide = el("line", { y1: T, y2: H - B, stroke: "var(--muted)", "stroke-width": 1, "stroke-dasharray": "3 3", opacity: 0 }, svg);
+  const dots = series.map(s => el("circle", { r: 4.5, fill: s.color, stroke: "var(--card)", "stroke-width": 2, opacity: 0 }, svg));
+  const tip = document.getElementById("tip");
+  const hit = el("rect", { x: L, y: T, width: W - L - R, height: H - T - B, fill: "transparent" }, svg);
+  const move = ev => {
+    const box = svg.getBoundingClientRect();
+    const px = (ev.clientX - box.left) * W / box.width;
+    let best = rows[0], bd = Infinity;
+    for (const r of rows) { const d = Math.abs(x(r.t.getTime()) - px); if (d < bd) { bd = d; best = r; } }
+    const bx = x(best.t.getTime());
+    guide.setAttribute("x1", bx); guide.setAttribute("x2", bx); guide.setAttribute("opacity", 0.6);
+    series.forEach((s, i) => { dots[i].setAttribute("cx", bx); dots[i].setAttribute("cy", y(best[s.key])); dots[i].setAttribute("opacity", 1); });
+    tip.innerHTML = `<b>${when(best.t)}</b><br>` + series.map(s => `${s.name}: ${fmt(best[s.key], s.digits)} ${unit}`).join("<br>");
+    tip.style.opacity = 1;
+    const tx = Math.min(ev.clientX + 14, window.innerWidth - tip.offsetWidth - 8);
+    tip.style.left = tx + "px"; tip.style.top = (ev.clientY + 14) + "px";
+  };
+  const leave = () => { tip.style.opacity = 0; guide.setAttribute("opacity", 0); dots.forEach(d => d.setAttribute("opacity", 0)); };
+  hit.addEventListener("pointermove", move);
+  hit.addEventListener("pointerdown", move);
+  hit.addEventListener("pointerleave", leave);
+}
+
+function tile(label, value, unit, note) {
+  return `<div class="tile"><div class="label">${label}</div><div class="value">${value}<small>${unit}</small></div><div class="note">${note}</div></div>`;
+}
+
+function render() {
+  const since = days ? Date.now() - days * 86400e3 : 0;
+  const rows = all.filter(r => r.t.getTime() >= since);
+  const last = all[all.length - 1];
+  const avg = k => rows.length ? rows.reduce((a, r) => a + r[k], 0) / rows.length : 0;
+  const min = k => rows.length ? Math.min(...rows.map(r => r[k])) : 0;
+  const tiles = document.getElementById("tiles");
+  if (!last) { tiles.innerHTML = ""; }
+  else tiles.innerHTML =
+    tile("Download", fmt(last.down), "Mbit/s", `avg ${fmt(avg("down"))} · min ${fmt(min("down"))}`) +
+    tile("Upload", fmt(last.up), "Mbit/s", `avg ${fmt(avg("up"))} · min ${fmt(min("up"))}`) +
+    tile("Ping", fmt(last.ping, 1), "ms", `avg ${fmt(avg("ping"), 1)} · jitter ${fmt(last.jitter, 1)}`) +
+    tile("Tests", fmt(rows.length), "", last ? `last ${when(last.t)}` : "");
+  if (last) document.getElementById("sub").textContent = `Raspberry Pi over ${last.iface} · ${last.isp} · ${last.server}`;
+  chart(document.getElementById("bw"), rows, [
+    { key: "down", name: "Download", color: "var(--down)", digits: 0 },
+    { key: "up", name: "Upload", color: "var(--up)", digits: 0 }
+  ], "Mbit/s", 300);
+  chart(document.getElementById("lat"), rows, [
+    { key: "ping", name: "Ping", color: "var(--ping)", digits: 1 }
+  ], "ms", 160);
+}
+
+document.querySelectorAll(".ranges button").forEach(b => b.addEventListener("click", () => {
+  days = Number(b.dataset.days);
+  document.querySelectorAll(".ranges button").forEach(o => o.setAttribute("aria-pressed", o === b));
+  try { localStorage.setItem("speed-days", days); } catch (e) {}
+  render();
+}));
+try {
+  const saved = localStorage.getItem("speed-days");
+  if (saved !== null) {
+    days = Number(saved);
+    document.querySelectorAll(".ranges button").forEach(o => o.setAttribute("aria-pressed", Number(o.dataset.days) === days));
+  }
+} catch (e) {}
+
+let resizeTimer;
+window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(render, 150); });
+
+fetch("history.jsonl", { cache: "no-store" })
+  .then(r => r.text())
+  .then(text => {
+    all = text.split("\n").filter(Boolean).map(l => { try { return JSON.parse(l); } catch (e) { return null; } })
+      .filter(j => j && j.type === "result")
+      .map(j => ({
+        t: new Date(j.timestamp),
+        down: mbps(j.download.bandwidth),
+        up: mbps(j.upload.bandwidth),
+        ping: j.ping.latency,
+        jitter: j.ping.jitter,
+        iface: j.interface.name,
+        isp: j.isp,
+        server: j.server.name + ", " + j.server.location
+      }))
+      .sort((a, b) => a.t - b.t);
+    render();
+  })
+  .catch(() => { document.getElementById("bw").innerHTML = '<div class="empty">Could not load history.jsonl.</div>'; });
+</script>
+</body>
+</html>
