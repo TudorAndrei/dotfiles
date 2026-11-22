@@ -91,14 +91,14 @@ function niceMax(v) {
   return 10 * p;
 }
 
-function chart(host, series, key, unit, digits, height) {
+function chart(host, series, key, unit, digits, height, since) {
   host.innerHTML = "";
   const live = series.filter(s => s.rows.length);
   if (!live.length) { host.innerHTML = '<div class="empty">No results in this range yet.</div>'; return; }
   const W = Math.max(host.clientWidth, 300), H = height, L = 44, R = 8, T = 8, B = 24;
   const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" }, host);
   const times = live.flatMap(s => s.rows.map(r => r.t.getTime()));
-  const t0 = Math.min(...times), t1 = Math.max(...times);
+  const t0 = since || Math.min(...times), t1 = since ? Date.now() : Math.max(...times);
   const span = Math.max(t1 - t0, 1);
   const single = t1 === t0;
   const ymax = niceMax(Math.max(...live.flatMap(s => s.rows.map(r => r[key]))) * 1.08);
@@ -178,9 +178,9 @@ function render() {
   }).join("");
   const legend = LINKS.map(l => `<span class="key"><i style="background:${l.color}"></i>${l.name}</span>`).join("");
   document.querySelectorAll(".legend").forEach(e => { e.innerHTML = legend; e.style.display = "contents"; });
-  chart(document.getElementById("down"), series, "down", "Mbit/s", 0, 260);
-  chart(document.getElementById("up"), series, "up", "Mbit/s", 0, 260);
-  chart(document.getElementById("ping"), series, "ping", "ms", 1, 160);
+  chart(document.getElementById("down"), series, "down", "Mbit/s", 0, 260, since);
+  chart(document.getElementById("up"), series, "up", "Mbit/s", 0, 260, since);
+  chart(document.getElementById("ping"), series, "ping", "ms", 1, 160, since);
 }
 
 function parse(text) {
