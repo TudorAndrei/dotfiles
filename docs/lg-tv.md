@@ -17,11 +17,18 @@ The TV is in Developer Mode. It is not rooted.
 | App | ID | Source |
 | --- | --- | --- |
 | Homebrew Channel | `org.webosbrew.hbchannel` | [webosbrew/webos-homebrew-channel](https://github.com/webosbrew/webos-homebrew-channel) |
-| Origin (Better Stremio fork) | `tv.stremioorigin.app` | [betterstremio/origin](https://github.com/betterstremio/origin) |
+| Origin (Better Stremio fork) | `io.github.betterstremio.origin` | [betterstremio/origin](https://github.com/betterstremio/origin) |
 
 Homebrew Channel repository for Origin:
 `https://betterstremio.github.io/webos/apps.json`.
 Add it in Homebrew Channel at **Settings → Add repository**.
+
+Install only this Origin build. Origin 3.0 and later use the ID
+`io.github.betterstremio.origin`. Origin 2.x and the original Stremio Origin
+(`stremio-origin/webos`) use `tv.stremioorigin.app`. Do not install them.
+
+The official Stremio app from the LG Content Store is a separate app. Do not
+change or remove it.
 
 ## Developer Mode session
 
@@ -41,7 +48,7 @@ The device config is in `~/.webos/ose/novacom-devices.json`. The SSH key is
 ares-device -D                              # list devices
 ares-install -d lg-tv app.ipk               # install an app
 ares-install -d lg-tv -l                    # list installed apps
-ares-install -d lg-tv -r tv.stremioorigin.app   # remove an app
+ares-install -d lg-tv -r <app-id>              # remove an app
 ares-launch -d lg-tv org.webosbrew.hbchannel     # start an app
 ares-shell -d lg-tv -r 'uname -m'           # run a command
 ```
