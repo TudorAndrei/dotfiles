@@ -89,7 +89,7 @@ cloudflare-cf = "latest"
 tokei = "latest"
 rclone = "latest"
 "cargo:pq-parquet" = "latest"
-"cargo:leaf-reader" = "latest"
+"github:DeepanshuMishraa/leaf" = "latest"
 "github:jdx/mr-boxington" = "latest"
 "forgejo:forgejo-contrib/forgejo-cli" = { version = "latest", os = ["linux"] }
 
