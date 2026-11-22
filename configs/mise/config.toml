@@ -105,6 +105,7 @@ auto_update = true
 npm.package_manager = "aube"
 experimental = true
 minimum_release_age = "0s"
+trusted_config_paths = ["~/.t3/worktrees"]
 
 [settings.cargo]
 binstall = true
