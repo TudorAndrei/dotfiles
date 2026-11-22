@@ -32,7 +32,8 @@ prefix("h", "pane.split", { direction = "down" })
 prefix("x", "pane.close")
 prefix("z", "pane.zoom")
 prefix("shift+p", "pane.copy_id")
-prefix("[", "client.find.open")
+prefix("[", "pane.copy_mode.enter")
+prefix("/", "client.find.open")
 prefix("f", "pane.float")
 
 rex.mode("resize", { exclusive = true })
@@ -154,6 +155,34 @@ rex.action{
   end,
 }
 prefix("l", "agent_picker")
+
+rex.action{
+  name = "scrollback_nvim",
+  title = "Pane: Open Scrollback in Neovim",
+  run = function(ctx)
+    if not ctx.block_id then return end
+    local out = rex.block.call(terminal, "format", { block_id = ctx.block_id, trim = true, unwrap = true })
+    if type(out) ~= "table" or not out.content then
+      rex.log("warn", "scrollback_nvim: no content")
+      return
+    end
+    local path = os.tmpname()
+    local f = assert(io.open(path, "w"))
+    f:write(out.content)
+    f:close()
+    rex.call("session.new_layer", {
+      session_id = ctx.session_id,
+      bounds = { 0.05, 0.05, 0.9, 0.9 },
+      focus = true,
+      layout = { block = {
+        flavor = "com.superlogical.terminal.shell",
+        label = "scrollback",
+        options = { command = { "sh", "-c", 'nvim -R "+normal G" "$1"; rm -f "$1"', "sh", path } },
+      } },
+    })
+  end,
+}
+prefix("e", "scrollback_nvim")
 
 rex.host{ label = "nixos-laptop", endpoint = "http://100.121.29.45:7297" }
 rex.host{ label = "andrei-pc", endpoint = "http://100.108.67.58:7297" }
