@@ -353,11 +353,6 @@ id = "66343F89-4893-45FB-9809-EC625FBBECC2"
 layout = "float"
 
 [[appRules]]
-assignToWorkspace = "8"
-bundleId = "rocks.spotifast.Spotifast"
-id = "F42E3662-7B26-4525-BEB3-9419E7BF0A99"
-
-[[appRules]]
 assignToWorkspace = "9"
 bundleId = "org.telegram.desktop"
 id = "B3EA6043-E1F9-4498-97E7-243EFAA926F2"

@@ -1,8 +1,6 @@
-tap "crmne/tap"
 tap "grishka/grishka"
 tap "tudorandrei/muzik"
 
-cask "crmne/tap/spotifast"
 cask "grishka/grishka/neardrop"
 cask "tudorandrei/muzik/muzik"
 

@@ -310,7 +310,6 @@ variants = [{ os = "linux" }]
 "pacman:zsh" = "latest"
 
 "aur:polychromatic" = "latest"
-"aur:spotifast-bin" = "latest"
 "aur:tmux-plugin-manager" = "latest"
 "aur:zotero-bin" = "latest"
 
