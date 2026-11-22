@@ -3,6 +3,14 @@ let
   tailnetHost = "100.121.29.45";
   pcHost = "100.70.0.10";
   poolMetricsPort = 8186;
+  pcSwitchesPort = 8187;
+  pcOffline = builtins.replaceStrings [ "\n" ] [ "" ] ''
+    <!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="30">
+    <body style="margin:0;padding:8px;color:#9ca3af;font:15px system-ui,sans-serif">
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:6px;background:rgba(255,255,255,.06)">
+    <span style="width:12px;height:12px;border-radius:50%;background:#6b7280;flex:none"></span>
+    The PC is offline.</div>
+  '';
 in
 {
   services.homepage-dashboard = {
@@ -51,7 +59,7 @@ in
               widget = {
                 type = "iframe";
                 name = "pc-switches";
-                src = "http://${pcHost}:8187/";
+                src = "http://${tailnetHost}:${toString pcSwitchesPort}/";
                 classes = "h-24";
               };
             };
@@ -183,6 +191,21 @@ in
         ];
       }
     ];
+  };
+
+  services.caddy.virtualHosts."http://:${toString pcSwitchesPort}" = {
+    logFormat = null;
+    extraConfig = ''
+      reverse_proxy ${pcHost}:${toString pcSwitchesPort} {
+        transport http {
+          dial_timeout 3s
+        }
+      }
+      handle_errors {
+        header Content-Type "text/html; charset=utf-8"
+        respond `${pcOffline}` 502
+      }
+    '';
   };
 
   # The firewall opens this listener only on tailscale0. The public Caddy site has no route.
