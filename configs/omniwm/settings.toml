@@ -1118,7 +1118,7 @@ binding = "Unassigned"
 id = "mediaPrevious"
 
 [[hotkeys]]
-binding = "Option+Z"
+binding = "Unassigned"
 id = "toggleShortcutPause"
 
 [[hotkeys]]
