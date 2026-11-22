@@ -53,6 +53,7 @@ in
       [settings]
       all_compile = false
       disable_tools = ["erlang", "elixir"]
+      trusted_config_paths = ["~/.t3/worktrees"]
     '';
   };
 }
