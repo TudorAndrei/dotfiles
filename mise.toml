@@ -63,7 +63,6 @@ AppleMenuBarVisibleInFullscreen = true
 "~/.config/nvim" = { source = "nvim", mode = "symlink" }
 "~/.config/starship.toml" = { source = "configs/starship/starship.toml", mode = "symlink" }
 "~/.config/mise/config.toml" = { source = "configs/mise/config.toml", mode = "symlink" }
-"~/.config/rex" = { source = "configs/rex", mode = "symlink" }
 "~/.config/vicinae" = { source = "configs/vicinae", mode = "symlink" }
 "~/.gitconfig" = { source = "gitconfig/gitconfig", mode = "symlink" }
 "~/.gitignore_global" = { source = "gitconfig/gitignore_global", mode = "symlink" }
@@ -124,6 +123,11 @@ variants = [{ os = "linux" }]
 
 [dotfiles."~/.config/alacritty"]
 source = "configs/alacritty"
+mode = "symlink"
+variants = [{ os = "linux" }]
+
+[dotfiles."~/.config/rex"]
+source = "configs/rex"
 mode = "symlink"
 variants = [{ os = "linux" }]
 

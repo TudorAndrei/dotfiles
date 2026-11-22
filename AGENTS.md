@@ -70,7 +70,7 @@ bash -n scripts/bootstrap.sh
 | `configs/zsh/` | Zsh configuration |
 | `configs/hypr/` | Hyprland window manager config |
 | `configs/tmux/` | Tmux configuration |
-| `configs/rex/init.lua` | Rex configuration, linked as `~/.config/rex`; reload with `rex config reload` |
+| `configs/rex/init.lua` | Rex configuration; linked as `~/.config/rex` on Linux, loaded by a local `~/.config/rex/init.lua` on macOS that also holds the leaf plugin block; reload with `rex config reload` |
 | `configs/claude/settings.json` | Claude Code settings, linked to `~/.claude/settings.json` |
 | `configs/codex/config.toml` | Codex config, linked to `~/.codex/config.toml` |
 | `pi/extensions/` | Pi extensions, linked to `~/.pi/agent/extensions` |

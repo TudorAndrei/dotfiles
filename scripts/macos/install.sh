@@ -38,6 +38,23 @@ else
 fi
 
 echo ""
+echo "==> Setting up the Rex config and the leaf plugin..."
+REX_DIR="$HOME/.config/rex"
+if [ -L "$REX_DIR" ]; then
+    rm "$REX_DIR"
+fi
+mkdir -p "$REX_DIR"
+if [ ! -f "$REX_DIR/init.lua" ]; then
+    printf 'dofile("%s/configs/rex/init.lua")\n' "$DOTFILES_DIR" > "$REX_DIR/init.lua"
+fi
+LEAF_BIN="$(command -v leaf || mise which leaf 2>/dev/null || true)"
+if [ -n "$LEAF_BIN" ]; then
+    "$LEAF_BIN" rex install
+else
+    echo "    leaf not found, skipping"
+fi
+
+echo ""
 echo "==> Setting default applications..."
 if command -v duti >/dev/null 2>&1; then
     duti "$DOTFILES_DIR/configs/macos/duti"
