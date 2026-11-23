@@ -381,6 +381,9 @@ trust_level = "trusted"
 [projects."/Users/tudor/cave/barrs"]
 trust_level = "trusted"
 
+[projects."/Users/tudor/cave/neobryce"]
+trust_level = "trusted"
+
 [plugins."linear@openai-curated"]
 enabled = false
 
