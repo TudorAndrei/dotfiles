@@ -181,7 +181,6 @@ variants = [{ os = "linux" }]
 "brew:watchman" = { os = "macos" }
 "brew:wget" = { os = "macos" }
 
-"brew-cask:antigravity-cli" = { os = "macos" }
 "brew-cask:anydesk" = { os = "macos" }
 "brew-cask:bitwarden" = { os = "macos" }
 "brew-cask:blackhole-2ch" = { os = "macos" }
