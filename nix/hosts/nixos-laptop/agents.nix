@@ -71,7 +71,6 @@ in
     text = ''
       [Scope]
       MemoryMax=9G
-      MemorySwapMax=4G
     '';
   };
 
