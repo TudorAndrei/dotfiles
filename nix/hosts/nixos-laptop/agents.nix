@@ -70,8 +70,8 @@ in
     overrideStrategy = "asDropin";
     text = ''
       [Scope]
-      MemoryMax=6G
-      MemorySwapMax=2G
+      MemoryMax=9G
+      MemorySwapMax=4G
     '';
   };
 
