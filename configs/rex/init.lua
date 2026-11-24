@@ -17,7 +17,7 @@ prefix("shift+w", "session.rename")
 prefix("shift+d", "session.close")
 prefix("shift+]", "session.next")
 prefix("shift+[", "session.previous")
-prefix("tab", "session.recent")
+prefix("tab", "client.navigate.back")
 
 prefix("c", "client.tab.new")
 prefix("n", "client.tab.rename")
