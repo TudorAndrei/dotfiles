@@ -184,5 +184,64 @@ rex.action{
 }
 prefix("e", "scrollback_nvim")
 
+local ladybird = "/Applications/Ladybird.app/Contents/MacOS/Ladybird"
+local url_pattern = "https?://[%w%-%._~:/%?#%[%]@!%$&'%*%+,;=%%]+"
+
+local function screen_urls(block_id)
+  local urls, seen = {}, {}
+  if not block_id then return urls end
+  local out = rex.block.call(terminal, "format", { block_id = block_id, trim = true, unwrap = true })
+  local text = type(out) == "table" and out.content or ""
+  for url in text:gmatch(url_pattern) do
+    url = url:gsub("[%.,;:!%?'%]%)]+$", "")
+    if not seen[url] then
+      seen[url] = true
+      table.insert(urls, 1, url)
+    end
+  end
+  return urls
+end
+
+rex.action{
+  name = "ladybird_open",
+  title = "Web: Open Link in Ladybird…",
+  args = { url = "string?" },
+  run = function(ctx, args)
+    local url = args and args.url
+    if not url then
+      local items = {}
+      for _, u in ipairs(screen_urls(ctx.block_id)) do
+        table.insert(items, { id = u, icon = "link" })
+      end
+      local choice, why = rex.ui.pick{
+        title = "Open in Ladybird",
+        placeholder = "Pick a link or type a URL",
+        items = items,
+        allow_other = true,
+        confirm = "Open",
+      }
+      if choice == nil then
+        if why ~= "cancelled" then rex.log("warn", "ladybird_open: " .. why) end
+        return
+      end
+      url = type(choice) == "table" and choice.text or choice
+    end
+    url = url:gsub("^%s+", ""):gsub("%s+$", "")
+    if url == "" then return end
+    if not url:match("^%a[%w+.-]*://") then url = "https://" .. url end
+    rex.call("session.new_layer", {
+      session_id = ctx.session_id,
+      bounds = { 0.05, 0.05, 0.9, 0.9 },
+      focus = true,
+      layout = { block = {
+        flavor = "com.superlogical.terminal.shell",
+        label = "ladybird",
+        options = { command = { ladybird, "--headless=terminal", "--device-pixel-ratio=1", url } },
+      } },
+    })
+  end,
+}
+prefix("o", "ladybird_open")
+
 rex.host{ label = "nixos-laptop", endpoint = "http://100.121.29.45:7297" }
 rex.host{ label = "andrei-pc", endpoint = "http://100.108.67.58:7297" }
