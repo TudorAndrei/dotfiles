@@ -11,13 +11,37 @@ prefix("s", "client.settings")
 prefix("shift+r", "client.config.reload")
 prefix("b", "client.sidebar.toggle")
 
-prefix("g", "session.switch")
-prefix("shift+n", "session.new")
+local last_session
+
+local function switch_from(ctx, action, args)
+  last_session = ctx.session_id
+  rex.client.queue(action, args)
+end
+
+rex.action{
+  name = "session_last",
+  title = "Session: Go to Last Session",
+  run = function(ctx)
+    if not last_session or last_session == ctx.session_id then return end
+    switch_from(ctx, "session.select", { session_id = last_session })
+  end,
+}
+
+for _, a in ipairs({ "switch", "new", "next", "previous" }) do
+  rex.action{
+    name = "session_" .. a .. "_tracked",
+    title = "Session: " .. a .. " (tracked)",
+    run = function(ctx) switch_from(ctx, "session." .. a) end,
+  }
+end
+
+prefix("g", "session_switch_tracked")
+prefix("shift+n", "session_new_tracked")
 prefix("shift+w", "session.rename")
 prefix("shift+d", "session.close")
-prefix("shift+]", "session.next")
-prefix("shift+[", "session.previous")
-prefix("tab", "client.navigate.back")
+prefix("shift+]", "session_next_tracked")
+prefix("shift+[", "session_previous_tracked")
+prefix("tab", "session_last")
 
 prefix("c", "client.tab.new")
 prefix("n", "client.tab.rename")
@@ -151,6 +175,7 @@ rex.action{
     end
     local e = by_id[id]
     rex.call("session.focus_block", { session_id = e.session_id, block_id = e.block_id })
+    last_session = ctx.session_id
     rex.client.queue("session.select", { session_id = e.session_id, window_id = e.window_id })
   end,
 }
