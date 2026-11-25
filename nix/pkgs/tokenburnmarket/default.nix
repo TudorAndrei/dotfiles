@@ -8,9 +8,9 @@ buildNpmPackage rec {
     hash = "sha256-Q2D5V5s4+fNoSIIDHho3YKWDNQp23POsHSjDnFZTS9c=";
   };
   sourceRoot = "package";
-  nativeBuildInputs = [ jq makeWrapper ];
+  nativeBuildInputs = [ makeWrapper ];
   postPatch = ''
-    jq 'del(.devDependencies, .scripts)' package.json > package.json.new
+    ${lib.getExe jq} 'del(.devDependencies, .scripts)' package.json > package.json.new
     mv package.json.new package.json
     cp ${./package-lock.json} package-lock.json
   '';
