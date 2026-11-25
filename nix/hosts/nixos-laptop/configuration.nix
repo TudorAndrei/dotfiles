@@ -196,6 +196,7 @@
   environment = {
     systemPackages = with pkgs; [
       neovim git htop lvm2 rsync pciutils lm_sensors nvme-cli powertop
+      unstable.ladybird
     ];
     variables.EDITOR = "nvim";
   };
