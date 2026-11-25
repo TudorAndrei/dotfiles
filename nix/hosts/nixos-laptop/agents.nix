@@ -1,4 +1,4 @@
-{ pkgs, options, ... }:
+{ pkgs, unstable, options, ... }:
 let
   cliproxyUrl = "http://127.0.0.1:8318";
   cliproxyKey = pkgs.writeShellApplication {
@@ -52,6 +52,7 @@ in
 
   environment.systemPackages = with pkgs; [
     nodejs_24 gh ripgrep fd jq curl unzip lsof dnsutils imagemagick cliproxyKey libsecret
+    (unstable.callPackage ../../pkgs/tokenburnmarket { })
   ];
 
   systemd.oomd.enableUserSlices = true;

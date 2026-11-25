@@ -69,6 +69,7 @@
     packages.${system} = {
       inherit (unstable) nh;
       seedstrem = unstable.callPackage ./pkgs/seedstrem { };
+      tokenburnmarket = unstable.callPackage ./pkgs/tokenburnmarket { };
       default = unstable.buildEnv {
         name = "tudor-packages";
         paths = import ./packages.nix { pkgs = unstable; };
