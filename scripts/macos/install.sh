@@ -26,6 +26,7 @@ defaults write com.superlogical.rex Workspace.animationStyle -string off
 defaults write com.superlogical.rex Workspace.activePaneBorderTransition -string off
 defaults write com.superlogical.rex Workspace.terminalPaddingColor -string background
 defaults write com.superlogical.rex SUScheduledCheckInterval -int 86400
+defaults write com.superlogical.rex SUAutomaticallyUpdate -bool false
 
 echo ""
 echo "==> Starting noTunes at login..."
