@@ -1,0 +1,3 @@
+[gc]
+max_total_size = "30GiB"
+max_size = "15GiB"
